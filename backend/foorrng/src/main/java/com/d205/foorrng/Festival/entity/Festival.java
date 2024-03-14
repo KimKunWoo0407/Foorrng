@@ -1,6 +1,5 @@
-package com.d205.foorrng.User;
+package com.d205.foorrng.Festival.entity;
 
-import com.d205.foorrng.User.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -8,21 +7,22 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.validation.annotation.Validated;
 
-// 선호하는 음식
 @Entity
 @Getter
 @Setter
 @Validated
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class FavoriteFood {
+public class Festival {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "food_seq")
+    @Column(name = "festival_seq")
     private Long id;
 
-    private String menu;    // 선호하는 음식 이름
+    private String festival_name;       // 축제 이름
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_seq")
-    private User user;
+    private Long start_day;             // 축제 시작 날짜
+
+    private Long finish_day;            // 축제 종료 날짜
+
+    private String country;             // 축제 지역
 }

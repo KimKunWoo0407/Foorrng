@@ -1,4 +1,4 @@
-package com.d205.foorrng.Foodtrucks;
+package com.d205.foorrng.Foodtrucks.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

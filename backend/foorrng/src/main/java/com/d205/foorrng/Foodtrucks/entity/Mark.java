@@ -1,4 +1,4 @@
-package com.d205.foorrng.Foodtrucks;
+package com.d205.foorrng.Foodtrucks.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -7,24 +7,29 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
 @Validated
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Menu {
+public class Mark {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "memu_seq")
+    @Column(name = "mark_seq")
     private Long id;
 
-    private String name;        // 메뉴 이름
+    private Double latitude;        // 위도
 
-    private Long price;         // 메뉴 가격
+    private Double longitude;       // 경도
 
-    private String picture;     // 메뉴 사진
+    private String address;         // 지번 주소
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="foodtrucks_seq")
     private Foodtrucks foodtrucks;
+
+    @OneToMany(mappedBy = "mark")
+    private List<OperationInfo> operationInfoList;
 }

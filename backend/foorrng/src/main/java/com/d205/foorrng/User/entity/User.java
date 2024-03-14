@@ -1,8 +1,9 @@
-package com.d205.foorrng.User;
+package com.d205.foorrng.User.entity;
 
-import com.d205.foorrng.Article.Article;
-import com.d205.foorrng.Foodtrucks.FoodtruckLike;
-import com.d205.foorrng.Foodtrucks.RequestDelete;
+import com.d205.foorrng.Article.entity.Article;
+import com.d205.foorrng.Foodtrucks.entity.FoodtruckLike;
+import com.d205.foorrng.Foodtrucks.entity.RequestDelete;
+import com.d205.foorrng.User.repository.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.validation.annotation.Validated;

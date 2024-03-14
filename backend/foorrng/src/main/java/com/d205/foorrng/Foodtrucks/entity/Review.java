@@ -1,6 +1,6 @@
-package com.d205.foorrng.Foodtrucks;
+package com.d205.foorrng.Foodtrucks.entity;
 
-import com.d205.foorrng.User.User;
+import com.d205.foorrng.User.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
