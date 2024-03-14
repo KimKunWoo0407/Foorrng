@@ -1,6 +1,5 @@
-package com.d205.foorrng.Foodtrucks;
+package com.d205.foorrng.festival;
 
-import com.d205.foorrng.User.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -13,17 +12,17 @@ import org.springframework.validation.annotation.Validated;
 @Setter
 @Validated
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class FoodtruckLike {
+public class Festival {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "foodtruck_like_seq")
+    @Column(name = "festival_seq")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "foodtrucks_seq")
-    private Foodtrucks foodtrucks;
+    private String festivalName;       // 축제 이름
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_seq")
-    private User user;
+    private Long startDay;             // 축제 시작 날짜
+
+    private Long finishDay;            // 축제 종료 날짜
+
+    private String country;             // 축제 지역
 }

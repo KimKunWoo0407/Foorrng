@@ -1,6 +1,6 @@
-package com.d205.foorrng.Article;
+package com.d205.foorrng.article;
 
-import com.d205.foorrng.User.User;
+import com.d205.foorrng.user.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -23,9 +23,9 @@ public class Article {
 
     private String content;
 
-    private Long created_datetime;
+    private Long createdDatetime;
 
-    private Long updeated_datetime;
+    private Long updeatedDatetime;
 
     private Double latitude;            // 위도
 
@@ -39,9 +39,9 @@ public class Article {
 
     private String organizer;           // 주최측
 
-    private Long start_date;            // 시작일
+    private Long startDate;            // 시작일
 
-    private Long end_date;              // 종료일
+    private Long endDate;              // 종료일
 
     private String address;             // 지번 주소
 

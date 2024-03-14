@@ -1,8 +1,8 @@
-package com.d205.foorrng.User;
+package com.d205.foorrng.user;
 
-import com.d205.foorrng.Article.Article;
-import com.d205.foorrng.Foodtrucks.FoodtruckLike;
-import com.d205.foorrng.Foodtrucks.RequestDelete;
+import com.d205.foorrng.article.Article;
+import com.d205.foorrng.foodtruck.entity.FoodtruckLike;
+import com.d205.foorrng.requestDelete.RequestDelete;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.validation.annotation.Validated;
@@ -20,7 +20,7 @@ public class User {
     @Column(name = "user_seq")
     private Long id;
 
-    private Long user_uid;
+    private Long userUid;
 
     private String name;
 
@@ -29,13 +29,13 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    private String acceess_token;       // 엑세스 토큰
+    private String acceessToken;       // 엑세스 토큰
 
-    private String refresh_token;       // 리프레시 토큰
+    private String refreshToken;       // 리프레시 토큰
 
-    private String fcm_token;           // fcm 토큰
+    private String fcmToken;           // fcm 토큰
 
-    private String business_number;     // 사업자 번호
+    private String businessNumber;     // 사업자 번호
 
     @OneToMany(mappedBy = "user")
     private List<FavoriteFood> favoriteFoods;

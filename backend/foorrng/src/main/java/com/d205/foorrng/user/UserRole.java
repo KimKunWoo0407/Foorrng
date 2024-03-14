@@ -1,4 +1,4 @@
-package com.d205.foorrng.User;
+package com.d205.foorrng.user;
 
 public enum UserRole {
     User,

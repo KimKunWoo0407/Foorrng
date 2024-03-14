@@ -1,4 +1,4 @@
-package com.d205.foorrng.Foodtrucks;
+package com.d205.foorrng.foodtruck.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -24,17 +24,17 @@ public class Foodtruck {
 
     private String announcement;            // 공지사항
 
-    private Long created_day;               // 등록일
+    private Long createdDay;               // 등록일
 
     private String picture;                 // 푸듣트럭 차 사진
 
     private String name;                    // 가게 이름
 
-    private String account_info;            // 계봐 번호
+    private String accountInfo;            // 계봐 번호
 
-    private String car_number;              // 차량 번호
+    private String carNumber;              // 차량 번호
 
-    private String phone_number;            // 연락처
+    private String phoneNumber;            // 연락처
 
 
 }

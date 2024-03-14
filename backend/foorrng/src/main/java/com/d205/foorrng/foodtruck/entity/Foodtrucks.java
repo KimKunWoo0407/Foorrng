@@ -1,5 +1,9 @@
-package com.d205.foorrng.Foodtrucks;
+package com.d205.foorrng.foodtruck.entity;
 
+import com.d205.foorrng.food.Food;
+import com.d205.foorrng.mark.Mark;
+import com.d205.foorrng.menu.Menu;
+import com.d205.foorrng.requestDelete.RequestDelete;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -21,13 +25,13 @@ public class Foodtrucks {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private FookTruckRole fookTruckRole;
+    private FoodTruckRole fookTruckRole;
 
     @OneToOne(mappedBy = "foodtrucks", cascade =  CascadeType.ALL, fetch = FetchType.LAZY)
     private Foodtruck foodtruck;
 
     @OneToOne(mappedBy = "foodtrucks", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private FoodtruckReport foodtruck_report;
+    private FoodtruckReport foodtruckReport;
 
     @OneToMany(mappedBy = "foodtrucks")
     private List<Food> foods;

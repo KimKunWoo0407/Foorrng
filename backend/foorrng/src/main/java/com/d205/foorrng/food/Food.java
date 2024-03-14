@@ -1,5 +1,6 @@
-package com.d205.foorrng.Foodtrucks;
+package com.d205.foorrng.food;
 
+import com.d205.foorrng.foodtruck.entity.Foodtrucks;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -12,17 +13,13 @@ import org.springframework.validation.annotation.Validated;
 @Setter
 @Validated
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Menu {
+public class Food {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "memu_seq")
+    @Column(name = "food_seq")
     private Long id;
 
-    private String name;        // 메뉴 이름
-
-    private Long price;         // 메뉴 가격
-
-    private String picture;     // 메뉴 사진
+    private String name;      // 음식 메뉴 이름
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="foodtrucks_seq")
