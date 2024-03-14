@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:backend/foorrng/src/main/java/com/d205/foorrng/Foodtrucks/entity/Foodtruck.java
-package com.d205.foorrng.Foodtrucks.entity;
-========
 package com.d205.foorrng.foodtruck.entity;
->>>>>>>> feature/API/foodtruck:backend/foorrng/src/main/java/com/d205/foorrng/foodtruck/entity/Foodtruck.java
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
