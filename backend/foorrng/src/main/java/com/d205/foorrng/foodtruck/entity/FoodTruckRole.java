@@ -1,6 +1,6 @@
 package com.d205.foorrng.foodtruck.entity;
 
-public enum FoodTruckRole {
+public enum FoodtruckRole {
     Foodtruck,
     FoodtruckReport
 }
