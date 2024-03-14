@@ -1,4 +1,4 @@
-package com.d205.foorrng.User.entity;
+package com.d205.foorrng.user;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

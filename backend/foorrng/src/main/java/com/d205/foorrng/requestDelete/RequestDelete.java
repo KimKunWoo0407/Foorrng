@@ -1,5 +1,7 @@
-package com.d205.foorrng.Foodtrucks.entity;
+package com.d205.foorrng.requestDelete;
 
+import com.d205.foorrng.foodtruck.entity.Foodtrucks;
+import com.d205.foorrng.user.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -12,19 +14,17 @@ import org.springframework.validation.annotation.Validated;
 @Setter
 @Validated
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Menu {
+public class RequestDelete {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "memu_seq")
+    @Column(name = "request_delete")
     private Long id;
-
-    private String name;        // 메뉴 이름
-
-    private Long price;         // 메뉴 가격
-
-    private String picture;     // 메뉴 사진
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="foodtrucks_seq")
     private Foodtrucks foodtrucks;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_seq")
+    private User user;
 }

@@ -1,4 +1,4 @@
-package com.d205.foorrng.Festival.entity;
+package com.d205.foorrng.festival;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -18,11 +18,11 @@ public class Festival {
     @Column(name = "festival_seq")
     private Long id;
 
-    private String festival_name;       // 축제 이름
+    private String festivalName;       // 축제 이름
 
-    private Long start_day;             // 축제 시작 날짜
+    private Long startDay;             // 축제 시작 날짜
 
-    private Long finish_day;            // 축제 종료 날짜
+    private Long finishDay;            // 축제 종료 날짜
 
     private String country;             // 축제 지역
 }

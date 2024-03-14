@@ -1,5 +1,6 @@
-package com.d205.foorrng.Foodtrucks.entity;
+package com.d205.foorrng.operationInfo;
 
+import com.d205.foorrng.mark.Mark;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -20,9 +21,9 @@ public class OperationInfo {
 
     private String day;             // 요일
 
-    private Long start_time;        // 시작 시간
+    private Long startTime;        // 시작 시간
 
-    private Long end_time;          // 종료 시간
+    private Long endTime;          // 종료 시간
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="mark_seq")

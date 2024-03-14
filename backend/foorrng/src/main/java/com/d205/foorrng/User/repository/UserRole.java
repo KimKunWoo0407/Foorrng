@@ -1,4 +1,4 @@
-package com.d205.foorrng.User.repository;
+package com.d205.foorrng.user;
 
 public enum UserRole {
     User,

@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:backend/foorrng/src/main/java/com/d205/foorrng/Foodtrucks/entity/Foodtrucks.java
+package com.d205.foorrng.Foodtrucks.entity;
+========
 package com.d205.foorrng.foodtruck.entity;
+>>>>>>>> feature/API/foodtruck:backend/foorrng/src/main/java/com/d205/foorrng/foodtruck/entity/Foodtrucks.java
 
 import com.d205.foorrng.food.Food;
 import com.d205.foorrng.mark.Mark;
