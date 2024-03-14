@@ -1,7 +1,7 @@
 package com.d205.foorrng.review;
 
 import com.d205.foorrng.foodtruck.entity.Foodtrucks;
-import com.d205.foorrng.user.User;
+import com.d205.foorrng.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
