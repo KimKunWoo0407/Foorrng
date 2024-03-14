@@ -3,7 +3,7 @@ package com.d205.foorrng.user.entity;
 import com.d205.foorrng.article.entity.Article;
 import com.d205.foorrng.foodtruck.entity.FoodtruckLike;
 import com.d205.foorrng.requestDelete.RequestDelete;
-import com.d205.foorrng.user.FavoriteFood;
+import com.d205.foorrng.user.entity.FavoriteFood;
 import com.d205.foorrng.user.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
