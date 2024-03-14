@@ -1,5 +1,6 @@
-package com.d205.foorrng.model;
+package com.d205.foorrng.Foodtrucks;
 
+import com.d205.foorrng.User.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

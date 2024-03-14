@@ -1,4 +1,4 @@
-package com.d205.foorrng.model;
+package com.d205.foorrng.Foodtrucks;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -12,14 +12,20 @@ import org.springframework.validation.annotation.Validated;
 @Setter
 @Validated
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Foodtrucks {
+public class OperationInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "foodtruck_seq")
+    @Column(name = "schedule_seq")
     private Long id;
 
-//    @Enumerated(EnumType.STRING)
-//    private ;
+    private String day;             // 요일
 
+    private Long start_time;        // 시작 시간
+
+    private Long end_time;          // 종료 시간
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="mark_seq")
+    private Mark mark;
 
 }
