@@ -1,4 +1,4 @@
-package com.d205.foorrng.festival;
+package com.d205.foorrng.festival.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
