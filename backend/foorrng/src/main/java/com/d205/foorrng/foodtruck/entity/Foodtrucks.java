@@ -1,4 +1,4 @@
-package com.d205.foorrng.foodtrucks.entity;
+package com.d205.foorrng.foodtruck.entity;
 
 import com.d205.foorrng.food.Food;
 import com.d205.foorrng.mark.Mark;

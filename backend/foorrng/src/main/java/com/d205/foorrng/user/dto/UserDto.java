@@ -1,10 +1,14 @@
 package com.d205.foorrng.user.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
+import javax.management.relation.Role;
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDto {
 
     private long userUid;
@@ -12,13 +16,5 @@ public class UserDto {
     private String name;
 
     private String email;
-
-    private String role;
-
-
-
-
-
-
 
 }

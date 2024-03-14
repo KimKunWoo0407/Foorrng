@@ -1,8 +1,8 @@
 package com.d205.foorrng.user.repository;
 
 public enum UserRole {
-    User("소비자"),
-    Owner("점주");
+    USER("소비자"),
+    OWNER("점주");
 
     private String type;
     UserRole(String type) {

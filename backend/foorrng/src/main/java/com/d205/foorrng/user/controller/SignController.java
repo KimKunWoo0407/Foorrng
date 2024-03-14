@@ -2,7 +2,9 @@ package com.d205.foorrng.user.controller;
 
 
 import com.d205.foorrng.common.TmpResponseDto;
-import com.d205.foorrng.user.UserSginService;
+import com.d205.foorrng.jwt.token.TokenDto;
+import com.d205.foorrng.user.repository.UserRole;
+import com.d205.foorrng.user.service.UserSginService;
 import com.d205.foorrng.user.dto.UserDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -23,9 +25,12 @@ public class SignController {
     private final UserSginService userSginService;
 
     @PostMapping("/regist/owner")
-    public ResponseEntity<String> sign(UserDto userDto) {
-        userDto.setRole("점주");
-        String response = userSginService.sign(userDto);
+    public ResponseEntity<TokenDto> login(UserDto userDto) {
+        System.out.println(userDto.getUserUid());
+        System.out.println(userDto.getEmail());
+        System.out.println(userDto.getName());
+
+        TokenDto response = userSginService.sign(userDto, UserRole.valueOf("OWNER"));
         return ResponseEntity.status(HttpStatus.OK).body(response);
 
     }

@@ -1,24 +1,17 @@
-package com.d205.foorrng.user;
+package com.d205.foorrng.user.service;
 
-import com.d205.foorrng.jwt.token.JwtFilter;
 import com.d205.foorrng.jwt.token.TokenDto;
 import com.d205.foorrng.jwt.token.TokenProvider;
 import com.d205.foorrng.user.dto.UserDto;
 import com.d205.foorrng.user.entity.User;
 import com.d205.foorrng.user.repository.UserRepository;
 import com.d205.foorrng.user.repository.UserRole;
-import com.sun.jdi.request.DuplicateRequestException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,28 +25,45 @@ public class UserSginService {
     private final UserRepository userRepository;
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public String sign(UserDto userDto) {
-        if (userRepository.findByUserUid(userDto.getUserUid()).orElse(null) != null) {
+    public TokenDto sign(UserDto userDto, UserRole role) {
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDto.getEmail(), userDto.getName());
+
+        boolean isAlready = userRepository.findByUserUid(userDto.getUserUid()).orElse(null) != null;
+        System.out.println("1");
+        if (isAlready) {
+            System.out.println("2");
             // 로그인 로직
-            User user = userRepository.findByUserUid(userDto.getUserUid()).get();
-//            throw signIn(user.getUserUid(), user.getName());
-            // 임시 -> 토큰 발급으로 대체
-            return user.getUserUid().toString();
+            Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+
+            TokenDto tokenDto = tokenProvider.createToken(authentication);
+            System.out.println("3");
+
+            return tokenDto;
 
         }
-
+        System.out.println("4");
         User user = User.builder()
                 .userUid(userDto.getUserUid())
-                .name(userDto.getName())
+                .name(passwordEncoder.encode(userDto.getName()))
                 .email(userDto.getEmail())
-                .role(UserRole.valueOf(userDto.getRole()))
+                .role(role)
                 .build();
+        System.out.println(userDto.getUserUid());
+        System.out.println(userDto.getEmail());
+        System.out.println(userDto.getName());
+        System.out.println(user.getRole());
 
         userRepository.save(user);
-        // 임시
-        return "회원가입 완료";
+
+        System.out.println(user.getId());
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+
+        TokenDto tokenDto = tokenProvider.createToken(authentication);
+
+        return tokenDto;
     }
 
 

@@ -1,6 +1,6 @@
 package com.d205.foorrng.mark;
 
-import com.d205.foorrng.foodtrucks.entity.Foodtrucks;
+import com.d205.foorrng.foodtruck.entity.Foodtrucks;
 import com.d205.foorrng.operationInfo.OperationInfo;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

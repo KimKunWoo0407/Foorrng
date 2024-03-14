@@ -2,6 +2,7 @@ package com.d205.foorrng.config;
 
 import com.d205.foorrng.common.exception.JwtAccessDeniedHandler;
 import com.d205.foorrng.common.exception.JwtAuthenticationEntryPoint;
+import com.d205.foorrng.jwt.token.JwtFilter;
 import com.d205.foorrng.jwt.token.TokenProvider;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -38,17 +39,17 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .accessDeniedHandler(jwtAccessDeniedHandler)
-                        .authenticationEntryPoint(jwtAuthenticationEntryPoint))
+                .addFilterBefore(new JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
+//                .exceptionHandling(exceptionHandling -> exceptionHandling
+//                        .accessDeniedHandler(jwtAccessDeniedHandler)
+//                        .authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .authorizeHttpRequests(authorizeHttpRequest -> authorizeHttpRequest
-                        .requestMatchers("/api/signin", "/api/signup").permitAll()
+                        .requestMatchers("/**", "/api/regist/owner", "/api/regist/customer").permitAll()
                         // 임시 전체 허용
                         .anyRequest().permitAll())
                 .sessionManagement(sessioManagement -> sessioManagement
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .with(new JwtSecurityConfig(tokenProvider), customizer -> {});
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+//                .with(new JwtSecurityConfig(tokenProvider), customizer -> {});
         return http.build();
     }
 
