@@ -44,7 +44,7 @@ public class Article {
     private Long end_date;              // 종료일
 
     private String address;             // 지번 주소
-    
+
     private String picture;             // 행사 이미지
 
     @ManyToOne(fetch = FetchType.LAZY)
