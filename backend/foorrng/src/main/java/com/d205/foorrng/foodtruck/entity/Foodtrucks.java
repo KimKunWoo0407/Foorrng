@@ -12,10 +12,11 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
+@Validated // 사용 이유?
 @Builder
-@Validated
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // 프록시 개념을 위해 protected
+@Table(name="foodtrucks")
 @AllArgsConstructor
 public class Foodtrucks {
     @Id
@@ -24,7 +25,7 @@ public class Foodtrucks {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private FoodTruckRole fookTruckRole;
+    private FoodtruckRole foodtruckRole;
 
     @OneToOne(mappedBy = "foodtrucks", cascade =  CascadeType.ALL, fetch = FetchType.LAZY)
     private Foodtruck foodtruck;

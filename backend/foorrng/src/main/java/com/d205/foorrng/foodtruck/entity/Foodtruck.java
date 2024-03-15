@@ -1,17 +1,16 @@
 package com.d205.foorrng.foodtruck.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
 @Entity
 @Getter
 @Setter
 @Validated
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Foodtruck {
 
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,5 +35,23 @@ public class Foodtruck {
 
     private String phoneNumber;            // 연락처
 
+    // 공지사항 변경
+    public void changeAnnouncement(String announcement){
+        this.announcement = announcement;
+    }
 
+    // 사진 변경
+    public void changePicture(String picture){
+        this.picture = picture;
+    }
+
+    // 계좌번호 변경
+    public void changeAccountInfo(String accountInfo){
+        this.accountInfo = accountInfo;
+    }
+
+    // 연락처 변경
+    public void changePhoneNumber(String phoneNumber){
+        this.phoneNumber = phoneNumber;
+    }
 }
