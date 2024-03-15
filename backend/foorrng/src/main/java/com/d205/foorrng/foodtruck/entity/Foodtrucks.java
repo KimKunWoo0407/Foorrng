@@ -5,19 +5,19 @@ import com.d205.foorrng.mark.Mark;
 import com.d205.foorrng.menu.Menu;
 import com.d205.foorrng.requestDelete.RequestDelete;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
 @Entity
 @Getter
+@Validated // 사용 이유?
+@Builder
 @Setter
-@Validated
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // 프록시 개념을 위해 protected
+@AllArgsConstructor
+@Table(name="foodtrucks")
 public class Foodtrucks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +25,7 @@ public class Foodtrucks {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private FoodTruckRole fookTruckRole;
+    private FoodtruckRole foodtruckRole;
 
     @OneToOne(mappedBy = "foodtrucks", cascade =  CascadeType.ALL, fetch = FetchType.LAZY)
     private Foodtruck foodtruck;
