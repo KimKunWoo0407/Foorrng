@@ -7,9 +7,8 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -21,12 +20,15 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+
+@Getter @Setter
+@Slf4j
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class JwtFilter extends GenericFilterBean {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtFilter.class);
-    public static final String AUTHORIZATION_HEADER = "Authorization";
+//    public static final String AUTHORIZATION_HEADER = "Authorization";
     private TokenProvider tokenProvider;
 
     @Override
@@ -45,7 +47,7 @@ public class JwtFilter extends GenericFilterBean {
                 filterChain.doFilter(servletRequest, servletResponse);
                 return;
             }
-            if ("/user/token/refresh".equals(requestURI)) {
+            if ("/api/user/token/refresh".equals(requestURI)) {
                 if (refreshToken != null && tokenProvider.validateToken(refreshToken, "refresh")) {
                     filterChain.doFilter(servletRequest, servletResponse);
                 } else {
@@ -81,15 +83,15 @@ public class JwtFilter extends GenericFilterBean {
 
 
     private boolean isAllowedPath(String requestUri) {
-        List<String> allowedPaths = Arrays.asList("/api/regist/owner","/server");
+        List<String> allowedPaths = Arrays.asList("/api/regist/", "/swagger-ui/");
         return allowedPaths.stream().anyMatch(path -> requestUri.startsWith(path));
     }
 
     private String resolveToken(HttpServletRequest request, String headerName) {
 
-        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+        String bearerToken = request.getHeader(headerName);
 
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")) {
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
         }
 

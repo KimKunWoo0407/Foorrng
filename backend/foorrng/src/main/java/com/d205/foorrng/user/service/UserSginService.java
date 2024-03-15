@@ -29,13 +29,12 @@ public class UserSginService {
 
     @Transactional
     public TokenDto sign(UserDto userDto, UserRole role) {
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDto.getEmail(), userDto.getName());
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDto.getUserUid(), "");
 
-        boolean isAlready = userRepository.findByUserUid(userDto.getUserUid()).orElse(null) != null;
         System.out.println("1");
-        if (isAlready) {
+        if (userRepository.findByUserUid(userDto.getUserUid()).orElse(null) != null) {
             System.out.println("2");
-            // 로그인 로직
+            // 로그인
             Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
             TokenDto tokenDto = tokenProvider.createToken(authentication);
@@ -47,41 +46,18 @@ public class UserSginService {
         System.out.println("4");
         User user = User.builder()
                 .userUid(userDto.getUserUid())
-                .name(passwordEncoder.encode(userDto.getName()))
+                .name(userDto.getName())
                 .email(userDto.getEmail())
                 .role(role)
                 .build();
-        System.out.println(userDto.getUserUid());
-        System.out.println(userDto.getEmail());
-        System.out.println(userDto.getName());
-        System.out.println(user.getRole());
+
 
         userRepository.save(user);
 
-        System.out.println(user.getId());
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
         TokenDto tokenDto = tokenProvider.createToken(authentication);
 
         return tokenDto;
     }
-
-
-//    @Transactional
-//    public ResponseEntity<TokenDto> signIn(Long userUid, String name) {
-//        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userUid, name);
-//
-//        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//
-//        String jwt = tokenProvider.createToken(authentication);
-//
-//        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
-//
-//
-//        return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
-//    }
-
-
 }

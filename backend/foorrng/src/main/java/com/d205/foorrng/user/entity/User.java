@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @Validated
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class User implements UserDetails {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_seq")
@@ -70,53 +70,53 @@ public class User implements UserDetails {
 
 
 
-    // UserDetails
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Builder.Default
-    private List<String> roles = new ArrayList<>(Arrays.asList("USER"));
-
-    // 권한 추가
-    public void addRole(String role) {
-        this.roles.add(role);
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles.stream()
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public String getPassword() {
-        return name;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    // 자격 증명 (비밀번호)
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    // 회원 탈퇴 시 ?
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+//    // UserDetails
+//
+//    @ElementCollection(fetch = FetchType.EAGER)
+//    @Builder.Default
+//    private List<String> roles = new ArrayList<>(Arrays.asList("ROLE_USER"));
+//
+//    // 권한 추가
+//    public void addRole(String role) {
+//        this.roles.add(role);
+//    }
+//
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return this.roles.stream()
+//                .map(SimpleGrantedAuthority::new)
+//                .collect(Collectors.toList());
+//    }
+//
+//    @Override
+//    public String getUsername() {
+//        return email;
+//    }
+//
+//    @Override
+//    public String getPassword() {
+//        return name;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonExpired() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return true;
+//    }
+//
+//    // 자격 증명 (비밀번호)
+//    @Override
+//    public boolean isCredentialsNonExpired() {
+//        return true;
+//    }
+//
+//    // 회원 탈퇴 시 ?
+//    @Override
+//    public boolean isEnabled() {
+//        return true;
+//    }
 }

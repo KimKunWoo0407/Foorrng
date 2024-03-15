@@ -1,4 +1,4 @@
-package com.d205.foorrng.config;
+package com.d205.foorrng.jwt.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +19,7 @@ public class CorsConfig {
         config.addAllowedOriginPattern("*");
         config.addAllowedMethod("*");
 
-        source. registerCorsConfiguration("/api/**", config);
+        source. registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
 

@@ -1,4 +1,4 @@
-package com.d205.foorrng.config;
+package com.d205.foorrng.jwt.config;
 
 import com.d205.foorrng.jwt.token.JwtFilter;
 import com.d205.foorrng.jwt.token.TokenProvider;

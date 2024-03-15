@@ -1,7 +1,6 @@
 package com.d205.foorrng.user.controller;
 
 
-import com.d205.foorrng.common.TmpResponseDto;
 import com.d205.foorrng.jwt.token.TokenDto;
 import com.d205.foorrng.user.repository.UserRole;
 import com.d205.foorrng.user.service.UserSginService;
@@ -25,14 +24,26 @@ public class SignController {
     private final UserSginService userSginService;
 
     @PostMapping("/regist/owner")
-    public ResponseEntity<TokenDto> login(UserDto userDto) {
-        System.out.println(userDto.getUserUid());
-        System.out.println(userDto.getEmail());
-        System.out.println(userDto.getName());
-
+    public ResponseEntity<TokenDto> loginOwner(UserDto userDto) {
+        // request : { userUid: Long, email: String, name: String}
         TokenDto response = userSginService.sign(userDto, UserRole.valueOf("OWNER"));
         return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 
+    // 현재 database 의 user table 에는 role 이 들어가있기 때문에
+    // 임시로 점주용 앱 api 와 소비자용 앱 api 를 각각 작성
+    @PostMapping("/regist/user")
+    public ResponseEntity<TokenDto> loginUser(UserDto userDto) {
+        // request : { userUid: Long, email: String, name: String}
+        TokenDto response = userSginService.sign(userDto, UserRole.valueOf("USER"));
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+
+    // jwt 토큰 작동 체크를 위한 api
+    @PostMapping("/check")
+    public String check() {
+        return "checked";
     }
 
 }
