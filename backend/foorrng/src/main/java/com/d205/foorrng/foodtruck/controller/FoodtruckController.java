@@ -28,16 +28,9 @@ public class FoodtruckController {
 
     private final FoodtruckService foodtruckService;
 
-
     @PostMapping("/regist")
     @ApiResponse(responseCode = "201", description = "푸드트럭 생성 성공")
     public void createFoodtruck(@Valid @RequestBody FoodtruckCreateDto foodtruckCreateDto){
-        // trucks regist
-
-
-        // truck regist
-
+        // foodtruck regist
     }
-
-    //
 }

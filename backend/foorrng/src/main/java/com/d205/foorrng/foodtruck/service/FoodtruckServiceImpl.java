@@ -1,6 +1,7 @@
 package com.d205.foorrng.foodtruck.service;
 
 import com.d205.foorrng.foodtruck.entity.Foodtruck;
+import com.d205.foorrng.foodtruck.entity.FoodtruckId;
 import com.d205.foorrng.foodtruck.entity.FoodtruckRole;
 import com.d205.foorrng.foodtruck.entity.Foodtrucks;
 import com.d205.foorrng.foodtruck.repository.FoodtruckRepository;
@@ -24,17 +25,14 @@ public class FoodtruckServiceImpl implements FoodtruckService{
 
     @Override
     @Transactional
-    public void createFoodtrucks(){
+    public void createFoodtruck(FoodtruckCreateDto foodtruckCreateDto){
         Foodtrucks foodtrucks = Foodtrucks.builder()
                 .foodtruckRole(FoodtruckRole.Foodtruck)
                 .build();
-        foodtrucksRepository.save(foodtrucks);
-    }
+        Foodtrucks save = foodtrucksRepository.save(foodtrucks);
 
-    @Override
-    @Transactional
-    public void createFoodtruck(Long foodtruckId, FoodtruckCreateDto foodtruckCreateDto){
         Foodtruck foodtruck = Foodtruck.builder()
+                .foodtruckId(new FoodtruckId(save.getId()))
                 .name(foodtruckCreateDto.getName())
                 .announcement(foodtruckCreateDto.getAnnouncement())
                 .picture(foodtruckCreateDto.getPicture())

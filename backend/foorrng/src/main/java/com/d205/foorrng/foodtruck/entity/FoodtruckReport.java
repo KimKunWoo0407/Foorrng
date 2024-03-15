@@ -13,14 +13,8 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FoodtruckReport {
-//
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "foodtruck_report_seq")
-//    private Long id;
-    @Id
-    @OneToOne
-    @JoinColumn(name = "foodtrucks_seq")
-    private Foodtrucks foodtrucks;
+    @EmbeddedId
+    private FoodtruckReportId id; // 푸드트럭s Id 식별관계
 
     private String name;            // 가게 이름
 
