@@ -2,3 +2,6 @@ spring:
   profiles:
     include:
       - secret
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor

@@ -5,10 +5,7 @@ import com.d205.foorrng.mark.Mark;
 import com.d205.foorrng.menu.Menu;
 import com.d205.foorrng.requestDelete.RequestDelete;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
@@ -16,8 +13,10 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@Builder
 @Validated
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Foodtrucks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
