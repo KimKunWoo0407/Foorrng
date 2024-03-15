@@ -25,16 +25,21 @@ public class FoodtruckServiceImpl implements FoodtruckService{
     @Override
     @Transactional
     public void createFoodtrucks(){
-        Foodtrucks foodtrucks = Foodtrucks.builder()
-                .foodtruckRole(FoodtruckRole.Foodtruck)
-                .build();
-        foodtrucksRepository.save(foodtrucks);
+
     }
 
     @Override
     @Transactional
-    public void createFoodtruck(Long foodtruckId, FoodtruckCreateDto foodtruckCreateDto){
+    public void createFoodtruck(FoodtruckCreateDto foodtruckCreateDto){
+
+        Foodtrucks foodtrucks = Foodtrucks.builder()
+                .foodtruckRole(FoodtruckRole.Foodtruck)
+                .build();
+        Long createdFoodTruck = foodtrucksRepository.save(foodtrucks).getId();
+
+
         Foodtruck foodtruck = Foodtruck.builder()
+                .foodtrucks(foodtrucksRepository.findById(createdFoodTruck).get())
                 .name(foodtruckCreateDto.getName())
                 .announcement(foodtruckCreateDto.getAnnouncement())
                 .picture(foodtruckCreateDto.getPicture())

@@ -17,6 +17,8 @@ public class Foodtruck {
 //    @Column(name = "foodtruck_seq")
 //    private Long id;
     @Id
+    private Long id;
+
     @OneToOne
     @JoinColumn(name = "foodtrucks_seq")
     private Foodtrucks foodtrucks;
