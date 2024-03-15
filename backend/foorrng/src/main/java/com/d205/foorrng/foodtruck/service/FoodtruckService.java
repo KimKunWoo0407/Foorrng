@@ -8,7 +8,6 @@ import java.util.List;
 public interface FoodtruckService {
 
     // 푸드트럭 생성
-    void createFoodtrucks();
     void createFoodtruck(FoodtruckCreateDto foodtruckCreateDto);
 
     // 푸드트럭 조회(검색 위치에서 푸드트럭 조회)

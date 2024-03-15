@@ -21,17 +21,10 @@ import java.util.List;
 public class Foodtrucks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "foodtrucks_seq")
     private Long id;
 
     @Enumerated(EnumType.STRING)
     private FoodtruckRole foodtruckRole;
-
-    @OneToOne(mappedBy = "foodtrucks", cascade =  CascadeType.ALL, fetch = FetchType.LAZY)
-    private Foodtruck foodtruck;
-
-    @OneToOne(mappedBy = "foodtrucks", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private FoodtruckReport foodtruckReport;
 
     @OneToMany(mappedBy = "foodtrucks")
     private List<Food> foods;

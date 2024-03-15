@@ -12,16 +12,8 @@ import org.springframework.validation.annotation.Validated;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Foodtruck {
-
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "foodtruck_seq")
-//    private Long id;
-    @Id
-    private Long id;
-
-    @OneToOne
-    @JoinColumn(name = "foodtrucks_seq")
-    private Foodtrucks foodtrucks;
+    @EmbeddedId
+    private FoodtruckId foodtruckId;
 
     private String announcement;            // 공지사항
 
