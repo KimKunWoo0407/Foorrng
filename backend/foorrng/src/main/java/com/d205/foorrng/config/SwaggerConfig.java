@@ -35,6 +35,7 @@ public class SwaggerConfig {
                 // SercurityRequirment에 정의한 bearerAuth, 위에서 정의한 security Scheme 추가
                 .components(new Components().addSecuritySchemes("bearerAuth", securityScheme))
                 // 보안 규칙 추가
-                .security(Arrays.asList(securityRequirement));
+                .security(Arrays.asList(securityRequirement))
+                .addServersItem(new Server().url("/"));;
     }
 }
