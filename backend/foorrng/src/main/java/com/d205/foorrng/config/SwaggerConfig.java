@@ -37,6 +37,6 @@ public class SwaggerConfig {
                 .components(new Components().addSecuritySchemes("bearerAuth", securityScheme))
                 // 보안 규칙 추가
                 .security(Arrays.asList(securityRequirement))
-                .addServersItem(new Server().url("/"));;
+                .addServersItem(new Server().url("/"));
     }
 }
