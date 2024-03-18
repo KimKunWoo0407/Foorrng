@@ -83,7 +83,7 @@ public class JwtFilter extends GenericFilterBean {
 
 
     private boolean isAllowedPath(String requestUri) {
-        List<String> allowedPaths = Arrays.asList("/api/regist/", "/swagger-ui/", "/v3/");
+        List<String> allowedPaths = Arrays.asList("/api/user/regist/", "/swagger-ui/", "/v3/");
         return allowedPaths.stream().anyMatch(path -> requestUri.startsWith(path));
     }
 

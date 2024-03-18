@@ -46,8 +46,8 @@ public class SecurityConfig {
                         .accessDeniedHandler(jwtAccessDeniedHandler)
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .authorizeHttpRequests(authorizeHttpRequest -> authorizeHttpRequest
-                        .requestMatchers("/", "/api/regist/owner",
-                                "/api/regist/user",
+                        .requestMatchers("/", "/api/user/regist/owner",
+                                "/api/user/regist/user",
                                 "/api/user/token/refresh",
                                 "/swagger-ui/**").permitAll()
                         .requestMatchers("/v3/api-docs/**").permitAll()

@@ -6,10 +6,12 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum UserRole {
-    USER("ROLE_USER", "소비자"),
-    OWNER("ROLE_OWNER", "점주");
-
+//    USER,
+//    OWNER
+    USER("ROLE_USER", "USER"),
+    OWNER("ROLE_OWNER", "OWNER");
+//
     private final String key;
-
+//
     private final String title;
 }
