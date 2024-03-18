@@ -16,6 +16,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 @Getter
 @Setter
@@ -28,7 +31,9 @@ public class UserSginService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public TokenDto sign(UserDto userDto, String role) {
+    public Map<Boolean, TokenDto> sign(UserDto userDto, String role) {
+
+        Map<Boolean, TokenDto> response = new HashMap<>();
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDto.getUserUid(), "");
 
@@ -41,7 +46,8 @@ public class UserSginService {
             TokenDto tokenDto = tokenProvider.createToken(authentication);
             System.out.println("3");
 
-            return tokenDto;
+            response.put(true, tokenDto);
+            return response;
 
         }
         System.out.println("4");
@@ -51,13 +57,14 @@ public class UserSginService {
                 .email(userDto.getEmail())
                 .role(UserRole.valueOf(role))
                 .build();
-
-        userRepository.save(user);
+        Long tmp = userRepository.save(user).getUserUid();
+        System.out.println(tmp);
 
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
         TokenDto tokenDto = tokenProvider.createToken(authentication);
 
-        return tokenDto;
+        response.put(false, tokenDto);
+        return response;
     }
 }

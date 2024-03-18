@@ -13,7 +13,7 @@ import javax.management.relation.Role;
 @NoArgsConstructor
 public class UserDto {
 
-    @NotEmpty
+    @NotNull
     private long userUid;
 
     @NotNull
