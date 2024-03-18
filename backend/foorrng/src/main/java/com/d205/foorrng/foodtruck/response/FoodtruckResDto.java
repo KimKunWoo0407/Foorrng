@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public class FoodtruckResDto {
 
+    // 푸드트럭 정보
     private String announcement;            // 공지사항
 
     private Long createdDay;               // 등록일
@@ -18,4 +19,7 @@ public class FoodtruckResDto {
     private String carNumber;              // 차량 번호
 
     private String phoneNumber;            // 연락처
+
+
 }
+

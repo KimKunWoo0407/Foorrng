@@ -1,11 +1,7 @@
-package com.d205.foorrng.menu;
+package com.d205.foorrng.foodtruck.entity;
 
-import com.d205.foorrng.foodtruck.entity.Foodtrucks;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
 @Entity
@@ -28,4 +24,13 @@ public class Menu {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="foodtrucks_seq")
     private Foodtrucks foodtrucks;
+
+
+    @Builder
+    public Menu(String name, Long price, String picture, Foodtrucks foodtrucks){
+        this.name = name;
+        this.price = price;
+        this.picture = picture;
+        this.foodtrucks = foodtrucks;
+    }
 }

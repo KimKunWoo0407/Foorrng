@@ -4,7 +4,7 @@ import com.d205.foorrng.common.model.BaseResponseBody;
 import com.d205.foorrng.foodtruck.entity.Foodtruck;
 import com.d205.foorrng.foodtruck.request.FoodtruckCreateDto;
 import com.d205.foorrng.foodtruck.service.FoodtruckService;
-import com.d205.foorrng.user.User;
+import com.d205.foorrng.user.entity.User;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
