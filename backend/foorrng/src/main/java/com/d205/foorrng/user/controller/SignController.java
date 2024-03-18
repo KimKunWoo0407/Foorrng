@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Getter @Setter
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 public class SignController {
 
     private final UserSginService userSginService;
