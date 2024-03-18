@@ -8,15 +8,14 @@ import com.d205.foorrng.user.repository.UserRole;
 import com.d205.foorrng.user.service.UserSginService;
 import com.d205.foorrng.user.dto.UserDto;
 import com.d205.foorrng.util.SecurityUtil;
+import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 
 @Getter @Setter
@@ -29,7 +28,7 @@ public class UserController {
     private final UserSginService userSginService;
 
     @PostMapping("/regist/owner")
-    public ResponseEntity<TokenDto> loginOwner(UserDto userDto) {
+    public ResponseEntity<TokenDto> loginOwner(@RequestBody @Valid UserDto userDto) {
         // request : { userUid: Long, email: String, name: String}
         TokenDto response = userSginService.sign(userDto, "OWNER");
         return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -38,7 +37,7 @@ public class UserController {
     // 현재 database 의 user table 에는 role 이 들어가있기 때문에
     // 임시로 점주용 앱 api 와 소비자용 앱 api 를 각각 작성
     @PostMapping("/regist/user")
-    public ResponseEntity<TokenDto> loginUser(UserDto userDto) {
+    public ResponseEntity<TokenDto> loginUser(@RequestBody @Valid UserDto userDto) {
         // request : { userUid: Long, email: String, name: String}
         TokenDto response = userSginService.sign(userDto, "USER");
         return ResponseEntity.status(HttpStatus.OK).body(response);
