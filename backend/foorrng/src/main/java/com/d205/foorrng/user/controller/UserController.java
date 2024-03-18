@@ -31,7 +31,7 @@ public class UserController {
     @PostMapping("/regist/owner")
     public ResponseEntity<TokenDto> loginOwner(UserDto userDto) {
         // request : { userUid: Long, email: String, name: String}
-        TokenDto response = userSginService.sign(userDto, UserRole.valueOf("OWNER"));
+        TokenDto response = userSginService.sign(userDto, "OWNER");
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -40,7 +40,7 @@ public class UserController {
     @PostMapping("/regist/user")
     public ResponseEntity<TokenDto> loginUser(UserDto userDto) {
         // request : { userUid: Long, email: String, name: String}
-        TokenDto response = userSginService.sign(userDto, UserRole.valueOf("USER"));
+        TokenDto response = userSginService.sign(userDto, "USER");
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
