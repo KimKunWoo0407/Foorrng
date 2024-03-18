@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @AllArgsConstructor
@@ -15,6 +16,6 @@ public class MenuRequestDto {
     @NotEmpty
     private Long price;
     @NotEmpty
-    private String picture;
+    private MultipartFile picture;
     private Foodtrucks foodtrucks;
 }

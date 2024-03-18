@@ -11,6 +11,8 @@ import com.d205.foorrng.foodtruck.response.MenuResDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -22,16 +24,17 @@ public class MenuServiceImpl implements MenuService {
     private final FoodtrucksRepository foodtrucksRepository;
 
     @Override
-    public MenuResDto createMenu(Long foodtrucks_seq, MenuRequestDto menuResquestDto) {
+    @Transactional
+    public MenuResDto createMenu(Foodtrucks foodtrucks_seq, MultipartFile multipartFile, MenuRequestDto menuResquestDto) {
         // 어느 푸드트럭에 해당하는 메뉴인지 찾기
-        Foodtrucks foodtruck = foodtrucksRepository.findById(foodtrucks_seq)
+        Foodtrucks foodtruck = foodtrucksRepository.findById(foodtrucks_seq.getId())
                 .orElseThrow(() -> new Exceptions(ErrorCode.FOODTRUCK_NOT_FOUND));
 
         // 메뉴 저장하기
         Menu menu = Menu.builder()
                 .name(menuResquestDto.getName())
                 .price(menuResquestDto.getPrice())
-                .picture(menuResquestDto.getPicture())
+                .picture(String.valueOf(menuResquestDto.getPicture()))
                 .foodtrucks(foodtruck)
                 .build();
         menuRepository.save(menu);

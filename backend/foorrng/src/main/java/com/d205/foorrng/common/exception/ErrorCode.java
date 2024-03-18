@@ -26,11 +26,7 @@ public  enum ErrorCode {
     private String message;
 
     // 생성자
-<<<<<<< HEAD
     ErrorCode(HttpStatus httpStatus, String errorCode, String message){
-=======
-    ErrorCode(HttpStatus httpStatus, String errorCode, String message) {
->>>>>>> 744278fdadccd55783478e770002e84ef5320c16
         this.httpStatus = httpStatus;
         this.errorCode = errorCode;
         this.message = message;
