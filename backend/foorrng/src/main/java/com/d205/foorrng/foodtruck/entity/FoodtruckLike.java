@@ -1,6 +1,5 @@
 package com.d205.foorrng.foodtruck.entity;
 
-
 import com.d205.foorrng.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

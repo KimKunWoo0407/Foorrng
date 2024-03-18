@@ -11,7 +11,7 @@ public class Exceptions extends RuntimeException{
     // 생성자
     public Exceptions(ErrorCode errorCode){
 
-        // 인자가 아니면
+        // 인자가 하나인 경우 에러 메시지 적용
         super(errorCode.getMessage());
         this.errorCode = errorCode;
     }

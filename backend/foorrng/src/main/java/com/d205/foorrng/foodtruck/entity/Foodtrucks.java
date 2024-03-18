@@ -15,22 +15,15 @@ import java.util.List;
 @Builder
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 프록시 개념을 위해 protected
-@AllArgsConstructor
 @Table(name="foodtrucks")
+@AllArgsConstructor
 public class Foodtrucks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "foodtrucks_seq")
     private Long id;
 
     @Enumerated(EnumType.STRING)
     private FoodtruckRole foodtruckRole;
-
-    @OneToOne(mappedBy = "foodtrucks", cascade =  CascadeType.ALL, fetch = FetchType.LAZY)
-    private Foodtruck foodtruck;
-
-    @OneToOne(mappedBy = "foodtrucks", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private FoodtruckReport foodtruckReport;
 
     @OneToMany(mappedBy = "foodtrucks")
     private List<Food> foods;

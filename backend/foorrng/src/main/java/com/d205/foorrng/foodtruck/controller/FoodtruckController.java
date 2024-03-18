@@ -19,25 +19,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
 
-@Slf4j // log
+//@Slf4j // log
 @RestController // rest api
 @RequiredArgsConstructor // 생성자
 @RequestMapping("/api/foodtruck") // url map
-@Validated  // 유효성 검증
+//@Validated  // 유효성 검증
 public class FoodtruckController {
 
     private final FoodtruckService foodtruckService;
 
-
     @PostMapping("/regist")
     @ApiResponse(responseCode = "201", description = "푸드트럭 생성 성공")
     public void createFoodtruck(@Valid @RequestBody FoodtruckCreateDto foodtruckCreateDto){
-        // trucks regist
-
-
-        // truck regist
-
+        // foodtruck regist
     }
-
-    //
 }
