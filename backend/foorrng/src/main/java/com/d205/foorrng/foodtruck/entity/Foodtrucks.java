@@ -11,10 +11,10 @@ import org.springframework.validation.annotation.Validated;
 import java.util.List;
 
 @Entity
+@Setter
 @Getter
 @Validated // 사용 이유?
 @Builder
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 프록시 개념을 위해 protected
 @AllArgsConstructor
 @Table(name="foodtrucks")
