@@ -28,7 +28,8 @@ public class UserSginService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public TokenDto sign(UserDto userDto, UserRole role) {
+    public TokenDto sign(UserDto userDto, String role) {
+
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDto.getUserUid(), "");
 
         System.out.println("1");
@@ -48,9 +49,8 @@ public class UserSginService {
                 .userUid(userDto.getUserUid())
                 .name(userDto.getName())
                 .email(userDto.getEmail())
-                .role(role)
+                .role(UserRole.valueOf(role))
                 .build();
-
 
         userRepository.save(user);
 
