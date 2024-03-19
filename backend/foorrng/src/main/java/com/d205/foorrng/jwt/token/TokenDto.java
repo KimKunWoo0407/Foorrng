@@ -17,6 +17,5 @@ public class TokenDto {
     @NotNull
     private String accessToken;
 
-    @JsonIgnore
     private String refreshToken;
 }

@@ -36,41 +36,51 @@ public class UserController {
     private final UserSginService userSginService;
 
     @PostMapping("/regist/owner")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "로그인에 성공했을 때, 응답코드 200 반환"),
-            @ApiResponse(responseCode = "201", description = "회원가입 임시")}
-    )
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "로그인에 성공했을 때, 응답코드 200 반환"),
+//            @ApiResponse(responseCode = "201", description = "회원가입 임시")}
+//    )
 //    public ResponseEntity<TokenDto> loginOwner(@RequestBody @Valid UserDto userDto) {
         // request : { userUid: Long, email: String, name: String}
-    public ResponseEntity<? extends BaseResponseBody> loginOwner(@RequestBody @Valid UserDto userDto) {
+    public ResponseEntity<? extends BaseResponseBody> signUpOwner(@RequestBody @Valid UserDto userDto) {
 
-        Map<Boolean, TokenDto> response = userSginService.sign(userDto, "OWNER");
+        Long userUid = userSginService.signUp(userDto, "OWNER");
 //        return ResponseEntity.status(HttpStatus.OK).body(response);
-        if (response.containsKey(true)) {
+//        if (response.containsKey(true)) {
 
-            return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, response.get(true)));
-        }
-        return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseBody.of(0, response.get(false)));
+//            return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, response.get(true)));
+//        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseBody.of(0, userUid));
     }
 
 //     현재 database 의 user table 에는 role 이 들어가있기 때문에
 //     임시로 점주용 앱 api 와 소비자용 앱 api 를 각각 작성
     @PostMapping("/regist/user")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "로그인에 성공했을 때, 응답코드 200 반환"),
-            @ApiResponse(responseCode = "201", description = "회원가입 임시")}
-    )
-    public ResponseEntity<? extends BaseResponseBody> loginUser(@RequestBody @Valid UserDto userDto) {
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "로그인에 성공했을 때, 응답코드 200 반환"),
+//            @ApiResponse(responseCode = "201", description = "회원가입 임시")}
+//    )
+    // request : { userUid: Long, email: String, name: String}
+    public ResponseEntity<? extends BaseResponseBody> signUpUser(@RequestBody @Valid UserDto userDto) {
 
-        Map<Boolean, TokenDto> response = userSginService.sign(userDto, "USER");
+        Long userUid = userSginService.signUp(userDto, "USER");
 //        return ResponseEntity.status(HttpStatus.OK).body(response);
-        if (response.containsKey(true)) {
+//        if (response.containsKey(true)) {
 
-            return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, response.get(true)));
-        }
-        return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseBody.of(0, response.get(false)));
+//            return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, response.get(true)));
+//        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseBody.of(0, userUid));
     }
 
+
+    @PostMapping("/login")
+    public ResponseEntity<? extends BaseResponseBody> signIn(@RequestBody @Valid UserDto userDto) {
+
+        TokenDto tokenDto = userSginService.signIn(userDto);
+
+        return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, tokenDto));
+
+    }
 
     @GetMapping("")
     public ResponseEntity<? extends BaseResponseBody> searchUserInfo() {
