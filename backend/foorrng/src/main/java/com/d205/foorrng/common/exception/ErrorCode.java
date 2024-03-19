@@ -11,6 +11,9 @@ public  enum ErrorCode {
     EMAIL_EXIST(HttpStatus.BAD_REQUEST, "U-002", "이미 가입된 회원입니다."),
     CATEGORY_NOT_EXIST(HttpStatus.BAD_REQUEST, "U-003", "존재하지 않는 항목입니다."),
 
+    // 음식
+    FOODLIST_NOT_EXIST(HttpStatus.BAD_REQUEST, "F-001", "선호음식 리스트가 존재하지 않습니다."),
+
     // 토큰
     UNEXPECTED_TOKEN(HttpStatus.BAD_REQUEST, "T-001", "토큰이 만료되었습니다."),
     TOKEN_NOT_EXIST(HttpStatus.BAD_REQUEST, "T-002", "토큰이 존재하지 않습니다."),

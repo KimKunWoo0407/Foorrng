@@ -68,10 +68,6 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Article> articles;
 
-    public static class GetUserInfo {
-        
-    }
-
 
 
 //    // UserDetails
