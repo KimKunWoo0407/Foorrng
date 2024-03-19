@@ -12,8 +12,10 @@ import org.springframework.validation.annotation.Validated;
 @Getter
 @Setter
 @Validated
+@Table(name = "tb_article")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Article {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "article_seq")
@@ -51,4 +53,15 @@ public class Article {
     @JoinColumn(name = "user_seq")
     private User user;
 
+    public Article(User user, String title, String content, String createdDate, String updateDate
+        ){ //값을 받는 생성자 생성
+
+        this.user = user;
+        this.title = title;
+
+
+    }
+
+
 }
+

@@ -6,6 +6,10 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum ErrorCode {
 
+    //아티클
+    ARTICLE_NOT_EXIST(HttpStatus.BAD_REQUEST, "A-001", "존재하지 않은 게시글입니다. "),
+
+
     // 회원
     USER_NOT_EXIST(HttpStatus.BAD_REQUEST, "U-001", "존재하지 않는 회원입니다."),
     EMAIL_EXIST(HttpStatus.BAD_REQUEST, "U-002", "이미 가입된 회원입니다."),
