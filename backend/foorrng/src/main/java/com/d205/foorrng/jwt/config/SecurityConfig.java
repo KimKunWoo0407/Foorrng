@@ -50,6 +50,7 @@ public class SecurityConfig {
                                 "/api/user/regist/user",
                                 "/api/user/token/refresh",
                                 "/swagger-ui/**").permitAll()
+                        .requestMatchers("/api/user/login").permitAll()
                         .requestMatchers("/v3/api-docs/**").permitAll()
                         .requestMatchers("/api-docs/**").permitAll()
                         .requestMatchers("/api/authenticate").permitAll()
