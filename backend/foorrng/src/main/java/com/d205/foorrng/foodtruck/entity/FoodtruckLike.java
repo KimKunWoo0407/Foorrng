@@ -1,6 +1,7 @@
 package com.d205.foorrng.foodtruck.entity;
 
 import com.d205.foorrng.user.entity.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

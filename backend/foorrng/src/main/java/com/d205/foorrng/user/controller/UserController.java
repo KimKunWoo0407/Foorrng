@@ -4,6 +4,8 @@ package com.d205.foorrng.user.controller;
 import com.d205.foorrng.common.exception.ErrorCode;
 import com.d205.foorrng.common.exception.Exceptions;
 import com.d205.foorrng.common.model.BaseResponseBody;
+import com.d205.foorrng.food.repository.FavoritefoodRepository;
+import com.d205.foorrng.foodtruck.repository.FoodtruckLikeRepository;
 import com.d205.foorrng.jwt.token.TokenDto;
 import com.d205.foorrng.user.entity.User;
 import com.d205.foorrng.user.repository.UserRepository;
@@ -22,8 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 
 @Getter @Setter
@@ -34,41 +35,22 @@ public class UserController {
 
     private final UserRepository userRepository;
     private final UserSginService userSginService;
+    private final FavoritefoodRepository favoritefoodRepository;
+    private final FoodtruckLikeRepository foodtruckLikeRepository;
 
     @PostMapping("/regist/owner")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "로그인에 성공했을 때, 응답코드 200 반환"),
-//            @ApiResponse(responseCode = "201", description = "회원가입 임시")}
-//    )
-//    public ResponseEntity<TokenDto> loginOwner(@RequestBody @Valid UserDto userDto) {
-        // request : { userUid: Long, email: String, name: String}
     public ResponseEntity<? extends BaseResponseBody> signUpOwner(@RequestBody @Valid UserDto userDto) {
 
         Long userUid = userSginService.signUp(userDto, "OWNER");
-//        return ResponseEntity.status(HttpStatus.OK).body(response);
-//        if (response.containsKey(true)) {
 
-//            return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, response.get(true)));
-//        }
         return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseBody.of(0, userUid));
     }
 
-//     현재 database 의 user table 에는 role 이 들어가있기 때문에
-//     임시로 점주용 앱 api 와 소비자용 앱 api 를 각각 작성
     @PostMapping("/regist/user")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "로그인에 성공했을 때, 응답코드 200 반환"),
-//            @ApiResponse(responseCode = "201", description = "회원가입 임시")}
-//    )
-    // request : { userUid: Long, email: String, name: String}
     public ResponseEntity<? extends BaseResponseBody> signUpUser(@RequestBody @Valid UserDto userDto) {
 
         Long userUid = userSginService.signUp(userDto, "USER");
-//        return ResponseEntity.status(HttpStatus.OK).body(response);
-//        if (response.containsKey(true)) {
 
-//            return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, response.get(true)));
-//        }
         return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseBody.of(0, userUid));
     }
 
@@ -87,13 +69,30 @@ public class UserController {
 
         Optional<User> user = userRepository.findByUserUid(Long.parseLong(SecurityUtil.getCurrentUsername()
                 .orElseThrow(() -> new Exceptions(ErrorCode.USER_NOT_EXIST))));
-        if (user.get().getRole() == UserRole.USER) {
+        if (user.get().getRole().equals(UserRole.USER)) {
+            // 소비자 정보 조회
 
+            Map<String, Object> userInfo = new HashMap<>();
+            userInfo.put("userUid", SecurityUtil.getCurrentUsername());
+            userInfo.put("FavoriteFoodList", favoritefoodRepository.findAllByUser(user.get()));
+            userInfo.put("FoodtruckLikeList", foodtruckLikeRepository.findAllByUser(user.get()));
 
+            return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, userInfo));
+        }
+        if (user.get().getRole().equals(UserRole.OWNER)) {
+            // 점주 정보 조회
+
+            Map<String, String> userInfo = new HashMap<>();
+            userInfo.put("userUid", SecurityUtil.getCurrentUsername().get());
+            userInfo.put("name", user.get().getName());
+            userInfo.put("email", user.get().getEmail());
+
+            return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, userInfo));
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, user));
-
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(BaseResponseBody.error(ErrorCode.USER_NOT_EXIST.getErrorCode(),
+                        ErrorCode.USER_NOT_EXIST.getMessage()));
     }
 
 
