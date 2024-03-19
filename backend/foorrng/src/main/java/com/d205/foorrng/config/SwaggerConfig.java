@@ -36,4 +36,5 @@ public class SwaggerConfig {
                 // 보안 규칙 추가
                 .security(Arrays.asList(securityRequirement));
     }
+
 }

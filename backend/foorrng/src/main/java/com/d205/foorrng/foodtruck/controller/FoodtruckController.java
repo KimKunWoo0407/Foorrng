@@ -21,6 +21,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 @Slf4j // log
 @RestController // rest api
 @RequiredArgsConstructor // 생성자
@@ -32,11 +34,12 @@ public class FoodtruckController {
 
     @ApiResponse(responseCode = "201", description = "점주 푸드트럭 등록 완료")
     @PostMapping(value = "/regist", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseBody<? extends BaseResponseBody> createFoodtruck(
-            @Valid @RequestBody FoodtruckCreateDto foodtruckCreateDto,
-            @RequestPart(value = "picture", required = false) MultipartFile picture){
-        foodtruckService.createFoodtruck(foodtruckCreateDto, picture);
-        return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseBody.of(0, ));
+    public ResponseEntity<? extends BaseResponseBody> createFoodtruck(
+            @Valid @RequestPart(value = "foodtruckCreateDto", required = true) FoodtruckCreateDto foodtruckCreateDto,
+            @RequestPart(value = "picture", required = false) MultipartFile picture) throws IOException {
+        System.out.println("controller");
+        FoodtruckResDto foodtruckResDto = foodtruckService.createFoodtruck(foodtruckCreateDto, picture);
+        return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseBody.of(0, foodtruckResDto));
     }
 
     @PatchMapping("/update")

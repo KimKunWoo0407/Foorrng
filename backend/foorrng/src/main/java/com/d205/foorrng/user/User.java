@@ -2,6 +2,7 @@ package com.d205.foorrng.user;
 
 import com.d205.foorrng.article.Article;
 import com.d205.foorrng.foodtruck.entity.FoodtruckLike;
+import com.d205.foorrng.foodtruck.entity.Foodtrucks;
 import com.d205.foorrng.requestDelete.RequestDelete;
 import jakarta.persistence.*;
 import lombok.*;
@@ -48,4 +49,7 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Article> articles;
+
+    @OneToMany(mappedBy = "user")
+    private List<Foodtrucks> foodtruckList;
 }

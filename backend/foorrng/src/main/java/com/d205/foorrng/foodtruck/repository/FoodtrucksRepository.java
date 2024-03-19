@@ -6,5 +6,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface FoodtrucksRepository extends JpaRepository<Foodtrucks, Long> {
-    Optional<Foodtrucks> findbyId(Long foodTrucksId);
 }
