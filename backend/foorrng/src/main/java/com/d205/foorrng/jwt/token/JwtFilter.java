@@ -38,7 +38,7 @@ public class JwtFilter extends GenericFilterBean {
 
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
-        String accessToken = resolveToken(httpServletRequest, "Access-Token");
+        String accessToken = resolveToken(httpServletRequest, "Authorization");
         String refreshToken = resolveToken(httpServletRequest, "Refresh-Token");
         String requestURI = httpServletRequest.getRequestURI();
 
