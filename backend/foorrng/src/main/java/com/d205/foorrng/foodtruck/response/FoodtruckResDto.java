@@ -14,11 +14,22 @@ public class FoodtruckResDto {
     private String carNumber;              // 차량 번호
     private String phoneNumber;            // 연락처
 
-
+    // 생성
     public FoodtruckResDto(Foodtruck foodtruck, Long foodtruckId, Long createdDay){
         this.footruckId = foodtruckId;
         this.announcement = foodtruck.getAnnouncement();
         this.createdDay = createdDay;
+        this.picture = foodtruck.getPicture();
+        this.name = foodtruck.getName();
+        this.accountInfo = foodtruck.getAccountInfo();
+        this.carNumber = foodtruck.getCarNumber();
+        this.phoneNumber = foodtruck.getPhoneNumber();
+    }
+
+    // 수정
+    public FoodtruckResDto(Foodtruck foodtruck, Long foodtruckId){
+        this.footruckId = foodtruckId;
+        this.announcement = foodtruck.getAnnouncement();
         this.picture = foodtruck.getPicture();
         this.name = foodtruck.getName();
         this.accountInfo = foodtruck.getAccountInfo();
