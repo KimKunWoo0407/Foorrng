@@ -48,8 +48,8 @@ public class FoodtruckController {
 
     @DeleteMapping("/delete/{foodtruckId}")
     @ApiResponse(responseCode = "201", description = "점주 푸드트럭 삭제 완료")
-    public ResponseEntity<? extends BaseResponseBody> deleteFoodtruck(@Valid @PathVariable("foodtruckId") FoodtruckId foodtruckId){
-
+    public ResponseEntity<? extends BaseResponseBody> deleteFoodtruck(@Valid @PathVariable("foodtruckId") Long foodtruckId){
+        foodtruckService.deleteFoodtruck(foodtruckId);
         return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, "success"));
     }
 }
