@@ -14,13 +14,15 @@ public class MenuResDto {
     private String name;
     private Long price;
     private String picture;
+    private Long foodtruck;
 
     public static MenuResDto fromEntity (Menu menu){
         return new MenuResDto(
                 menu.getId(),
                 menu.getName(),
                 menu.getPrice(),
-                menu.getPicture()
+                menu.getPicture(),
+                menu.getFoodtrucks().getId()
         );
     }
 }

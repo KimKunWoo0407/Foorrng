@@ -1,6 +1,8 @@
 
 package com.d205.foorrng.foodtruck.service;
 
+import com.d205.foorrng.common.exception.ErrorCode;
+import com.d205.foorrng.common.exception.Exceptions;
 import com.d205.foorrng.foodtruck.entity.Foodtruck;
 import com.d205.foorrng.foodtruck.entity.FoodtruckId;
 import com.d205.foorrng.foodtruck.entity.FoodtruckRole;
@@ -8,13 +10,10 @@ import com.d205.foorrng.foodtruck.entity.Foodtrucks;
 import com.d205.foorrng.foodtruck.repository.FoodtruckRepository;
 import com.d205.foorrng.foodtruck.repository.FoodtrucksRepository;
 import com.d205.foorrng.foodtruck.request.FoodtruckCreateDto;
-import com.d205.foorrng.foodtruck.response.FoodtruckResDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Slf4j
 @Service
@@ -56,7 +55,10 @@ public class FoodtruckServiceImpl implements FoodtruckService{
     @Transactional
     public void updateFoodtruck(Long foodtruckId, FoodtruckCreateDto foodtruckCreateDto){
 
-    };
+    }
+
+
+    ;
 
     /*@Override
     @Transactional
@@ -64,6 +66,12 @@ public class FoodtruckServiceImpl implements FoodtruckService{
         return
     };*/
 
-
+    // 사용자 정보를 통해 푸드트럭  찾기
+    @Override
+    public Long findFoodtruckByUserId(Long userUid) {
+        Foodtrucks foodtrucks = (Foodtrucks) foodtrucksRepository.findByUserUserUid(userUid)
+                .orElseThrow(() -> new Exceptions(ErrorCode.FOODTRUCK_NOT_FOUND));
+        return foodtrucks.getId();
+    }
 
 }

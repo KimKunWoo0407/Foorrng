@@ -5,12 +5,14 @@ import com.d205.foorrng.jwt.token.TokenDto;
 import com.d205.foorrng.user.repository.UserRole;
 import com.d205.foorrng.user.service.UserSginService;
 import com.d205.foorrng.user.dto.UserDto;
+import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +26,11 @@ public class SignController {
     private final UserSginService userSginService;
 
     @PostMapping("/regist/owner")
-    public ResponseEntity<TokenDto> loginOwner(UserDto userDto) {
+    public ResponseEntity<TokenDto> loginOwner(@RequestBody @Valid UserDto userDto) {
+        System.out.println("-----check-----");
+        System.out.println(userDto.getUserUid());
+        System.out.println(userDto.getName());
+        System.out.println("-----check-----");
         // request : { userUid: Long, email: String, name: String}
         TokenDto response = userSginService.sign(userDto, "OWNER");
         return ResponseEntity.status(HttpStatus.OK).body(response);

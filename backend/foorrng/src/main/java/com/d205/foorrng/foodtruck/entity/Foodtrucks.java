@@ -3,6 +3,7 @@ package com.d205.foorrng.foodtruck.entity;
 import com.d205.foorrng.food.Food;
 import com.d205.foorrng.mark.Mark;
 import com.d205.foorrng.requestDelete.RequestDelete;
+import com.d205.foorrng.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.validation.annotation.Validated;
@@ -24,6 +25,10 @@ public class Foodtrucks {
 
     @Enumerated(EnumType.STRING)
     private FoodtruckRole foodtruckRole;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_seq")
+    private User user;
 
     @OneToMany(mappedBy = "foodtrucks")
     private List<Food> foods;

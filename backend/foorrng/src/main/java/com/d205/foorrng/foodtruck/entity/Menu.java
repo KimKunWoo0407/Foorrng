@@ -12,7 +12,7 @@ import org.springframework.validation.annotation.Validated;
 public class Menu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "memu_seq")
+    @Column(name = "menu_seq")
     private Long id;
 
     private String name;        // 메뉴 이름

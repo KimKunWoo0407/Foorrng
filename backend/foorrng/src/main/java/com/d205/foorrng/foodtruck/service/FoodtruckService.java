@@ -1,9 +1,6 @@
 package com.d205.foorrng.foodtruck.service;
 
 import com.d205.foorrng.foodtruck.request.FoodtruckCreateDto;
-import com.d205.foorrng.foodtruck.response.FoodtruckResDto;
-
-import java.util.List;
 
 public interface FoodtruckService {
 
@@ -18,4 +15,7 @@ public interface FoodtruckService {
 
     // 푸드트럭 삭제
 //    Long deleteFoodtruck(Long foodtruckId);
+
+    // 이름으로 푸드트럭 찾기
+    Long findFoodtruckByUserId(Long userUid);
 }
