@@ -41,16 +41,16 @@ public class User {
     private UserRole role;
 
     @Nullable
-    private String acceess_token;       // 엑세스 토큰
+    private String acceessToken;       // 엑세스 토큰
 
     @Nullable
-    private String refresh_token;       // 리프레시 토큰
+    private String refreshToken;       // 리프레시 토큰
 
     @Nullable
-    private String fcm_token;           // fcm 토큰
+    private String fcmToken;           // fcm 토큰
 
     @Nullable
-    private String business_number;     // 사업자 번호
+    private String businessNumber;     // 사업자 번호
 
     @Nullable
     @OneToMany(mappedBy = "user")
@@ -68,6 +68,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Article> articles;
 
+    public void addBusinessNumber(String businessNumber) {
+        this.businessNumber = businessNumber;
+    }
 
 
 //    // UserDetails
