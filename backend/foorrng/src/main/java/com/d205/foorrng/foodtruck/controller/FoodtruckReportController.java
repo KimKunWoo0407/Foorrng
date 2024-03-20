@@ -1,9 +1,8 @@
 package com.d205.foorrng.foodtruck.controller;
 
-import com.d205.foorrng.foodtruck.entity.FoodtruckId;
 import com.d205.foorrng.foodtruck.entity.FoodtruckReportId;
-import com.d205.foorrng.foodtruck.request.FoodtruckReportCreateDto;
-import com.d205.foorrng.foodtruck.request.FoodtruckReportUpdateDto;
+import com.d205.foorrng.foodtruck.request.FoodtruckReportCreateReqDto;
+import com.d205.foorrng.foodtruck.request.FoodtruckUpdateReqDto;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,12 +19,12 @@ public class FoodtruckReportController {
 
     @PostMapping("/regist")
     @ApiResponse(responseCode = "201", description = "제보 푸드트럭 등록 완료")
-    public void createFoodtruckReport(@Valid @RequestBody FoodtruckReportCreateDto foodtruckReportCreateDto){
+    public void createFoodtruckReport(@Valid @RequestBody FoodtruckReportCreateReqDto foodtruckReportCreateReqDto){
     }
 
     @PatchMapping("/update")
     @ApiResponse(responseCode = "200", description = "제보 푸드트럭 수정 완료")
-    public void updateFoodtruckReport(@Valid @RequestBody FoodtruckReportUpdateDto foodtruckReportUpdateDto){
+    public void updateFoodtruckReport(@Valid @RequestBody FoodtruckUpdateReqDto foodtruckReportUpdateDto){
     }
 
     @DeleteMapping("/delete/{foodtruckReportId}")

@@ -4,13 +4,13 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
 @Entity
 @Getter
-@Setter
 @Validated
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class Foodtruck {
     @EmbeddedId
     private FoodtruckId foodtruckId;
@@ -29,23 +29,35 @@ public class Foodtruck {
 
     private String phoneNumber;            // 연락처
 
-    // 공지사항 변경
-    public void changeAnnouncement(String announcement){
+    @Builder
+    public Foodtruck(FoodtruckId foodtruckId,String announcement, Long createdDay, String picture, String name, String accountInfo, String carNumber, String phoneNumber){
+        this.foodtruckId = foodtruckId;
         this.announcement = announcement;
-    }
-
-    // 사진 변경
-    public void changePicture(String picture){
+        this.createdDay = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
         this.picture = picture;
-    }
-
-    // 계좌번호 변경
-    public void changeAccountInfo(String accountInfo){
+        this.name = name;
         this.accountInfo = accountInfo;
-    }
-
-    // 연락처 변경
-    public void changePhoneNumber(String phoneNumber){
+        this.carNumber = carNumber;
         this.phoneNumber = phoneNumber;
     }
+
+    public void updateAnnouncement(String announcement) {
+        this.announcement = announcement;
+    }
+    public void updatePicture(String picture) {
+        this.picture = picture;
+    }
+    public void updateName(String name) {
+        this.name = name;
+    }
+    public void updateAccountInfo(String accountInfo) {
+        this.accountInfo = accountInfo;
+    }
+    public void updateCarNumber(String carNumber) {
+        this.carNumber = carNumber;
+    }
+    public void updatePhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
 }

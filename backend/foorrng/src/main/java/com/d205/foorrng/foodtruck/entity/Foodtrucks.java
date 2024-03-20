@@ -12,12 +12,8 @@ import org.springframework.validation.annotation.Validated;
 import java.util.List;
 
 @Entity
-@Setter
 @Getter
-@Validated // 사용 이유?
-@Builder
-@NoArgsConstructor(access = AccessLevel.PROTECTED) // 프록시 개념을 위해 protected
-@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="foodtrucks")
 public class Foodtrucks {
     @Id
@@ -46,4 +42,9 @@ public class Foodtrucks {
 
     @OneToMany(mappedBy = "foodtrucks", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Mark> markList;
+
+    @Builder
+    public Foodtrucks(FoodtruckRole role){
+        this.foodtruckRole = role;
+    }
 }
