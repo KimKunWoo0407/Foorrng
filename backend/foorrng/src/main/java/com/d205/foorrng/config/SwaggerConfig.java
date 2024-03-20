@@ -6,6 +6,7 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -27,6 +28,7 @@ public class SwaggerConfig {
         SecurityScheme securityScheme = new SecurityScheme()
                 .type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")
                 .in(SecurityScheme.In.HEADER).name("Authorization");
+//                .in(SecurityScheme.In.HEADER).name("Access-Token");
 
         SecurityRequirement securityRequirement = new SecurityRequirement().addList("bearerAuth");
 
@@ -34,7 +36,8 @@ public class SwaggerConfig {
                 // SercurityRequirment에 정의한 bearerAuth, 위에서 정의한 security Scheme 추가
                 .components(new Components().addSecuritySchemes("bearerAuth", securityScheme))
                 // 보안 규칙 추가
-                .security(Arrays.asList(securityRequirement));
+                .security(Arrays.asList(securityRequirement))
+                .addServersItem(new Server().url("/"));
     }
 
 }

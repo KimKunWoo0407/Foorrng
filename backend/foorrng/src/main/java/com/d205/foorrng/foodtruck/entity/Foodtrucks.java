@@ -4,17 +4,18 @@ import com.d205.foorrng.food.Food;
 import com.d205.foorrng.mark.Mark;
 import com.d205.foorrng.menu.Menu;
 import com.d205.foorrng.requestDelete.RequestDelete;
-import com.d205.foorrng.user.User;
+import com.d205.foorrng.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
 @Entity
 @Getter
+@Builder
 @NoArgsConstructor
 @Table(name="foodtrucks")
+@AllArgsConstructor
 public class Foodtrucks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,9 +43,4 @@ public class Foodtrucks {
 
     @OneToMany(mappedBy = "foodtrucks", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Mark> markList;
-
-    @Builder
-    public Foodtrucks(FoodtruckRole role){
-        this.foodtruckRole = role;
-    }
 }

@@ -1,6 +1,6 @@
-package com.d205.foorrng.article;
+package com.d205.foorrng.article.entity;
 
-import com.d205.foorrng.user.User;
+import com.d205.foorrng.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

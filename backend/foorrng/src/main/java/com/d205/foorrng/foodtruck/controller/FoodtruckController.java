@@ -6,6 +6,7 @@ import com.d205.foorrng.foodtruck.request.FoodtruckCreateReqDto;
 import com.d205.foorrng.foodtruck.request.FoodtruckUpdateReqDto;
 import com.d205.foorrng.foodtruck.response.FoodtruckResDto;
 import com.d205.foorrng.foodtruck.service.FoodtruckService;
+import com.d205.foorrng.user.entity.User;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,11 +20,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-@Slf4j // log
+//@Slf4j // log
 @RestController // rest api
 @RequiredArgsConstructor // 생성자
 @RequestMapping("/api/foodtruck") // url map
-@Validated  // 유효성 검증
+//@Validated  // 유효성 검증
 public class FoodtruckController {
     private final FoodtruckService foodtruckService;
 

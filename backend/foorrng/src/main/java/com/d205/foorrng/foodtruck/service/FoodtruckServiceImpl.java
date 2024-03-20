@@ -13,6 +13,9 @@ import com.d205.foorrng.foodtruck.repository.FoodtrucksRepository;
 import com.d205.foorrng.foodtruck.request.FoodtruckCreateReqDto;
 import com.d205.foorrng.foodtruck.request.FoodtruckUpdateReqDto;
 import com.d205.foorrng.foodtruck.response.FoodtruckResDto;
+import com.d205.foorrng.user.entity.User;
+import com.d205.foorrng.user.repository.UserRepository;
+import com.d205.foorrng.util.SecurityUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,16 +34,23 @@ public class FoodtruckServiceImpl implements FoodtruckService{
 
     private final FoodtruckRepository foodtruckRepository;
     private final FoodtrucksRepository foodtrucksRepository;
+    private final UserRepository userRepository;
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
     private final AmazonS3Client amazonS3Client;
 
 
+
     @Override
     @Transactional
     public FoodtruckResDto createFoodtruck( FoodtruckCreateReqDto foodtruckCreateReqDto, MultipartFile picture) throws IOException {
+
+        User user = userRepository.findByUserUid(Long.parseLong(SecurityUtil.getCurrentUsername().get())).get();
+
         // ALL 푸드트럭 entity 생성
-        Foodtrucks foodtrucks = Foodtrucks.builder().role(FoodtruckRole.Foodtruck).build();
+        Foodtrucks foodtrucks = Foodtrucks.builder()
+                .user(user)
+                .foodtruckRole(FoodtruckRole.Foodtruck).build();
         foodtrucksRepository.save(foodtrucks);
 
         // 생성날짜 long 타입
