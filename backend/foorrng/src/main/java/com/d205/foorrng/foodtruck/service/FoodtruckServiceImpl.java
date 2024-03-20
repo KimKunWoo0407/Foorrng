@@ -116,5 +116,14 @@ public class FoodtruckServiceImpl implements FoodtruckService{
         foodtruckRepository.save(foodtruck);
 
         // foodtruck res dto 생성 반환
-        return new FoodtruckResDto(foodtruck, foodtruckUpdateReqDto.getFoodtruckId(), foodtruck.getCreatedDay());    };
+        return new FoodtruckResDto(foodtruck, foodtruckUpdateReqDto.getFoodtruckId(), foodtruck.getCreatedDay());
+    };
+
+    @Override
+    @Transactional
+    public void deleteFoodtruck(Long foodtruckId){
+        Foodtrucks foodtrucks = foodtrucksRepository.findById(foodtruckId)
+                        .orElseThrow(() -> new Exceptions(ErrorCode.FOODTRUCK_NOT_EXIST));
+        foodtrucksRepository.delete(foodtrucks);
+    }
 }

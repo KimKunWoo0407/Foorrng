@@ -41,13 +41,14 @@ public class FoodtruckController {
     public ResponseEntity<? extends BaseResponseBody> updateFoodtruck(
             @Valid @RequestPart(value = "foodtruckUpdateReqDto", required = true) FoodtruckUpdateReqDto foodtruckUpdateReqDto,
             @RequestPart(value = "picuture", required = false) MultipartFile picture) throws IOException{
-        System.out.println(foodtruckUpdateReqDto.getFoodtruckId());
         FoodtruckResDto foodtruckResDto = foodtruckService.updateFoodtruck(foodtruckUpdateReqDto, picture);
         return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, foodtruckResDto));
     }
 
     @DeleteMapping("/delete/{foodtruckId}")
     @ApiResponse(responseCode = "201", description = "점주 푸드트럭 삭제 완료")
-    public void deleteFoodtruck(@Valid @PathVariable("foodtruckId") FoodtruckId foodtruckId){
+    public ResponseEntity<? extends BaseResponseBody> deleteFoodtruck(@Valid @PathVariable("foodtruckId") FoodtruckId foodtruckId){
+
+        return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, "success"));
     }
 }
