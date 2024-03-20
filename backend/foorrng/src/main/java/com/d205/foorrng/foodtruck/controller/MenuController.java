@@ -65,4 +65,23 @@ public class MenuController {
         return menuService.getMenus(foodtrucksSeq);
     }
 
+    // 메뉴 삭제
+    @DeleteMapping("/{menuId}")
+    @ApiResponse(responseCode = "204", description = "푸드트럭 메뉴 삭제 성공")
+    public ResponseEntity<String> deleteMenu(@PathVariable("menuId") Long menuSeq){
+        menuService.deleteMenu(menuSeq);
+        return new ResponseEntity<>("Success", HttpStatusCode.valueOf(HttpStatus.SC_NO_CONTENT));
+    }
+
+    // 메뉴 수정
+    @PatchMapping("/{menuId}")
+    @ApiResponse(responseCode = "200", description = "푸드트럭 메뉴 수정 성공")
+    public ResponseEntity<BaseResponseBody> modifyMenu(
+            @PathVariable("menuId") Long menuSeq,
+            @Valid @RequestPart("menuRequestDto") MenuRequestDto menuRequestDto,
+            @RequestPart(value = "picture", required=false) MultipartFile picture) {
+
+        MenuResDto menuId = menuService.updateMenu(menuSeq, menuRequestDto, picture);
+        return ResponseEntity.status(HttpStatus.SC_CREATED).body(BaseResponseBody.of(0, menuId));
+    }
 }

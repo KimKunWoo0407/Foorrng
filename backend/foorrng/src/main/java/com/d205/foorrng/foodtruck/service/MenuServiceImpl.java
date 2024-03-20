@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -50,7 +51,6 @@ public class MenuServiceImpl implements MenuService {
                 .stream().map(MenuResDto::fromEntity).toList();
     }
 
-    // go
     @Override
     public List<MenuResDto> getMenus(Long foodtrucks_seq) {
         Foodtrucks foodtruck = foodtrucksRepository.findById(foodtrucks_seq)
@@ -69,19 +69,32 @@ public class MenuServiceImpl implements MenuService {
                         menu.getFoodtrucks().getId()))
                 .collect(Collectors.toList());
     }
-
-
-
-
     @Override
-    public void updateMenu(Long foodtrucks_seq, Long menu_seq, MenuResDto menuResDto) {
+    public MenuResDto updateMenu(Long menu_seq, MenuRequestDto menuRequestDto, MultipartFile multipartFile) {
+        // 어느 푸드트럭에 해당하는 메뉴인지 찾기
+//        Foodtrucks foodtruck = foodtrucksRepository.findById(foodtrucks_seq)
+//                .orElseThrow(() -> new Exceptions(ErrorCode.FOODTRUCK_NOT_FOUND));
 
+        // 해당 푸드 트럭에서 수정할 메뉴 선택
+        Menu menu = menuRepository.findById(menu_seq)
+                .orElseThrow(() -> new Exceptions(ErrorCode.MENU_NOT_FOUND));
+
+        // 메뉴 엔티티 수정
+        menu.changeName(menuRequestDto.getName());
+        menu.changePrice(menuRequestDto.getPrice());
+//        menu.changePicture(menuRequestDto.getPicture());
+
+        menuRepository.save(menu);
+
+        return MenuResDto.fromEntity(menu);
     }
 
     @Override
-    public Long deleteMenu(Long foodtrucks_seq, Long menu_seq) {
-        return null;
+    public void deleteMenu(Long menu_seq) {
+        Optional<Menu> menu = menuRepository.findById(menu_seq);
+        // 메뉴가 없을 경우 예외 처리
+        if(menu.isEmpty())
+            throw new Exceptions(ErrorCode.MENU_NOT_FOUND);
+        menuRepository.deleteById(menu_seq);
     }
-
-
 }

@@ -21,7 +21,11 @@ public enum ErrorCode {
     // 푸드트럭
     FOODTRUCK_NOT_FOUND(HttpStatus.BAD_REQUEST, "F-001", "존재하지 않는 푸드트럭입니다."),
     // Validation
-    NOT_VALID_REQUEST(HttpStatus.BAD_REQUEST, "I-001", "요청변수가 유효하지 않습니다.");
+    NOT_VALID_REQUEST(HttpStatus.BAD_REQUEST, "I-001", "요청변수가 유효하지 않습니다."),
+
+    // 메뉴
+    MENU_NOT_FOUND(HttpStatus.BAD_REQUEST, "M-001", "존재하지 않는 메뉴입니다.")
+    ;
 
     // 상태, 에러 코드, 메시지
     private HttpStatus httpStatus;

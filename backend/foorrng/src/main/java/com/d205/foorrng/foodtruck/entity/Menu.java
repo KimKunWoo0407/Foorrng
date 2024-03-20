@@ -33,4 +33,16 @@ public class Menu {
         this.picture = picture;
         this.foodtrucks = foodtrucks;
     }
+
+    public void changeName(String name){
+        this.name = name;
+    }
+
+    public void changePrice(Long price){
+        this.price = price;
+    }
+
+    public void changePicture(String picture){
+        this.picture = picture;
+    }
 }
