@@ -4,12 +4,15 @@ import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 @Getter
-public  enum ErrorCode {
+public enum ErrorCode {
 
     // 회원
     USER_NOT_EXIST(HttpStatus.BAD_REQUEST, "U-001", "존재하지 않는 회원입니다."),
-    EMAIL_NOT_EXIST(HttpStatus.BAD_REQUEST, "U-002", "이미 가입된 회원입니다."),
+    EMAIL_EXIST(HttpStatus.BAD_REQUEST, "U-002", "이미 가입된 회원입니다."),
     CATEGORY_NOT_EXIST(HttpStatus.BAD_REQUEST, "U-003", "존재하지 않는 항목입니다."),
+
+    // 음식
+    FOODLIST_NOT_EXIST(HttpStatus.BAD_REQUEST, "F-001", "선호음식 리스트가 존재하지 않습니다."),
 
     // 토큰
     UNEXPECTED_TOKEN(HttpStatus.BAD_REQUEST, "T-001", "토큰이 만료되었습니다."),

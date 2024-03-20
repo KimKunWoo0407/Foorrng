@@ -1,5 +1,7 @@
 package com.d205.foorrng.user.service;
 
+import com.d205.foorrng.common.exception.ErrorCode;
+import com.d205.foorrng.common.exception.Exceptions;
 import com.d205.foorrng.jwt.token.TokenDto;
 import com.d205.foorrng.jwt.token.TokenProvider;
 import com.d205.foorrng.user.dto.UserDto;
@@ -16,6 +18,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
 @Service
 @Getter
 @Setter
@@ -27,32 +33,68 @@ public class UserSginService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final PasswordEncoder passwordEncoder;
 
+//    @Transactional
+//    public Map<Boolean, TokenDto> signUp(UserDto userDto, String role) {
+//
+//        Map<Boolean, TokenDto> response = new HashMap<>();
+//
+//        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDto.getUserUid(), "");
+//
+//        System.out.println("1");
+//        if (userRepository.findByUserUid(userDto.getUserUid()).orElse(null) != null) {
+//            System.out.println("2");
+//            // 로그인
+//            Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+//
+//            TokenDto tokenDto = tokenProvider.createToken(authentication);
+//            System.out.println("3");
+//
+//            response.put(true, tokenDto);
+//            return response;
+//
+//        }
+//        System.out.println("4");
+//        User user = User.builder()
+//                .userUid(userDto.getUserUid())
+//                .name(userDto.getName())
+//                .email(userDto.getEmail())
+//                .role(UserRole.valueOf(role))
+//                .build();
+//        Long tmp = userRepository.save(user).getUserUid();
+//        System.out.println(tmp);
+//
+//        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+//
+//        TokenDto tokenDto = tokenProvider.createToken(authentication);
+//
+//        response.put(false, tokenDto);
+//        return response;
+//    }
+
     @Transactional
-    public TokenDto sign(UserDto userDto, String role) {
+    public Long signUp(UserDto userDto, String role) {
 
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDto.getUserUid(), "");
-
-        System.out.println("1");
-        if (userRepository.findByUserUid(userDto.getUserUid()).orElse(null) != null) {
-            System.out.println("2");
-            // 로그인
-            Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-
-            TokenDto tokenDto = tokenProvider.createToken(authentication);
-            System.out.println("3");
-
-            return tokenDto;
-
+        if (userRepository.findByUserUid(userDto.getUserUid()).isPresent()) {
+            throw new Exceptions(ErrorCode.EMAIL_EXIST);
         }
-        System.out.println("4");
         User user = User.builder()
                 .userUid(userDto.getUserUid())
                 .name(userDto.getName())
                 .email(userDto.getEmail())
                 .role(UserRole.valueOf(role))
                 .build();
+        Long userUid = userRepository.save(user).getUserUid();
 
-        userRepository.save(user);
+        return userUid;
+    }
+
+    @Transactional
+    public TokenDto signIn(UserDto userDto) {
+
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDto.getUserUid(), "");
+
+        User user = userRepository.findByUserUid(userDto.getUserUid())
+                .orElseThrow(() -> new Exceptions(ErrorCode.USER_NOT_EXIST));
 
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 

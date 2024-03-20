@@ -1,18 +1,18 @@
 package com.d205.foorrng.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
 // 선호하는 음식
 @Entity
 @Getter
+@Builder
 @Setter
 @Validated
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class FavoriteFood {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,5 +23,6 @@ public class FavoriteFood {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_seq")
+    @JsonIgnore
     private User user;
 }

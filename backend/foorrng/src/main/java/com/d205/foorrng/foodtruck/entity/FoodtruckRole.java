@@ -4,3 +4,4 @@ public enum FoodtruckRole {
     Foodtruck, FoodtruckReport
 }
 
+

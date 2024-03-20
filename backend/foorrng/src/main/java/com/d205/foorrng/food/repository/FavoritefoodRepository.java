@@ -1,4 +1,5 @@
-package com.d205.foorrng.user.repository;
+package com.d205.foorrng.food.repository;
+
 
 import com.d205.foorrng.user.entity.FavoriteFood;
 import com.d205.foorrng.user.entity.User;
@@ -9,10 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface FavoritefoodRepository extends JpaRepository<FavoriteFood, Long> {
 
-    Optional<User> findByUserUid(Long userUid);
-
-    Optional<User> findByEmail(String email);
-
+    Optional<List<FavoriteFood>> findAllByUser(User user);
 }

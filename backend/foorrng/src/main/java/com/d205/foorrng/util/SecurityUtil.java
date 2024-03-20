@@ -1,5 +1,6 @@
 package com.d205.foorrng.util;
 
+import lombok.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -11,7 +12,7 @@ import java.util.Optional;
 public class SecurityUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(SecurityUtil.class);
-    private SecurityUtil() {}
+//    private SecurityUtil() {}
 
     public static Optional<String> getCurrentUsername() {
 
