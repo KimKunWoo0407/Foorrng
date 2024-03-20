@@ -39,4 +39,5 @@ public class SwaggerConfig {
                 .security(Arrays.asList(securityRequirement))
                 .addServersItem(new Server().url("/"));
     }
+
 }
