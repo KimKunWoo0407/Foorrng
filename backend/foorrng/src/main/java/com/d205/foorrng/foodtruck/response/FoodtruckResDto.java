@@ -1,11 +1,11 @@
 package com.d205.foorrng.foodtruck.response;
 
+import com.d205.foorrng.foodtruck.entity.Foodtruck;
 import lombok.Getter;
 
 @Getter
 public class FoodtruckResDto {
-
-    // 푸드트럭 정보
+    private final Long footruckId;                // 푸드트럭 식별 ID
     private String announcement;            // 공지사항
 
     private Long createdDay;               // 등록일
@@ -20,6 +20,15 @@ public class FoodtruckResDto {
 
     private String phoneNumber;            // 연락처
 
-
+    // 생성
+    public FoodtruckResDto(Foodtruck foodtruck, Long foodtruckId, Long createdDay){
+        this.footruckId = foodtruckId;
+        this.announcement = foodtruck.getAnnouncement();
+        this.createdDay = createdDay;
+        this.picture = foodtruck.getPicture();
+        this.name = foodtruck.getName();
+        this.accountInfo = foodtruck.getAccountInfo();
+        this.carNumber = foodtruck.getCarNumber();
+        this.phoneNumber = foodtruck.getPhoneNumber();
+    }
 }
-

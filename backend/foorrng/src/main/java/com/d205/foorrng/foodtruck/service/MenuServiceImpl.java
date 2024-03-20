@@ -27,17 +27,17 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     @Transactional
-    public MenuResDto createMenu(Long foodtrucks_seq, MenuRequestDto menuResquestDto, MultipartFile multipartFile) {
+    public MenuResDto createMenu(Optional<Foodtrucks> foodtrucks_seq, MenuRequestDto menuResquestDto, MultipartFile multipartFile) {
         // 어느 푸드트럭에 해당하는 메뉴인지 찾기
-        Foodtrucks foodtruck = foodtrucksRepository.findById(foodtrucks_seq)
-                .orElseThrow(() -> new Exceptions(ErrorCode.FOODTRUCK_NOT_FOUND));
-
+//        Foodtrucks foodtruck = (Foodtrucks) foodtrucksRepository.findById(foodtrucks_seq)
+//                .orElseThrow(() -> new Exceptions(ErrorCode.FOODTRUCK_NOT_EXIST));
+        Foodtrucks foodtrucks = foodtrucks_seq.get();
         // 메뉴 저장하기
         Menu menu = Menu.builder()
                 .name(menuResquestDto.getName())
                 .price(menuResquestDto.getPrice())
 //                .picture("Amazon S3 image save Util 로 이미지 저장 후 반환되는 (String) directory 경로"))
-                .foodtrucks(foodtruck)
+                .foodtrucks(foodtrucks)
                 .build();
         menuRepository.save(menu);
 
@@ -54,7 +54,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public List<MenuResDto> getMenus(Long foodtrucks_seq) {
         Foodtrucks foodtruck = foodtrucksRepository.findById(foodtrucks_seq)
-                .orElseThrow(() -> new Exceptions(ErrorCode.FOODTRUCK_NOT_FOUND));
+                .orElseThrow(() -> new Exceptions(ErrorCode.FOODTRUCK_NOT_EXIST));
 
         // 해당 푸드트럭의 모든 메뉴 가져오기
         List<Menu> menus = menuRepository.findAllByFoodtrucks_Id(foodtruck.getId());

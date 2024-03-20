@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public enum ErrorCode {
-
     // 회원
     USER_NOT_EXIST(HttpStatus.BAD_REQUEST, "U-001", "존재하지 않는 회원입니다."),
     EMAIL_EXIST(HttpStatus.BAD_REQUEST, "U-002", "이미 가입된 회원입니다."),
@@ -19,7 +18,7 @@ public enum ErrorCode {
     TOKEN_NOT_EXIST(HttpStatus.BAD_REQUEST, "T-002", "토큰이 존재하지 않습니다."),
 
     // 푸드트럭
-    FOODTRUCK_NOT_FOUND(HttpStatus.BAD_REQUEST, "F-001", "존재하지 않는 푸드트럭입니다."),
+    FOODTRUCK_NOT_EXIST(HttpStatus.BAD_REQUEST, "F-001", "존재하지 않는 푸드트럭입니다."),
     // Validation
     NOT_VALID_REQUEST(HttpStatus.BAD_REQUEST, "I-001", "요청변수가 유효하지 않습니다."),
 
@@ -33,7 +32,7 @@ public enum ErrorCode {
     private String message;
 
     // 생성자
-    ErrorCode(HttpStatus httpStatus, String errorCode, String message){
+    ErrorCode(HttpStatus httpStatus, String errorCode, String message) {
         this.httpStatus = httpStatus;
         this.errorCode = errorCode;
         this.message = message;

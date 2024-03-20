@@ -1,7 +1,9 @@
 package com.d205.foorrng.foodtruck.controller;
 
 import com.d205.foorrng.common.model.BaseResponseBody;
+import com.d205.foorrng.foodtruck.entity.Foodtrucks;
 import com.d205.foorrng.foodtruck.entity.Menu;
+import com.d205.foorrng.foodtruck.repository.FoodtrucksRepository;
 import com.d205.foorrng.foodtruck.request.MenuRequestDto;
 import com.d205.foorrng.foodtruck.response.MenuResDto;
 import com.d205.foorrng.foodtruck.service.FoodtruckService;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -31,6 +34,7 @@ public class MenuController {
 
     private final MenuService menuService;
     private final FoodtruckService foodtrucksService;
+    private final FoodtrucksRepository foodtrucksRepository;
 
     @PostMapping("/regist")
     @ApiResponse(responseCode = "201", description = "매뉴 생성 성공")
@@ -39,11 +43,11 @@ public class MenuController {
             @Valid @RequestPart("menuRequestDto") @Parameter(name = "menuRequestDto", description = "메뉴 정보") MenuRequestDto menuRequestDto,
             @RequestPart(value = "picture", required = false) @Parameter(name = "picture", description = "업로드 하고자 하는 메뉴 사진 파일") MultipartFile picture
     ) {
+
         Long userUid = Long.parseLong(SecurityUtil.getCurrentUsername().get());
 
         // 사용자 기반으로 푸드트럭 번호 찾기
-        Long foodtruck = foodtrucksService.findFoodtruckByUserId(userUid);
-        System.out.println(foodtruck);
+        Optional<Foodtrucks> foodtruck = foodtrucksRepository.findByUserUserUid(userUid);
 
 
         // 푸드 트럭의 메뉴 생성
