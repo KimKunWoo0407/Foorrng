@@ -9,6 +9,7 @@ public enum ErrorCode {
     USER_NOT_EXIST(HttpStatus.BAD_REQUEST, "U-001", "존재하지 않는 회원입니다."),
     EMAIL_EXIST(HttpStatus.BAD_REQUEST, "U-002", "이미 가입된 회원입니다."),
     CATEGORY_NOT_EXIST(HttpStatus.BAD_REQUEST, "U-003", "존재하지 않는 항목입니다."),
+    BUSINESSNUMBER_NOT_VALIDATE(HttpStatus.BAD_REQUEST, "U-004", "사업자번호 조회 실패"),
 
     // 음식
     FOODLIST_NOT_EXIST(HttpStatus.BAD_REQUEST, "F-001", "선호음식 리스트가 존재하지 않습니다."),
