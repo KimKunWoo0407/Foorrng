@@ -62,10 +62,10 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<? extends BaseResponseBody> signIn(@RequestBody @Valid UserDto userDto) {
 
-        TokenDto tokenDto = userSginService.signIn(userDto);
-        Map<String, String> response = new HashMap<>();
-        response.put("accessToken", tokenDto.getAccessToken());
-        response.put("refreshToken", tokenDto.getRefreshToken());
+        Map<String, Object> response = userSginService.signIn(userDto);
+//        Map<String, String> response = new HashMap<>();
+//        response.put("accessToken", tokenDto.getAccessToken());
+//        response.put("refreshToken", tokenDto.getRefreshToken());
 
         return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, response));
 
