@@ -3,19 +3,18 @@ package com.d205.foorrng.mark;
 import com.d205.foorrng.foodtruck.entity.Foodtrucks;
 import com.d205.foorrng.operationInfo.OperationInfo;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
 @Entity
 @Getter
-@Setter
+@Builder
+//@Setter
 @Validated
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Mark {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +31,6 @@ public class Mark {
     @JoinColumn(name="foodtrucks_seq")
     private Foodtrucks foodtrucks;
 
-    @OneToMany(mappedBy = "mark")
+    @OneToMany(mappedBy = "mark", cascade = CascadeType.REMOVE)
     private List<OperationInfo> operationInfoList;
 }
