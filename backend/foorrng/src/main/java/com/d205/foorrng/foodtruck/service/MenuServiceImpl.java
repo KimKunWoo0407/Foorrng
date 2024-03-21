@@ -1,5 +1,6 @@
 package com.d205.foorrng.foodtruck.service;
 
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.d205.foorrng.common.exception.ErrorCode;
 import com.d205.foorrng.common.exception.Exceptions;
 import com.d205.foorrng.foodtruck.entity.Foodtrucks;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,22 +29,29 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     @Transactional
-    public MenuResDto createMenu(Optional<Foodtrucks> foodtrucks_seq, MenuRequestDto menuResquestDto, MultipartFile multipartFile) {
-        // 어느 푸드트럭에 해당하는 메뉴인지 찾기
-//        Foodtrucks foodtruck = (Foodtrucks) foodtrucksRepository.findById(foodtrucks_seq)
-//                .orElseThrow(() -> new Exceptions(ErrorCode.FOODTRUCK_NOT_EXIST));
+    public MenuResDto createMenu(Optional<Foodtrucks> foodtrucks_seq, MenuRequestDto menuResquestDto, MultipartFile picture) {
         Foodtrucks foodtrucks = foodtrucks_seq.get();
+
         // 메뉴 저장하기
         Menu menu = Menu.builder()
                 .name(menuResquestDto.getName())
                 .price(menuResquestDto.getPrice())
-//                .picture("Amazon S3 image save Util 로 이미지 저장 후 반환되는 (String) directory 경로"))
                 .foodtrucks(foodtrucks)
                 .build();
         menuRepository.save(menu);
 
+        // 이미지 s3에 저장하기
+        String imgUrl = "";
+        if(picture != null) {
+            String imgName = "menuIMG/" + menuResquestDto.getName() + "/" + menu.getId() + ".png"; // 확장명
+            String dir = "/menuIMG";
+            // 따로 서비스 만들어서 추가해주기
+            // imgUrl = saveImageS3(picture, imgName,dir);
+        }
+
         return MenuResDto.fromEntity(menu);
     }
+
 
     // 모든 메뉴 조회하기
     @Override
