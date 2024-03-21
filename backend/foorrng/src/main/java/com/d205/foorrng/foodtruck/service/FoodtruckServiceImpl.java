@@ -15,6 +15,7 @@ import com.d205.foorrng.foodtruck.request.FoodtruckUpdateReqDto;
 import com.d205.foorrng.foodtruck.response.FoodtruckResDto;
 import com.d205.foorrng.user.entity.User;
 import com.d205.foorrng.user.repository.UserRepository;
+import com.d205.foorrng.util.ImageSave;
 import com.d205.foorrng.util.SecurityUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,7 @@ public class FoodtruckServiceImpl implements FoodtruckService{
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
     private final AmazonS3Client amazonS3Client;
+    private final ImageSave imageSave;
 
 
 
@@ -72,7 +74,7 @@ public class FoodtruckServiceImpl implements FoodtruckService{
         if(picture != null) {
             String imgName = "foodtruckIMG/" + foodtruckCreateReqDto.getName() + "/" + foodtrucks.getId() + ".png"; // 확장명
             String dir = "/foodtruckIMG";
-            imgUrl = saveImageS3(picture, imgName, dir);
+            imgUrl = imageSave.saveImageS3(picture, imgName, dir);
         }
         foodtruck.updatePicture(imgUrl);
         foodtruckRepository.save(foodtruck);
