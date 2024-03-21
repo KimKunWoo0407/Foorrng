@@ -7,25 +7,16 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ArticleReqDto {
+    private long userId;
     private String title;
     private String content;
-//    private long create_datetime;
-//    private long updated_datetime;
     private double latitude;
     private double longitude;
-
     private String phone;
-
     private String email;
-
     private String kakaoId;
-
     private String organizer;
-
-    private long start_date;
-
-    private long end_date;
-
+    private long startDate;
+    private long endDate;
     private String address;
-
 }

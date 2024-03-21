@@ -1,19 +1,19 @@
 package com.d205.foorrng.article.entity;
 
+import com.d205.foorrng.article.dto.request.ArticleReqDto;
 import com.d205.foorrng.user.entity.User;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.validation.annotation.Validated;
 
 @Entity
 @Getter
-@Setter
 @Validated
+@AllArgsConstructor
+@Builder
 @Table(name = "tb_article")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Article {
 
     @Id
@@ -21,47 +21,99 @@ public class Article {
     @Column(name = "article_seq")
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_seq")
+    private User user;
+
     private String title;
 
     private String content;
 
+    @CreatedDate
+    @Column(name = "created_datetime")
     private Long createdDatetime;
 
-    private Long updeatedDatetime;
+    @LastModifiedDate
+    @Column(name = "updated_datetime")
+    private Long updatedDatetime;
 
     private Double latitude;            // 위도
 
-    private Double longtitude;          // 경도
+    private Double longitude;           // 경도
 
     private String phone;               // 작성자 전화번호
 
     private String email;               // 작성자 이메일
 
-    private String kakaoID;             // 작성자 카카오 id
+    private String kakaoID;             // 작성자 카카오 ID
 
     private String organizer;           // 주최측
 
-    private Long startDate;            // 시작일
+    private Long startDate;             // 시작일
 
-    private Long endDate;              // 종료일
+    private Long endDate;               // 종료일
 
     private String address;             // 지번 주소
 
     private String picture;             // 행사 이미지
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_seq")
-    private User user;
-
-    public Article(User user, String title, String content, String createdDate, String updateDate
-        ){ //값을 받는 생성자 생성
-
+    // 생성자에서 User 엔티티와 필수 필드만 받도록 수정
+    public Article(User user, String title, String content) {
         this.user = user;
         this.title = title;
-
-
+        this.content = content;
     }
+//    public Article(ArticleReqDto articleReqDto, String image ){
+//        //유저에 대한 정보를 저장을 어따하지 ?
+//        this.title = articleReqDto.getTitle();
+//        this.content = articleReqDto.getContent();
+//        this.latitude = articleReqDto.getLatitude();
+//        this.longitude = articleReqDto.getLongitude();
+//        this.phone = articleReqDto.getPhone();
+//        this.email = articleReqDto.getEmail();
+//        this.kakaoID = articleReqDto.getKakaoId();
+//        this.organizer = articleReqDto.getOrganizer();
+//        this.startDate = articleReqDto.getStart_date();
+//        this.endDate = articleReqDto.getEnd_date();
+//        this.address = articleReqDto.getAddress();
+//        this.picture = image;
+//    }
+//    public Article(User user, String title, String content, Double latitude,
+//                   Double longitude, String phone, String email, String kakaoID,
+//                   String organizer, Long startDate, Long endDate, String address, String picture) {
+//        this.user = user;
+//        this.title = title;
+//        this.content = content;
+//        this.latitude = latitude;
+//        this.longitude = longitude;
+//        this.phone = phone;
+//        this.email = email;
+//        this.kakaoID = kakaoID;
+//        this.organizer = organizer;
+//        this.startDate = startDate;
+//        this.endDate = endDate;
+//        this.address = address;
+//        this.picture = picture;
+//    }
+//    public static Article of(long userId, String title, String content, Double latitude,
+//                   Double longitude, String phone, String email, String kakaoID,
+//                   String organizer, Long startDate, Long endDate, String address, String picture) {
+//        return Article.builder()
+//                .id(userId)
+//                .title(title)
+//                .email(email)
+//                .address(address)
+//                .content(content)
+//                .phone(phone)
+//                .latitude(latitude)
+//                .longitude(longitude)
+//                .picture(picture)
+//                .build();
+//    }
 
+
+//    private Long currentDateTime(){
+//        return System.currentTimeMillis();
+//    }
 
 }
-

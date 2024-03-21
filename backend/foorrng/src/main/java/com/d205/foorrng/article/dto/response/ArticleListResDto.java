@@ -1,22 +1,20 @@
 package com.d205.foorrng.article.dto.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 @Getter
 @Setter
-public class ArticleResDto {
-
+@NoArgsConstructor
+@AllArgsConstructor
+public class ArticleListResDto {
     private long id;
     private String title;
     private String content;
     private double latitude;
     private double longitude;
-    private String phone;
-    private String email;
-    private String kakaoId;
-    private String organizer;
-    private long start_date;
-    private long end_date;
     private String address;
     private String image;
 
