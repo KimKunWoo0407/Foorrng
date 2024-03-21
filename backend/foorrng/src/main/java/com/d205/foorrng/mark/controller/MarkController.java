@@ -2,14 +2,18 @@ package com.d205.foorrng.mark.controller;
 
 
 import com.d205.foorrng.common.model.BaseResponseBody;
+import com.d205.foorrng.mark.dto.MarkReqDto;
+import com.d205.foorrng.mark.service.MarkService;
+import com.d205.foorrng.operationInfo.service.OperationInfoService;
 import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @Getter @Setter
 @RestController
@@ -18,8 +22,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class MarkController {
 
 
+    private final MarkService markService;
+    private final OperationInfoService operationInfoService;
+
     // 마커 생성
-    public ResponseEntity<? extends BaseResponseBody> postMark(@RequestBody @Valid ) {
+    @PostMapping("/{foodtruck-id}/regist")
+    public ResponseEntity<? extends BaseResponseBody> postMark(@PathVariable("foodtruck-id") Long foodtruckId,
+            @RequestBody @Valid MarkReqDto markReqDto) {
+
+        Map<String, Object> response = markService.createMark(foodtruckId, markReqDto);
+        response.put("operationInfos", operationInfoService.createOperationInfo(Long.parseLong(response.get("markId").toString()), markReqDto));
+
+
+        return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, response));
 
     }
 

@@ -2,17 +2,15 @@ package com.d205.foorrng.operationInfo;
 
 import com.d205.foorrng.mark.Mark;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
 @Entity
 @Getter
-@Setter
+@Builder
 @Validated
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class OperationInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

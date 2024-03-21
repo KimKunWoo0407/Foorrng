@@ -5,18 +5,25 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Map;
 
 @Getter @Setter
 
 public class MarkReqDto {
 
+//    private Long foodtruckId;
+
     private String address;
 
-    private List<String> days;
+    private List<Map<String, Object>> days;
 
-    private Long startTime;
+//    private Long startTime;
+//
+//    private Long endTime;
 
-    private Long endTime;
+    private Double latitude;
+
+    private Double longitude;
 
 
 }
