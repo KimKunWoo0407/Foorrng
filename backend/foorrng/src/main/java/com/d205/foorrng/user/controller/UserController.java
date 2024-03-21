@@ -7,9 +7,11 @@ import com.d205.foorrng.common.model.BaseResponseBody;
 import com.d205.foorrng.food.repository.FavoritefoodRepository;
 import com.d205.foorrng.foodtruck.repository.FoodtruckLikeRepository;
 import com.d205.foorrng.jwt.token.TokenDto;
+import com.d205.foorrng.user.dto.RegistDto;
 import com.d205.foorrng.user.entity.User;
 import com.d205.foorrng.user.repository.UserRepository;
 import com.d205.foorrng.user.repository.UserRole;
+import com.d205.foorrng.user.service.UserRegistService;
 import com.d205.foorrng.user.service.UserSginService;
 import com.d205.foorrng.user.dto.UserDto;
 import com.d205.foorrng.util.SecurityUtil;
@@ -19,6 +21,7 @@ import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -37,6 +40,7 @@ public class UserController {
     private final UserSginService userSginService;
     private final FavoritefoodRepository favoritefoodRepository;
     private final FoodtruckLikeRepository foodtruckLikeRepository;
+    private final UserRegistService userRegistService;
 
     @PostMapping("/regist/owner")
     public ResponseEntity<? extends BaseResponseBody> signUpOwner(@RequestBody @Valid UserDto userDto) {
@@ -59,8 +63,11 @@ public class UserController {
     public ResponseEntity<? extends BaseResponseBody> signIn(@RequestBody @Valid UserDto userDto) {
 
         TokenDto tokenDto = userSginService.signIn(userDto);
+        Map<String, String> response = new HashMap<>();
+        response.put("accessToken", tokenDto.getAccessToken());
+        response.put("refreshToken", tokenDto.getRefreshToken());
 
-        return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, tokenDto));
+        return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, response));
 
     }
 
@@ -96,6 +103,15 @@ public class UserController {
     }
 
 
+    @PostMapping("/certifyId")
+    public ResponseEntity<? extends BaseResponseBody> cerfify(@RequestBody @Valid RegistDto businessNumber) {
+
+        if (!userRegistService.checkBusinessNumber(businessNumber)) {
+            throw new Exceptions(ErrorCode.BUSINESSNUMBER_NOT_VALIDATE);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, "사업자등록번호가 성공적으로 등록되었습니다."));
+
+    }
 
     // jwt 토큰 작동 체크를 위한 api
     @PostMapping("/check")
