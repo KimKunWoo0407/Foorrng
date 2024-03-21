@@ -3,6 +3,7 @@ package com.d205.foorrng.food.controller;
 
 import com.d205.foorrng.common.model.BaseResponseBody;
 import com.d205.foorrng.food.dto.FavoritefoodDto;
+import com.d205.foorrng.food.repository.FavoritefoodList;
 import com.d205.foorrng.food.repository.FavoritefoodRepository;
 import com.d205.foorrng.food.service.FoodService;
 import com.d205.foorrng.user.entity.FavoriteFood;
@@ -12,12 +13,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Getter @Setter
 @RestController
@@ -36,5 +37,16 @@ public class FoodController {
         foodService.saveFavoriteFood(favoritefoodDto.getFavoriteFoods());
         return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, null));
 
+    }
+
+
+    @GetMapping("/favorite")
+    public ResponseEntity<? extends BaseResponseBody> getFavoriteFoodsList() {
+
+        Map<String, List<String>> response = new HashMap<>();
+        List<String> favoritefoodList = Arrays.stream(FavoritefoodList.values()).map(FavoritefoodList::getMenu).toList();
+        response.put("favoritefoodList", favoritefoodList);
+
+        return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, response));
     }
 }
