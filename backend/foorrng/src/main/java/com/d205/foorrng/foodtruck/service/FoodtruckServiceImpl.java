@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.d205.foorrng.common.exception.ErrorCode;
 import com.d205.foorrng.common.exception.Exceptions;
+import com.d205.foorrng.food.service.FoodService;
 import com.d205.foorrng.foodtruck.entity.Foodtruck;
 import com.d205.foorrng.foodtruck.entity.FoodtruckId;
 import com.d205.foorrng.foodtruck.entity.FoodtruckRole;
@@ -40,6 +41,7 @@ public class FoodtruckServiceImpl implements FoodtruckService{
     private String bucket;
     private final AmazonS3Client amazonS3Client;
     private final ImageSave imageSave;
+    private final FoodService foodService;
 
 
 
@@ -77,9 +79,15 @@ public class FoodtruckServiceImpl implements FoodtruckService{
             imgUrl = imageSave.saveImageS3(picture, imgName, dir);
         }
         foodtruck.updatePicture(imgUrl);
+
+
+        // 푸드트럭 음식카테고리
+        foodService.saveFoodtruckFood(foodtrucks.getId(), foodtruckCreateReqDto.getCategory());
+
+        // 푸드트럭 저장
         foodtruckRepository.save(foodtruck);
 
-        return new FoodtruckResDto(foodtruck, foodtrucks.getId(), createdDay);
+        return new FoodtruckResDto(foodtruck, foodtrucks.getId(), createdDay, foodtruckCreateReqDto.getCategory());
     };
 
     @Override
@@ -128,7 +136,7 @@ public class FoodtruckServiceImpl implements FoodtruckService{
         foodtruckRepository.save(foodtruck);
 
         // foodtruck res dto 생성 반환
-        return new FoodtruckResDto(foodtruck, foodtruckUpdateReqDto.getFoodtruckId(), foodtruck.getCreatedDay());
+        return new FoodtruckResDto(foodtruck, foodtruckUpdateReqDto.getFoodtruckId(), foodtruck.getCreatedDay(), foodtruckUpdateReqDto.getCategory());
     };
 
     @Override

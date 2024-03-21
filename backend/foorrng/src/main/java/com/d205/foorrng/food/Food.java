@@ -2,10 +2,7 @@ package com.d205.foorrng.food;
 
 import com.d205.foorrng.foodtruck.entity.Foodtrucks;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
 @Entity
@@ -13,6 +10,8 @@ import org.springframework.validation.annotation.Validated;
 @Setter
 @Validated
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class Food {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
