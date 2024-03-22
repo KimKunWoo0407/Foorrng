@@ -24,6 +24,4 @@ public class ReviewReqDto {
     private Boolean rvIsChip;
     @NotNull
     private Boolean rvIsFast;
-    @NotNull
-    private Long createdDate;
 }
