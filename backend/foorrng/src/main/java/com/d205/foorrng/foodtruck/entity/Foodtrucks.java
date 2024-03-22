@@ -3,7 +3,6 @@ package com.d205.foorrng.foodtruck.entity;
 import com.d205.foorrng.food.Food;
 import com.d205.foorrng.foodtruck.response.FoodtruckResDto;
 import com.d205.foorrng.mark.Mark;
-import com.d205.foorrng.menu.Menu;
 import com.d205.foorrng.requestDelete.RequestDelete;
 import com.d205.foorrng.user.entity.User;
 import jakarta.persistence.*;
