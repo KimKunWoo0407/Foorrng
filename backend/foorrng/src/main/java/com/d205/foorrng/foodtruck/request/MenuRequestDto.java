@@ -1,6 +1,6 @@
 package com.d205.foorrng.foodtruck.request;
 
-import com.d205.foorrng.foodtruck.entity.Foodtrucks;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -12,12 +12,11 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MenuRequestDto {
-    @NotEmpty
+    @NotNull
     private String name;
     @NotNull
     private Long price;
-//    @NotEmpty
-//    private MultipartFile picture;
-    // 푸드트럭 id
+    private MultipartFile picture;
+    @NotNull
     private Long foodtruck;
 }

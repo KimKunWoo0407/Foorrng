@@ -42,7 +42,8 @@ public class Menu {
         this.price = price;
     }
 
-    public void changePicture(String picture){
-        this.picture = picture;
+    public void changePicture(String imgUrl){
+        this.picture = imgUrl;
     }
+
 }

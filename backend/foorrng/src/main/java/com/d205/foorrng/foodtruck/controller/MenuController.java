@@ -22,6 +22,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,7 +43,7 @@ public class MenuController {
             Authentication authentication,
             @Valid @RequestPart("menuRequestDto") @Parameter(name = "menuRequestDto", description = "메뉴 정보") MenuRequestDto menuRequestDto,
             @RequestPart(value = "picture", required = false) @Parameter(name = "picture", description = "업로드 하고자 하는 메뉴 사진 파일") MultipartFile picture
-    ) {
+    ) throws IOException {
 
         Long userUid = Long.parseLong(SecurityUtil.getCurrentUsername().get());
 
@@ -83,9 +84,10 @@ public class MenuController {
     public ResponseEntity<BaseResponseBody> modifyMenu(
             @PathVariable("menuId") Long menuSeq,
             @Valid @RequestPart("menuRequestDto") MenuRequestDto menuRequestDto,
-            @RequestPart(value = "picture", required=false) MultipartFile picture) {
+            @RequestPart(value = "picture", required=false) MultipartFile picture) throws IOException {
 
-        MenuResDto menuId = menuService.updateMenu(menuSeq, menuRequestDto, picture);
-        return ResponseEntity.status(HttpStatus.SC_CREATED).body(BaseResponseBody.of(0, menuId));
+        MenuResDto menuResDto = menuService.updateMenu(menuSeq, menuRequestDto, picture);
+        return ResponseEntity.status(HttpStatus.SC_CREATED).body(BaseResponseBody.of(0, menuResDto));
     }
+
 }

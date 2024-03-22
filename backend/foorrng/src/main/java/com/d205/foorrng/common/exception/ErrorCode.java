@@ -24,7 +24,10 @@ public enum ErrorCode {
     NOT_VALID_REQUEST(HttpStatus.BAD_REQUEST, "I-001", "요청변수가 유효하지 않습니다."),
 
     // 메뉴
-    MENU_NOT_FOUND(HttpStatus.BAD_REQUEST, "M-001", "존재하지 않는 메뉴입니다.")
+    MENU_NOT_FOUND(HttpStatus.BAD_REQUEST, "M-001", "존재하지 않는 메뉴입니다."),
+
+    // 리뷰
+    REVIEW_TODAY_EXIST(HttpStatus.BAD_REQUEST, "R-001", "이미 작성한 리뷰입니다")
     ;
 
     // 상태, 에러 코드, 메시지

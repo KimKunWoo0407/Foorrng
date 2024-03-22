@@ -3,10 +3,7 @@ package com.d205.foorrng.review;
 import com.d205.foorrng.foodtruck.entity.Foodtrucks;
 import com.d205.foorrng.user.entity.User;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
 @Entity
@@ -43,4 +40,22 @@ public class Review {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "foodtruck_seq")
     private Foodtrucks foodtrucks;
+
+    @Builder
+    public Review(Boolean rvIsDelicious, Boolean isCool, Boolean isClean,
+                  Boolean isKind, Boolean rvIdSpecial, Boolean rvIsChip,
+                  Boolean rvIsFast, Long createdDate, User user,
+                  Foodtrucks foodtrucks){
+        this.rvIsDelicious = rvIsDelicious;
+        this.isCool = isCool;
+        this.isClean = isClean;
+        this.isKind = isKind;
+        this.rvIdSpecial = rvIdSpecial;
+        this.rvIsChip = rvIsChip;
+        this.rvIsFast = rvIsFast;
+        this.createdDate = createdDate;
+        this.user = user;
+        this.foodtrucks = foodtrucks;
+    }
+
 }

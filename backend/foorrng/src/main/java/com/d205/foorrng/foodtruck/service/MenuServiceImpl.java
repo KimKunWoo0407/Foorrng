@@ -9,6 +9,7 @@ import com.d205.foorrng.foodtruck.repository.FoodtrucksRepository;
 import com.d205.foorrng.foodtruck.repository.MenuRepository;
 import com.d205.foorrng.foodtruck.request.MenuRequestDto;
 import com.d205.foorrng.foodtruck.response.MenuResDto;
+import com.d205.foorrng.util.ImageSave;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,28 +27,29 @@ import java.util.stream.Collectors;
 public class MenuServiceImpl implements MenuService {
     private final MenuRepository menuRepository;
     private final FoodtrucksRepository foodtrucksRepository;
+    private final ImageSave imageSave;
 
     @Override
     @Transactional
-    public MenuResDto createMenu(Optional<Foodtrucks> foodtrucks_seq, MenuRequestDto menuResquestDto, MultipartFile picture) {
+    public MenuResDto createMenu(Optional<Foodtrucks> foodtrucks_seq, MenuRequestDto menuRequestDto, MultipartFile picture) throws IOException {
         Foodtrucks foodtrucks = foodtrucks_seq.get();
 
         // 메뉴 저장하기
         Menu menu = Menu.builder()
-                .name(menuResquestDto.getName())
-                .price(menuResquestDto.getPrice())
+                .name(menuRequestDto.getName())
+                .price(menuRequestDto.getPrice())
                 .foodtrucks(foodtrucks)
                 .build();
-        menuRepository.save(menu);
 
         // 이미지 s3에 저장하기
         String imgUrl = "";
         if(picture != null) {
-            String imgName = "menuIMG/" + menuResquestDto.getName() + "/" + menu.getId() + ".png"; // 확장명
+            String imgName = "menuIMG/" + menuRequestDto.getName() + ".png"; // 확장명
             String dir = "/menuIMG";
-            // 따로 서비스 만들어서 추가해주기
-            // imgUrl = saveImageS3(picture, imgName,dir);
+             imgUrl = imageSave.saveImageS3(picture, imgName,dir);
         }
+        menu.changePicture(imgUrl);
+        menuRepository.save(menu);
 
         return MenuResDto.fromEntity(menu);
     }
@@ -79,10 +81,7 @@ public class MenuServiceImpl implements MenuService {
                 .collect(Collectors.toList());
     }
     @Override
-    public MenuResDto updateMenu(Long menu_seq, MenuRequestDto menuRequestDto, MultipartFile multipartFile) {
-        // 어느 푸드트럭에 해당하는 메뉴인지 찾기
-//        Foodtrucks foodtruck = foodtrucksRepository.findById(foodtrucks_seq)
-//                .orElseThrow(() -> new Exceptions(ErrorCode.FOODTRUCK_NOT_FOUND));
+    public MenuResDto updateMenu(Long menu_seq, MenuRequestDto menuRequestDto, MultipartFile picture) throws IOException {
 
         // 해당 푸드 트럭에서 수정할 메뉴 선택
         Menu menu = menuRepository.findById(menu_seq)
@@ -91,8 +90,19 @@ public class MenuServiceImpl implements MenuService {
         // 메뉴 엔티티 수정
         menu.changeName(menuRequestDto.getName());
         menu.changePrice(menuRequestDto.getPrice());
-//        menu.changePicture(menuRequestDto.getPicture());
 
+        // 이미지 s3에 저장하기
+        String imgUrl = "";
+        if (picture != null) {
+            String imgName = "menuIMG/" + menuRequestDto.getName() + ".png"; // 확장명
+            String dir = "/menuIMG";
+            imgUrl = imageSave.saveImageS3(picture, imgName, dir);
+            menu.changePicture(imgUrl);
+        }
+
+
+
+        // 메뉴 저장하기
         menuRepository.save(menu);
 
         return MenuResDto.fromEntity(menu);
