@@ -135,7 +135,7 @@ public class FoodtruckServiceImpl implements FoodtruckService{
     @Transactional
     public void deleteFoodtruck(Long foodtruckId){
         Foodtrucks foodtrucks = foodtrucksRepository.findById(foodtruckId)
-                        .orElseThrow(() -> new Exceptions(ErrorCode.FOODTRUCK_NOT_EXIST));
+                .orElseThrow(() -> new Exceptions(ErrorCode.FOODTRUCK_NOT_EXIST));
         foodtrucksRepository.delete(foodtrucks);
     }
 }

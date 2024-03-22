@@ -19,5 +19,5 @@ public interface FoodtruckService {
     FoodtruckResDto updateFoodtruck(FoodtruckUpdateReqDto foodtruckUpdateReqDto, MultipartFile picture) throws IOException;
 
     // 푸드트럭 삭제
-     void deleteFoodtruck(Long foodtruckId);
+    void deleteFoodtruck(Long foodtruckId);
 }
