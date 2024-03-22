@@ -5,6 +5,7 @@ import com.d205.foorrng.common.exception.ErrorCode;
 import com.d205.foorrng.common.exception.Exceptions;
 import com.d205.foorrng.common.model.BaseResponseBody;
 import com.d205.foorrng.food.repository.FavoritefoodRepository;
+import com.d205.foorrng.foodtruck.entity.FoodtruckLike;
 import com.d205.foorrng.foodtruck.repository.FoodtruckLikeRepository;
 import com.d205.foorrng.jwt.token.TokenDto;
 import com.d205.foorrng.user.dto.RegistDto;

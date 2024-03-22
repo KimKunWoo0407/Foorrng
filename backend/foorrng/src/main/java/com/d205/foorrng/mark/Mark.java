@@ -2,20 +2,20 @@ package com.d205.foorrng.mark;
 
 import com.d205.foorrng.foodtruck.entity.Foodtrucks;
 import com.d205.foorrng.operationInfo.OperationInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
 @Entity
 @Getter
-@Setter
+@Builder
+//@Setter
 @Validated
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Mark {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,8 +30,10 @@ public class Mark {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="foodtrucks_seq")
+    @JsonIgnore
     private Foodtrucks foodtrucks;
 
-    @OneToMany(mappedBy = "mark")
+    @OneToMany(mappedBy = "mark", cascade = CascadeType.REMOVE)
+//    @JsonIgnore
     private List<OperationInfo> operationInfoList;
 }
