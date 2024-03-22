@@ -12,4 +12,6 @@ import java.util.Optional;
 public interface FoodRepository extends JpaRepository<Food, Long> {
     // 푸드트럭에 속하는 음식 카테고리 list로 받아오기
     Optional<List<Food>> findAllByFoodtrucks(Foodtrucks foodtrucks);
+
+
 }

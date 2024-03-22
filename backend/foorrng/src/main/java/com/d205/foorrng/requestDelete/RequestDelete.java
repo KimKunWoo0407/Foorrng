@@ -1,18 +1,15 @@
 package com.d205.foorrng.requestDelete;
 
+import com.d205.foorrng.foodtruck.entity.Foodtruck;
 import com.d205.foorrng.foodtruck.entity.Foodtrucks;
 
 import com.d205.foorrng.user.entity.User;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
 @Entity
 @Getter
-@Setter
 @Validated
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RequestDelete {
@@ -28,4 +25,10 @@ public class RequestDelete {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_seq")
     private User user;
+
+    @Builder
+    public RequestDelete(Foodtrucks foodtrucks, User user){
+        this.foodtrucks = foodtrucks;
+        this.user = user;
+    }
 }

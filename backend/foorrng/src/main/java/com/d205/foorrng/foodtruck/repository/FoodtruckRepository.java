@@ -13,8 +13,5 @@ import java.util.Optional;
 
 @Repository
 public interface FoodtruckRepository extends JpaRepository<Foodtruck, Long> {
-    // 한개 조회
     Optional<Foodtruck> findByFoodtruckId(FoodtruckId foodtruckId);
-
-    // 전체 조회
 }

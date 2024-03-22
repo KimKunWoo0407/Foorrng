@@ -19,8 +19,8 @@ public class FoodtruckResDto {
     private List<String> category;
 
     // 생성
-    public FoodtruckResDto(Foodtruck foodtruck, Long foodtruckId, Long createdDay, List<String> category){
-        this.foodtruckId = foodtruckId;
+    public FoodtruckResDto(Foodtruck foodtruck, Long id, Long createdDay, List<String> category){
+        this.foodtruckId = id;
         this.announcement = foodtruck.getAnnouncement();
         this.createdDay = createdDay;
         this.picture = foodtruck.getPicture();

@@ -23,6 +23,9 @@ public enum ErrorCode {
 
     // 푸드트럭
     FOODTRUCK_NOT_EXIST(HttpStatus.BAD_REQUEST, "FT-001", "존재하지 않는 푸드트럭입니다."),
+
+    // 푸드트럭 삭제 요청
+    Foodtruck_Delete_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "D-001", "이미 삭제 요청이 접수되었습니다"),
     ;
 
 

@@ -32,19 +32,20 @@ public class FoodtruckController {
     @PostMapping(value = "/regist", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<? extends BaseResponseBody> createFoodtruck(
             @Valid @RequestPart(value = "foodtruckCreateDto") FoodtruckCreateReqDto foodtruckCreateReqDto,
-            @RequestPart(value = "picture") MultipartFile picture) throws IOException {
+            @RequestPart(value = "picture", required = false) MultipartFile picture) throws IOException {
         FoodtruckResDto foodtruckResDto = foodtruckService.createFoodtruck(foodtruckCreateReqDto, picture);
         return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseBody.of(0, foodtruckResDto));
     }
 
-    @PatchMapping("/update")
+    @PatchMapping(value = "/update", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ApiResponse(responseCode = "200", description = "점주 푸드트럭 수정 완료")
     public ResponseEntity<? extends BaseResponseBody> updateFoodtruck(
-            @Valid @RequestPart(value = "foodtruckUpdateReqDto", required = true) FoodtruckUpdateReqDto foodtruckUpdateReqDto,
-            @RequestPart(value = "picuture", required = false) MultipartFile picture) throws IOException{
+            @Valid @RequestPart(value = "foodtruckUpdateReqDto") FoodtruckUpdateReqDto foodtruckUpdateReqDto,
+            @RequestPart(value = "picture", required = false) MultipartFile picture) throws IOException{
         FoodtruckResDto foodtruckResDto = foodtruckService.updateFoodtruck(foodtruckUpdateReqDto, picture);
         return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, foodtruckResDto));
     }
+
 
     @DeleteMapping("/delete/{foodtruckId}")
     @ApiResponse(responseCode = "201", description = "점주 푸드트럭 삭제 완료")

@@ -14,19 +14,25 @@ import java.time.ZoneId;
 public class Foodtruck {
     @EmbeddedId
     private FoodtruckId foodtruckId;
-    private String announcement;            // 공지사항
-    private Long createdDay;               // 등록일
-    private String picture;                 // 푸듣트럭 차 사진
-    private String name;                    // 가게 이름
-    private String accountInfo;            // 계봐 번호
-    private String carNumber;              // 차량 번호
-    private String phoneNumber;            // 연락처
+    private String announcement;
+    private Long createdDay;
+    private String picture;
+    private String name;
+    private String accountInfo;
+    private String carNumber;
+    private String phoneNumber;
+
+    @ManyToOne
+    @JoinColumns({
+            @JoinColumn(name = "foodtruck_id", referencedColumnName = "foodtrucks_seq", insertable = false, updatable = false)
+    })
+    private Foodtrucks foodtrucks;
 
     @Builder
     public Foodtruck(FoodtruckId foodtruckId,String announcement, Long createdDay, String picture, String name, String accountInfo, String carNumber, String phoneNumber){
         this.foodtruckId = foodtruckId;
         this.announcement = announcement;
-        this.createdDay = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        this.createdDay = createdDay;
         this.picture = picture;
         this.name = name;
         this.accountInfo = accountInfo;
