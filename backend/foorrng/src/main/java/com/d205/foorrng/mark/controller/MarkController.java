@@ -4,15 +4,20 @@ package com.d205.foorrng.mark.controller;
 import com.d205.foorrng.common.model.BaseResponseBody;
 import com.d205.foorrng.mark.dto.MarkReqDto;
 import com.d205.foorrng.mark.service.MarkService;
+import com.d205.foorrng.operationInfo.OperationInfo;
+import com.d205.foorrng.operationInfo.dto.OperationInfoDto;
 import com.d205.foorrng.operationInfo.service.OperationInfoService;
 import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Getter @Setter
@@ -28,13 +33,15 @@ public class MarkController {
     // 마커 생성
     @PostMapping("/{foodtruck-id}/regist")
     public ResponseEntity<? extends BaseResponseBody> postMark(@PathVariable("foodtruck-id") Long foodtruckId,
-            @RequestBody @Valid MarkReqDto markReqDto) {
+                                                               @RequestBody @Valid MarkReqDto markReqDto) {
 
-        Map<String, Object> response = markService.createMark(foodtruckId, markReqDto);
-        response.put("operationInfos", operationInfoService.createOperationInfo(Long.parseLong(response.get("markId").toString()), markReqDto));
+        Map<String, Object> response = markService.createMark(foodtruckId, markReqDto.getMarkDto());
+//        response.put("operationInfos", operationInfoService.createOperationInfo(Long.parseLong(response.get("markId").toString()), markReqDto));
+        List<OperationInfo> operationInfos = operationInfoService.createOperationInfo(Long.parseLong(response.get("markId").toString()), markReqDto.getOperationInfoDto());
+        response.put("operationInfos", operationInfos);
 
 
-        return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, response));
+        return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseBody.of(0, response));
 
     }
 

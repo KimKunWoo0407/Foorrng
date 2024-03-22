@@ -9,6 +9,7 @@ import com.d205.foorrng.foodtruck.entity.Foodtrucks;
 import com.d205.foorrng.foodtruck.repository.FoodtruckRepository;
 import com.d205.foorrng.foodtruck.repository.FoodtrucksRepository;
 import com.d205.foorrng.mark.Mark;
+import com.d205.foorrng.mark.dto.MarkDto;
 import com.d205.foorrng.mark.dto.MarkReqDto;
 import com.d205.foorrng.mark.repository.MarkRepository;
 import com.d205.foorrng.user.entity.User;
@@ -32,17 +33,18 @@ public class MarkService {
     private final MarkRepository markRepository;
 
     @Transactional
-    public Map<String, Object> createMark(Long foodtruckId, MarkReqDto markReqDto) {
+    public Map<String, Object> createMark(Long foodtruckId, MarkDto markDto) {
 
 //        User user = userRepository.findByUserUid(Long.parseLong(SecurityUtil.getCurrentUsername().get())).get();
-        Foodtrucks foodtrucks = foodtrucksRepository.findById(foodtruckId).get();
+        Foodtrucks foodtrucks = foodtrucksRepository.findById(foodtruckId)
+                .orElseThrow(() -> new Exceptions(ErrorCode.FOODTRUCK_NOT_EXIST));
 //        Foodtruck foodtruck = foodtruckRepository.findByFoodtruckId(new FoodtruckId(foodtrucks.getId())).get();
 
         Mark mark = Mark.builder()
                 .foodtrucks(foodtrucks)
-                .longitude(markReqDto.getLongitude())
-                .latitude(markReqDto.getLatitude())
-                .address(markReqDto.getAddress())
+                .longitude(markDto.getLongitude())
+                .latitude(markDto.getLatitude())
+                .address(markDto.getAddress())
                 .build();
 
         markRepository.save(mark);

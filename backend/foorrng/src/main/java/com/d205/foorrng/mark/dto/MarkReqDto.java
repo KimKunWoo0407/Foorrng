@@ -1,6 +1,9 @@
 package com.d205.foorrng.mark.dto;
 
 import com.d205.foorrng.operationInfo.OperationInfo;
+import com.d205.foorrng.operationInfo.dto.OperationInfoDto;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,19 +14,9 @@ import java.util.Map;
 
 public class MarkReqDto {
 
-//    private Long foodtruckId;
+    private MarkDto markDto;
 
-    private String address;
-
-    private List<Map<String, Object>> days;
-
-//    private Long startTime;
-//
-//    private Long endTime;
-
-    private Double latitude;
-
-    private Double longitude;
+    private OperationInfoDto operationInfoDto;
 
 
 }

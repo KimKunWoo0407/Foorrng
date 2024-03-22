@@ -23,6 +23,9 @@ public enum ErrorCode {
 
     // 푸드트럭
     FOODTRUCK_NOT_EXIST(HttpStatus.BAD_REQUEST, "FT-001", "존재하지 않는 푸드트럭입니다."),
+
+    // 마커
+    MARK_NOT_EXIST(HttpStatus.BAD_REQUEST, "M-001", "해당 푸드트럭에 대한 위치정보가 없습니다.")
     ;
 
 

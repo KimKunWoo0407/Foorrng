@@ -1,6 +1,7 @@
 package com.d205.foorrng.operationInfo;
 
 import com.d205.foorrng.mark.Mark;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.validation.annotation.Validated;
@@ -15,6 +16,7 @@ public class OperationInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "schedule_seq")
+    @JsonIgnore
     private Long id;
 
     private String day;             // 요일
@@ -25,6 +27,7 @@ public class OperationInfo {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="mark_seq")
+    @JsonIgnore
     private Mark mark;
 
 }
