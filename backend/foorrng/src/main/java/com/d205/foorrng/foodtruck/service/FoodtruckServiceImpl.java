@@ -132,7 +132,7 @@ public class FoodtruckServiceImpl implements FoodtruckService{
 
         // 수정API 들어오면 음식카테고리는 삭제 및 생성
         // 더 나은 방법이 있을까
-        List<Food> foodlist = foodRepository.findAllByFoodtrucks(foodtrucks).get();
+        List<Food> foodlist = foodRepository.findAllByFoodtrucks(foodtrucks);
         foodRepository.deleteAll(foodlist);
         foodService.saveFoodtruckFood(foodtrucks.getId(), foodtruckUpdateReqDto.getCategory());
         foodtruckRepository.save(foodtruck);

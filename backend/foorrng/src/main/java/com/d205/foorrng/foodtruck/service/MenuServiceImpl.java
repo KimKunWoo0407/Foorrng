@@ -9,7 +9,7 @@ import com.d205.foorrng.foodtruck.repository.FoodtrucksRepository;
 import com.d205.foorrng.foodtruck.repository.MenuRepository;
 import com.d205.foorrng.foodtruck.request.MenuRequestDto;
 import com.d205.foorrng.foodtruck.response.MenuResDto;
-import com.d205.foorrng.util.ImageSave;
+import com.d205.foorrng.util.S3Image;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class MenuServiceImpl implements MenuService {
     private final MenuRepository menuRepository;
     private final FoodtrucksRepository foodtrucksRepository;
-    private final ImageSave imageSave;
+    private final S3Image imageSave;
 
     @Override
     @Transactional

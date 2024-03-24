@@ -8,20 +8,14 @@ import java.util.stream.Collectors;
 
 @Getter
 public class FoodtruckResDto {
-    private final Long foodtruckId;                // 푸드트럭 식별 ID
-    private String announcement;            // 공지사항
-
-    private Long createdDay;               // 등록일
-
-    private String picture;                 // 푸듣트럭 차 사진
-
-    private String name;                    // 가게 이름
-
-    private String accountInfo;            // 계봐 번호
-
-    private String carNumber;              // 차량 번호
-
-    private String phoneNumber;            // 연락처
+    private final Long foodtruckId;
+    private String announcement;
+    private Long createdDay;
+    private String picture;
+    private String name;
+    private String accountInfo;
+    private String carNumber;
+    private String phoneNumber;
     private List<String> category;
 
     // 생성
