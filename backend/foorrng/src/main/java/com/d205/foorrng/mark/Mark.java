@@ -1,6 +1,7 @@
 package com.d205.foorrng.mark;
 
 import com.d205.foorrng.foodtruck.entity.Foodtrucks;
+import com.d205.foorrng.mark.dto.MarkDto;
 import com.d205.foorrng.operationInfo.OperationInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -36,4 +37,12 @@ public class Mark {
     @OneToMany(mappedBy = "mark", cascade = CascadeType.REMOVE)
 //    @JsonIgnore
     private List<OperationInfo> operationInfoList;
+
+    public void update(MarkDto markDto) {
+
+        this.address = markDto.getAddress();
+        this.latitude = markDto.getLatitude();
+        this.longitude = markDto.getLongitude();
+
+    }
 }

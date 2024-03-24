@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ public class OperationInfoService {
     private final MarkRepository markRepository;
     private final OperationInfoRepository operationInfoRepository;
 
+    @Transactional
     public List<OperationInfo> createOperationInfo(Long markId, OperationInfoDto operationInfoDto) {
 
         Mark mark = markRepository.findById(markId)
@@ -44,9 +46,47 @@ public class OperationInfoService {
 
             operationInfoRepository.save(operationInfo);
         }
-        List<OperationInfo> operationResponse = operationInfoRepository.findAllByMarkId(markId).get();
+        List<OperationInfo> operationResponse = operationInfoRepository.findAllByMarkId(markId)
+                .orElseThrow(() -> new Exceptions(ErrorCode.OPERATION_NOT_EXIST));
 
         return operationResponse;
     }
+
+    @Transactional
+    public List<OperationInfo> searchOperationInfo(Long markId) {
+
+        Mark mark = markRepository.findById(markId)
+                .orElseThrow(() -> new Exceptions(ErrorCode.MARK_NOT_EXIST));
+
+        List<OperationInfo> operationInfoList = operationInfoRepository.findAllByMarkId(mark.getId())
+                .orElseThrow(() -> new Exceptions(ErrorCode.OPERATION_NOT_EXIST));
+
+        return operationInfoList;
+    }
+
+
+    @Transactional
+    public OperationInfo updateOperationInfo(Long operId, OperationInfoDto operationInfoDto) {
+
+        OperationInfo operationInfo = operationInfoRepository.findById(operId)
+                .orElseThrow(() -> new Exceptions(ErrorCode.OPERATION_NOT_EXIST));
+
+        operationInfo.update(operationInfoDto);
+
+        operationInfoRepository.save(operationInfo);
+
+        return operationInfo;
+    }
+
+
+    @Transactional
+    public void removeOperationInfo(Long operId) {
+
+        OperationInfo operationInfo = operationInfoRepository.findById(operId)
+                .orElseThrow(() -> new Exceptions(ErrorCode.OPERATION_NOT_EXIST));
+
+        operationInfoRepository.delete(operationInfo);
+    }
+
 
 }

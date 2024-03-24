@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,5 +12,6 @@ import java.util.Map;
 public class OperationInfoDto {
 
     private List<Map<String, Object>> operationInfoList = new ArrayList<>();
+
 
 }
