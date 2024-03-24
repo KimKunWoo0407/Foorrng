@@ -1,5 +1,6 @@
 package com.d205.foorrng.article.entity;
 
+import com.d205.foorrng.article.CryptoConverter;
 import com.d205.foorrng.article.dto.request.ArticleReqDto;
 import com.d205.foorrng.user.entity.User;
 import jakarta.persistence.*;
@@ -12,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 @Getter
 @Validated
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Table(name = "tb_article")
 public class Article {
@@ -41,10 +43,13 @@ public class Article {
 
     private Double longitude;           // 경도
 
+    @Convert(converter = CryptoConverter.class)
     private String phone;               // 작성자 전화번호
 
+    @Convert(converter = CryptoConverter.class)
     private String email;               // 작성자 이메일
 
+    @Convert(converter = CryptoConverter.class)
     private String kakaoID;             // 작성자 카카오 ID
 
     private String organizer;           // 주최측
@@ -56,13 +61,19 @@ public class Article {
     private String address;             // 지번 주소
 
     private String picture;             // 행사 이미지
+//
+//    // 생성자에서 User 엔티티와 필수 필드만 받도록 수정
+//    public Article(User user, String title, String content) {
+//        this.user = user;
+//        this.title = title;
+//        this.content = content;
+//    }
 
-    // 생성자에서 User 엔티티와 필수 필드만 받도록 수정
-    public Article(User user, String title, String content) {
-        this.user = user;
-        this.title = title;
-        this.content = content;
-    }
+
+}
+
+
+
 //    public Article(ArticleReqDto articleReqDto, String image ){
 //        //유저에 대한 정보를 저장을 어따하지 ?
 //        this.title = articleReqDto.getTitle();
@@ -115,5 +126,3 @@ public class Article {
 //    private Long currentDateTime(){
 //        return System.currentTimeMillis();
 //    }
-
-}

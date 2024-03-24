@@ -28,7 +28,7 @@ import java.util.List;
 public class JwtFilter extends GenericFilterBean {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtFilter.class);
-//    public static final String AUTHORIZATION_HEADER = "Authorization";
+
     private TokenProvider tokenProvider;
 
     @Override
@@ -38,7 +38,7 @@ public class JwtFilter extends GenericFilterBean {
 
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
-        String accessToken = resolveToken(httpServletRequest, "Access-Token");
+        String accessToken = resolveToken(httpServletRequest, "Authorization");
         String refreshToken = resolveToken(httpServletRequest, "Refresh-Token");
         String requestURI = httpServletRequest.getRequestURI();
 

@@ -2,6 +2,7 @@ package com.d205.foorrng.config;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.regions.Region;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,12 +11,14 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class S3Config {
-    @Value("${cloud.aws.credentials.access-key}")
+    @Value("${cloud.aws.credentials.access-key:#{systemEnvironment['AWS_ACCESS_KEY_ID']}}")
     private String accessKey;
-    @Value("${cloud.aws.credentials.secret-key}")
+    @Value("${cloud.aws.credentials.secret-key:#{systemEnvironment['AWS_ACCESS_ACCESS_KEY']}}")
     private String secretKey;
     @Value("${cloud.aws.region}")
     private String region;
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
 
     // amazonS3Client에 사용자 인증 정보, 버켓 리전 설정
     @Bean

@@ -14,14 +14,12 @@ public interface ArticlePostRepository extends JpaRepository<Article, Long>{
 
     //하나 반환
     @Override
-    Optional<Article> findById(Long id);
+    Optional<Article> findById(Long articleId);
+
 
     //리스트 반환
-
     @Override
     List<Article> findAll();
-    //수정 반환
-
 
 
 }

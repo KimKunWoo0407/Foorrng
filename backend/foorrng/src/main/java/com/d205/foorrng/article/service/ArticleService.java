@@ -1,10 +1,12 @@
 package com.d205.foorrng.article.service;
 
 import com.d205.foorrng.article.dto.request.ArticleReqDto;
+import com.d205.foorrng.article.dto.request.ArticleUpdateReqDto;
 import com.d205.foorrng.article.dto.response.ArticleListResDto;
 import com.d205.foorrng.article.dto.response.ArticleResDto;
 import com.d205.foorrng.article.entity.Article;
 import com.d205.foorrng.common.model.BaseResponseBody;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,14 +26,17 @@ public interface ArticleService {
     //게시글 저장
     ResponseEntity<BaseResponseBody> saveArticle(ArticleReqDto article, MultipartFile image);
 
+    ResponseEntity<BaseResponseBody> updateArticle(ArticleUpdateReqDto article, MultipartFile image);
+
+
+    //게시글 조회
+    ResponseEntity<BaseResponseBody> searchArticle(Long articleId);
 
 
     //게시글 삭제
-//    void removeArticle(Long id);
-//
-//
-//    // 게시글 수정
-//    void modifyArticleInfo(Long id, ArticleReqDto articleReqDto);
+    ResponseEntity<BaseResponseBody> removeArticle(Long articleId);
 
+    //게시글 리스트 반환
+    ResponseEntity<BaseResponseBody> listArticle();
 
 }

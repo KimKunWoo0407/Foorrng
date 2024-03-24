@@ -2,6 +2,7 @@ package com.d205.foorrng.article.controller;
 
 
 import com.d205.foorrng.article.dto.request.ArticleReqDto;
+import com.d205.foorrng.article.dto.request.ArticleUpdateReqDto;
 import com.d205.foorrng.article.dto.response.ArticleListResDto;
 import com.d205.foorrng.article.dto.response.ArticleResDto;
 import com.d205.foorrng.article.service.ArticleService;
@@ -22,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,70 +37,52 @@ import java.util.Optional;
 @Getter
 @RequiredArgsConstructor
 @RequestMapping("/api/article")
+@Validated
 public class ArticleController {
 
     private final ArticleService articleService;
 
+    //201 : 생성
+    //200 ok
+    //204 : del
 
-//    @ApiResponse(responseCode = "201", description = "점주 푸드트럭 등록 완료")
-//    @PostMapping(value = "/regist", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-//    public ResponseEntity<? extends BaseResponseBody> createFoodtruck(
-//            @Valid @RequestPart(value = "foodtruckCreateDto") FoodtruckCreateReqDto foodtruckCreateReqDto,
-//            @RequestPart(value = "picture") MultipartFile picture) throws IOException {
-//        FoodtruckResDto foodtruckResDto = foodtruckService.createFoodtruck(foodtruckCreateReqDto, picture);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseBody.of(0, foodtruckResDto));
-//    }
-//
-//    @PatchMapping("/update")
-//    @ApiResponse(responseCode = "200", description = "점주 푸드트럭 수정 완료")
-//    public ResponseEntity<? extends BaseResponseBody> updateFoodtruck(
-//            @Valid @RequestPart(value = "foodtruckUpdateReqDto", required = true) FoodtruckUpdateReqDto foodtruckUpdateReqDto,
-//            @RequestPart(value = "picuture", required = false) MultipartFile picture) throws IOException{
-//        FoodtruckResDto foodtruckResDto = foodtruckService.updateFoodtruck(foodtruckUpdateReqDto, picture);
-//        return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, foodtruckResDto));
-//    }
-//
-//    @DeleteMapping("/delete/{foodtruckId}")
-//    @ApiResponse(responseCode = "201", description = "점주 푸드트럭 삭제 완료")
-//    public ResponseEntity<? extends BaseResponseBody> deleteFoodtruck(@Valid @PathVariable("foodtruckId") Long foodtruckId){
-//        foodtruckService.deleteFoodtruck(foodtruckId);
-//        return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, "success"));
-//    }
 
-    /**
-     *   @GetMapping("/list")
-     *     @Operation(summary = "아티클 전체 조회", description = "게시글 관련된 목록을 전체 조회합니다. ")
-     *     public ResponseEntity<? extends BaseResponseBody> getAllArticles(){
-     *         List<ArticleListResDto> articles = articleService.getArticleList();
-     *         return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseBody.of(0,articles));
-     *     }
-     * */
+    @PostMapping(value = "/update", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    @Operation(summary = "게시글 수정", description = "게시글을 수정합니다.")
+    @ApiResponse(responseCode = "200", description = "성공 /n/n Success 반환")
+    public ResponseEntity<? extends BaseResponseBody> updateArticle(
+            @Valid @RequestPart("articleDto") ArticleUpdateReqDto articleDto,
+            @RequestPart(value = "mainImage", required = false) MultipartFile mainImage) {
+        return articleService.updateArticle(articleDto, mainImage);
+    }
+    @GetMapping("/search/{article-id}")
+    @Operation(summary = "게시글 반환", description = "게시글을 수정합니다.")
+    @ApiResponse(responseCode = "200", description = "성공 /n/n Success 반환")
+    public ResponseEntity<? extends BaseResponseBody> searchArticle(@PathVariable("article-id") Long articleId) {
+        return articleService.searchArticle(articleId);
+    }
 
+    @DeleteMapping("/delete/{article-id}")
+    @Operation(summary = "게시글 삭제", description = "게시글을 수정합니다.")
+    @ApiResponse(responseCode = "204", description = "성공 /n/n Success 반환")
+    public ResponseEntity<? extends BaseResponseBody> removeArticle(@PathVariable("article-id") Long articleId) {
+        return articleService.removeArticle(articleId);
+    }
+
+    @GetMapping(value = "/list")
+    @Operation(summary = "게시글 리스트반환", description = "게시글을 리스트로 반환합니다. ")
+    @ApiResponse(responseCode = "200", description = "성공 /n/n Success 반환")
+    public ResponseEntity<? extends BaseResponseBody> articleList(){
+        return articleService.listArticle();
+    }
 
     @PostMapping(value = "/regist", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @Operation(summary = "게시글 등록", description = "게시글을 등록합니다.")
     @ApiResponse(responseCode = "201", description = "성공 /n/n Success 반환")
     public ResponseEntity<? extends BaseResponseBody> articleSave(
             @Valid @RequestPart(value = "articleReqDto") ArticleReqDto articleReqDto,
-            @RequestPart(value = "picture") MultipartFile mainImage) {
-//        try {
-//            // 게시글 저장 로직 실행
-//            articleService.saveArticle(articleReqDto, mainImage);
-//            // 성공 응답 반환
-//            return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseBody.of(201, "Success"));
-//        } catch (Exceptions e) {
-//            // 커스텀 예외에 대한 처리
-//            ErrorCode errorCode = e.getErrorCode();
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-//                    .body(BaseResponseBody.error(errorCode.getErrorCode(), errorCode.getMessage()));
-//        } catch (Exception e) {
-//            // 기타 예외 처리
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body(BaseResponseBody.error("Internal Server Error", e.getMessage()));
-//        }
+            @RequestPart(value = "mainImage") MultipartFile mainImage) {
         return articleService.saveArticle(articleReqDto, mainImage);
     }
 
-//      @GetMapping("/update")
-//      @GetMapping("/delete")
 }
