@@ -5,6 +5,7 @@ import com.d205.foorrng.common.exception.ErrorCode;
 import com.d205.foorrng.common.exception.Exceptions;
 import com.d205.foorrng.common.model.BaseResponseBody;
 import com.d205.foorrng.food.repository.FavoritefoodRepository;
+import com.d205.foorrng.foodtruck.entity.FoodtruckLike;
 import com.d205.foorrng.foodtruck.repository.FoodtruckLikeRepository;
 import com.d205.foorrng.jwt.token.TokenDto;
 import com.d205.foorrng.user.dto.RegistDto;
@@ -62,9 +63,12 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<? extends BaseResponseBody> signIn(@RequestBody @Valid UserDto userDto) {
 
-        TokenDto tokenDto = userSginService.signIn(userDto);
+        Map<String, Object> response = userSginService.signIn(userDto);
+//        Map<String, String> response = new HashMap<>();
+//        response.put("accessToken", tokenDto.getAccessToken());
+//        response.put("refreshToken", tokenDto.getRefreshToken());
 
-        return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, tokenDto));
+        return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, response));
 
     }
 
