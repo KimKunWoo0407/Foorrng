@@ -44,9 +44,44 @@ public class OperationInfoService {
 
             operationInfoRepository.save(operationInfo);
         }
-        List<OperationInfo> operationResponse = operationInfoRepository.findAllByMarkId(markId).get();
+        List<OperationInfo> operationResponse = operationInfoRepository.findAllByMarkId(markId)
+                .orElseThrow(() -> new Exceptions(ErrorCode.OPERATION_NOT_EXIST));
 
         return operationResponse;
     }
+
+    public List<OperationInfo> searchOperationInfo(Long markId) {
+
+        Mark mark = markRepository.findById(markId)
+                .orElseThrow(() -> new Exceptions(ErrorCode.MARK_NOT_EXIST));
+
+        List<OperationInfo> operationInfoList = operationInfoRepository.findAllByMarkId(mark.getId())
+                .orElseThrow(() -> new Exceptions(ErrorCode.OPERATION_NOT_EXIST));
+
+        return operationInfoList;
+    }
+
+
+    public OperationInfo updateOperationInfo(Long operId, OperationInfoDto operationInfoDto) {
+
+        OperationInfo operationInfo = operationInfoRepository.findById(operId)
+                .orElseThrow(() -> new Exceptions(ErrorCode.OPERATION_NOT_EXIST));
+
+        operationInfo.update(operationInfoDto);
+
+        operationInfoRepository.save(operationInfo);
+
+        return operationInfo;
+    }
+
+
+    public void removeOperationInfo(Long operId) {
+
+        OperationInfo operationInfo = operationInfoRepository.findById(operId)
+                .orElseThrow(() -> new Exceptions(ErrorCode.OPERATION_NOT_EXIST));
+
+        operationInfoRepository.delete(operationInfo);
+    }
+
 
 }
