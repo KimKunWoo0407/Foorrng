@@ -13,5 +13,6 @@ import java.util.Optional;
 public interface FoodtruckLikeRepository extends JpaRepository<FoodtruckLike, Long> {
 
     Optional<List<FoodtruckLike>> findAllByUser(User user);
+//    List <FoodtruckLike> findAllByUser(User user);
     Optional <FoodtruckLike> findByUserAndFoodtrucks(User user, Foodtrucks foodtrucks);
 }

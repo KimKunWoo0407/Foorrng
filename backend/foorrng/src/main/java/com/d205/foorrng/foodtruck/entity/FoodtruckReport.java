@@ -18,6 +18,11 @@ public class FoodtruckReport {
     private String accountInfo;    // 계좌 번호
     private String phoneNumber;    // 연락처
 
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="foodtrucks_seq")
+    private Foodtrucks foodtrucks;
+
     @Builder
     public FoodtruckReport(FoodtruckReportId reportId, String name, String picture, String carNumber, String announcement, String accountInfo, String phoneNumber){
         this.foodtruckId = reportId;

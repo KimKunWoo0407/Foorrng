@@ -28,4 +28,5 @@ public class RequestDelete {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_seq")
     private User user;
+    
 }

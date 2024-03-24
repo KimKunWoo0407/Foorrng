@@ -22,6 +22,10 @@ public class Foodtruck {
     private String carNumber;              // 차량 번호
     private String phoneNumber;            // 연락처
 
+    @OneToOne
+    @JoinColumn(name = "foodtrucks_seq")
+    private Foodtrucks foodtrucks;
+
     @Builder
     public Foodtruck(FoodtruckId foodtruckId,String announcement, Long createdDay, String picture, String name, String accountInfo, String carNumber, String phoneNumber){
         this.foodtruckId = foodtruckId;
@@ -53,4 +57,7 @@ public class Foodtruck {
         this.phoneNumber = phoneNumber;
     }
 
+    public FoodtruckId getId() {
+        return foodtruckId;
+    }
 }

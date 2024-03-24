@@ -27,6 +27,12 @@ public class Foodtrucks {
     @JoinColumn(name = "user_seq")
     private User user;
 
+    @OneToOne(mappedBy = "foodtrucks", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Foodtruck foodtruck;
+
+    @OneToMany(mappedBy = "foodtrucks", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<FoodtruckReport> foodtruckReport;
+
     @OneToMany(mappedBy = "foodtrucks", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Food> foods;
 
@@ -46,5 +52,13 @@ public class Foodtrucks {
     public Foodtrucks(FoodtruckRole foodtruckRole, User user){
         this.foodtruckRole = foodtruckRole;
         this.user = user;
+    }
+
+    public String getName() {
+        if (this.foodtruck != null) {
+            return this.foodtruck.getName();
+        } else {
+            return null; // 또는 적절한 기본값 또는 예외 처리
+        }
     }
 }
