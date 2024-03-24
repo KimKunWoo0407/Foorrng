@@ -19,6 +19,12 @@ public class FoodtruckReport {
     private String accountInfo;
     private String phoneNumber;
 
+    @ManyToOne
+    @JoinColumns({
+            @JoinColumn(name = "foodtruck_id", referencedColumnName = "foodtrucks_seq", insertable = false, updatable = false)
+    })
+    private Foodtrucks foodtrucks;
+
     @Builder
     public FoodtruckReport(FoodtruckReportId reportId, String name, String picture, String carNumber, String announcement, String accountInfo, String phoneNumber, Long createdDay){
         this.foodtruckId = reportId;

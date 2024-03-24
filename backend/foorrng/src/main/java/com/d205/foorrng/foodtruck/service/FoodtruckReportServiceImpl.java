@@ -98,7 +98,6 @@ public class FoodtruckReportServiceImpl implements FoodtruckReportService{
         foodtruckReport.updatePhoneNumber(foodtruckUpdateReqDto.getPhoneNumber());
         foodtruckReport.updatePhoneNumber(foodtruckUpdateReqDto.getPhoneNumber());
 
-
         // 이미지 수정
         String imgUrl = foodtruckReport.getPicture();
         if(picture!=null){
@@ -133,8 +132,9 @@ public class FoodtruckReportServiceImpl implements FoodtruckReportService{
         }else{
             List<RequestDelete> requestDeletesList = requestDeleteRepository.findAllByFoodtrucks(foodtrucks).get();
             if(requestDeletesList.size() >=2){
+                FoodtruckReport foodtruckReport = foodtruckReportRepository.findByFoodtruckId(new FoodtruckReportId(foodtrucks.getId())).get();
                 foodtrucksRepository.delete(foodtrucks);
-                requestDeleteRepository.deleteAll(requestDeletesList);
+                foodtruckReportRepository.delete(foodtruckReport); // 왜 cascade가 안되는 걸까
                 return 0;
             }else{
                 RequestDelete newRequestDelete = RequestDelete.builder()

@@ -9,9 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface FoodtrucksRepository extends JpaRepository<Foodtrucks, Long> {
-
     Optional<Foodtrucks> findById(Long id);
-
-    @Override
-    List<Foodtrucks> findAll();
 }

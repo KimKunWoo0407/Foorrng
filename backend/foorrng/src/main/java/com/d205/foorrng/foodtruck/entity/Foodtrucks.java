@@ -46,6 +46,9 @@ public class Foodtrucks {
     @OneToMany(mappedBy = "foodtrucks", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Foodtruck> foodtruckList;
 
+    @OneToMany(mappedBy = "foodtrucks", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<FoodtruckReport> foodtruckReportList;
+
     @Builder
     public Foodtrucks(FoodtruckRole foodtruckRole, User user){
         this.foodtruckRole = foodtruckRole;
