@@ -59,15 +59,26 @@ public class FoodtrucksServiceImlp implements FoodtrucksService{
         System.out.println("+++++++++++++++++++++++++++");
         for(Mark mark:markList){
             // test
-            System.out.println("mark" + mark.getId());
-            System.out.println(mark.getFoodtrucks().getId());
+            System.out.println("markId " + mark.getId());
+            System.out.println("foodtrucksId " + mark.getFoodtrucks().getId());
             // test
 
             // 푸드트럭정보
-            Foodtrucks foodtrucks = foodtrucksRepository.findById(mark.getFoodtrucks().getId())
-                    .orElseThrow(() -> new Exceptions(ErrorCode.FOODTRUCK_NOT_EXIST));
-            Foodtruck foodtruck = foodtruckRepository.findByFoodtruckId(new FoodtruckId(foodtrucks.getId()))
-                    .orElseThrow(() -> new Exceptions(ErrorCode.FOODTRUCK_NOT_EXIST));
+            Foodtrucks foodtrucks = mark.getFoodtrucks();
+
+            String foodtruckName;
+            String foodtruckPicture;
+            if(foodtrucks.getFoodtruckRole().equals(FoodtruckRole.Foodtruck)){
+                Foodtruck foodtruck = foodtruckRepository.findByFoodtruckId(new FoodtruckId(foodtrucks.getId()))
+                        .orElseThrow(() -> new Exceptions(ErrorCode.FOODTRUCK_NOT_EXIST));
+                foodtruckName = foodtruck.getName();
+                foodtruckPicture = foodtruck.getPicture();
+            }else{
+                FoodtruckReport foodtruckReport = foodtruckReportRepository.findByFoodtruckId(new FoodtruckReportId(foodtrucks.getId()))
+                        .orElseThrow(() -> new Exceptions(ErrorCode.FOODTRUCK_NOT_EXIST));
+                foodtruckName = foodtruckReport.getName();
+                foodtruckPicture = foodtruckReport.getPicture();
+            }
             // 음식카테고리
             List<Food> foods = foodRepository.findAllByFoodtrucks(foodtrucks);
             List<String> category = new ArrayList<>();
@@ -95,7 +106,7 @@ public class FoodtrucksServiceImlp implements FoodtrucksService{
             }
             // 푸드트럭 운영 여부
             Boolean operate = mark.getIsOpen();
-            FoodtrucksResDto foodtrucksResDto = new FoodtrucksResDto(foodtrucks.getId(), mark.getId(), mark.getLatitude(), mark.getLongitude(), foodtruck.getName(), foodtruck.getPicture(), type, category, reviews.size(), like, operate);
+            FoodtrucksResDto foodtrucksResDto = new FoodtrucksResDto(foodtrucks.getId(), mark.getId(), mark.getLatitude(), mark.getLongitude(), foodtruckName, foodtruckPicture, type, category, reviews.size(), like, operate);
             foodtrucksResDtos.add(foodtrucksResDto);
         }
         return foodtrucksResDtos;
