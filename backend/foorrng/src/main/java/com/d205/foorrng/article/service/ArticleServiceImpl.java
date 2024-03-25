@@ -57,21 +57,26 @@ public class ArticleServiceImpl implements ArticleService{
             }
             Article article = articlePostRepository.findById(articleDto.getArticleId())
                     .orElseThrow(() -> new RuntimeException("Article not found with id " + articleDto.getArticleId()));
+
             article =Article.builder()
-                    .address(article.getAddress())
-                    .phone(article.getPhone())
-                    .title(article.getTitle())
-                    .content(article.getContent())
-                    .latitude(article.getLatitude())
-                    .longitude(article.getLongitude())
-                    .email(article.getEmail())
-                    .organizer(article.getOrganizer())
-                    .startDate(article.getStartDate())
-                    .endDate(article.getEndDate())
+                    .id(article.getId())
+                    .createdDatetime(article.getCreatedDatetime())
+                    .user(article.getUser())
+                    .address(articleDto.getAddress())
+                    .phone(articleDto.getPhone())
+                    .title(articleDto.getTitle())
+                    .content(articleDto.getContent())
+                    .latitude(articleDto.getLatitude())
+                    .longitude(articleDto.getLongitude())
+                    .email(articleDto.getEmail())
+                    .kakaoID(articleDto.getKakaoId())
+                    .organizer(articleDto.getOrganizer())
+                    .startDate(articleDto.getStartDate())
+                    .endDate(articleDto.getEndDate())
                     .picture(mainImgUrl)
                     .build();
             articlePostRepository.save(article);
-            return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseBody.of(0, "성공적으로 저장"));
+            return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseBody.of(0, "성공적으로 업데이트 됐습니다."));
         } catch (NumberFormatException e) {
             log.error("U",e);
             // 사용자 ID 변환 중 예외 발생

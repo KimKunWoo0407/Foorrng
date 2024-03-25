@@ -46,7 +46,6 @@ public class ArticleController {
     //200 ok
     //204 : del
 
-
     @PostMapping(value = "/update", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @Operation(summary = "게시글 수정", description = "게시글을 수정합니다.")
     @ApiResponse(responseCode = "200", description = "성공 /n/n Success 반환")

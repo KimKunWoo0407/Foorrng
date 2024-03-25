@@ -1,22 +1,39 @@
 package com.d205.foorrng.article.dto.response;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 @Getter
 public class ArticleResDto {
-    private long articleId;
-    private long userId;
+    @NotNull
+    private Long articleId;
+    @NotNull
+    private Long userId;
+    @NotBlank
     private String title;
+    @NotBlank
     private String content;
-    private double latitude;
-    private double longitude;
+    @NotNull
+    private Double latitude;
+    @NotNull
+    private Double longitude;
+    @NotBlank
     private String phone;
+    @Email
+    @NotBlank
     private String email;
+    @NotBlank
     private String kakaoId;
+    @NotBlank
     private String organizer;
-    private long startDate;
-    private long endDate;
+    @NotNull
+    private Long startDate;
+    @NotNull
+    private Long endDate;
+    @NotBlank
     private String address;
     public static ArticleResDto of(long articleId, long userId, String title,
                                    String content, double latitude, double longitude,

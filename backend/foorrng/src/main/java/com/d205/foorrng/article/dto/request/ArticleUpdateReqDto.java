@@ -1,35 +1,39 @@
 package com.d205.foorrng.article.dto.request;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter // 유효성
 public class ArticleUpdateReqDto {
-    @NotBlank
-    private long articleId;
-    private long userId;
+    @NotNull
+    private Long articleId;
+    @NotNull
+    private Long userId;
     @NotBlank
     private String title;
     @NotBlank
     private String content;
-    @NotBlank
-    private double latitude;
-    @NotBlank
-    private double longitude;
+    @NotNull
+    private Double latitude;
+    @NotNull
+    private Double longitude;
     @NotBlank
     private String phone;
+    @Email
     @NotBlank
     private String email;
     @NotBlank
     private String kakaoId;
     @NotBlank
     private String organizer;
-    @NotBlank
-    private long startDate;
-    @NotBlank
-    private long endDate;
+    @NotNull
+    private Long startDate;
+    @NotNull
+    private Long endDate;
     @NotBlank
     private String address;
 }

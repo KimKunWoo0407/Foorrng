@@ -4,10 +4,17 @@ import com.d205.foorrng.article.CryptoConverter;
 import com.d205.foorrng.article.dto.request.ArticleReqDto;
 import com.d205.foorrng.user.entity.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.validation.annotation.Validated;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -15,6 +22,7 @@ import org.springframework.validation.annotation.Validated;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "tb_article")
 public class Article {
 
@@ -33,15 +41,15 @@ public class Article {
 
     @CreatedDate
     @Column(name = "created_datetime")
-    private Long createdDatetime;
+    private LocalDateTime createdDatetime;
 
     @LastModifiedDate
     @Column(name = "updated_datetime")
-    private Long updatedDatetime;
+    private LocalDateTime updatedDatetime;
 
-    private Double latitude;            // 위도
+    private double latitude;
 
-    private Double longitude;           // 경도
+    private double longitude;
 
     @Convert(converter = CryptoConverter.class)
     private String phone;               // 작성자 전화번호
@@ -54,22 +62,17 @@ public class Article {
 
     private String organizer;           // 주최측
 
-    private Long startDate;             // 시작일
+    @NotNull
+    private Long startDate;
 
-    private Long endDate;               // 종료일
+    @NotNull
+    private Long endDate;
 
-    private String address;             // 지번 주소
+    @NotNull
+    private String address;
+
 
     private String picture;             // 행사 이미지
-//
-//    // 생성자에서 User 엔티티와 필수 필드만 받도록 수정
-//    public Article(User user, String title, String content) {
-//        this.user = user;
-//        this.title = title;
-//        this.content = content;
-//    }
-
-
 }
 
 
