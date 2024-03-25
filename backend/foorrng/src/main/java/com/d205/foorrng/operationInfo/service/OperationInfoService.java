@@ -15,9 +15,7 @@ import lombok.Setter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Getter @Setter
@@ -27,15 +25,37 @@ public class OperationInfoService {
     private final MarkRepository markRepository;
     private final OperationInfoRepository operationInfoRepository;
 
-    @Transactional
+//    @Transactional
     public List<OperationInfo> createOperationInfo(Long markId, OperationInfoDto operationInfoDto) {
 
         Mark mark = markRepository.findById(markId)
                 .orElseThrow(() -> new Exceptions(ErrorCode.MARK_NOT_EXIST));
 
+        Set<String> allDays = operationInfoRepository.findAllDaysByFoodTruckId(mark.getFoodtrucks().getId());
+//        List<Mark> markList = markRepository.findAllByFoodtrucksId(mark.getFoodtrucks().getId()).get();
+//
+//        Set<String> operationInfoList = new HashSet<>();
+//
+//        for (Mark mk : markList) {
+//            List<OperationInfo> opList = operationInfoRepository.findAllByMarkId(mk.getId()).get();
+//            for (OperationInfo op : opList) {
+//                operationInfoList.add(op.getDay());
+//            }
+//        }
+
 
         for (Map<String, Object> day : operationInfoDto.getOperationInfoList()) {
-
+            if (allDays.contains(day.get("day"))) {
+                System.out.println("1");
+                if (mark.getOperationInfoList() == null || mark.getOperationInfoList().isEmpty()) {
+                    System.out.println(markId);
+                    System.out.println(mark.getId());
+                    System.out.println("2");
+                    markRepository.delete(mark);
+                    System.out.println("3");
+                };
+                throw new Exceptions(ErrorCode.DAY_OCCUPIED);
+            }
             OperationInfo operationInfo = OperationInfo
                     .builder()
                     .mark(mark)

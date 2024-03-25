@@ -39,8 +39,8 @@ public class MarkController {
 
         Map<String, Object> response = markService.createMark(foodtruckId, markReqDto.getMarkDto());
 //        response.put("operationInfos", operationInfoService.createOperationInfo(Long.parseLong(response.get("markId").toString()), markReqDto));
-        List<OperationInfo> operationInfos = operationInfoService.createOperationInfo(Long.parseLong(response.get("markId").toString()), markReqDto.getOperationInfoDto());
-        response.put("operationInfos", operationInfos);
+        List<OperationInfo> operationInfoList = operationInfoService.createOperationInfo(Long.parseLong(response.get("markId").toString()), markReqDto.getOperationInfoDto());
+        response.put("operationInfoList", operationInfoList);
 
 
         return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseBody.of(0, response));

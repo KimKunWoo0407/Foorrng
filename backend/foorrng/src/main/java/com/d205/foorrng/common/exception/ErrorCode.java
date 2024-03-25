@@ -24,9 +24,11 @@ public enum ErrorCode {
 
     // 마커
     MARK_NOT_EXIST(HttpStatus.BAD_REQUEST, "M-001", "해당 푸드트럭에 대한 위치정보가 없습니다."),
+    MARK_OCCUPIED(HttpStatus.BAD_REQUEST, "M-002", "해당 푸드트럭에 대한 위치정보를 더 이상 생성할 수 없습니다."),
 
     // 운영정보
     OPERATION_NOT_EXIST(HttpStatus.BAD_REQUEST, "O-001", "운영정보가 없습니다."),
+    DAY_OCCUPIED(HttpStatus.BAD_REQUEST, "O-002", "해당 요일은 이미 운영중입니다."),
 
     // Validation
     NOT_VALID_REQUEST(HttpStatus.BAD_REQUEST, "I-001", "요청변수가 유효하지 않습니다."),

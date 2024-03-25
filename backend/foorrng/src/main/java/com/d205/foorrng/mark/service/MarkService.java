@@ -26,7 +26,8 @@ import java.util.Map;
 @Service
 @Getter @Setter
 @RequiredArgsConstructor
-public class MarkService {
+public class
+MarkService {
 
     private final UserRepository userRepository;
     private final FoodtrucksRepository foodtrucksRepository;
@@ -40,6 +41,12 @@ public class MarkService {
         Foodtrucks foodtrucks = foodtrucksRepository.findById(foodtruckId)
                 .orElseThrow(() -> new Exceptions(ErrorCode.FOODTRUCK_NOT_EXIST));
 //        Foodtruck foodtruck = foodtruckRepository.findByFoodtruckId(new FoodtruckId(foodtrucks.getId())).get();
+
+        List<Mark> foodtruckMarkList = markRepository.findAllByFoodtrucksId(foodtruckId).get();
+
+        if (foodtruckMarkList.size() >= 7) {
+            throw new Exceptions(ErrorCode.MARK_OCCUPIED);
+        }
 
         Mark mark = Mark.builder()
                 .foodtrucks(foodtrucks)
