@@ -12,6 +12,7 @@ import lombok.Setter;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -38,4 +39,33 @@ public class OperationInfoController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseBody.of(0, response));
     }
+
+
+    @GetMapping("/{mark-id}")
+    public ResponseEntity<? extends BaseResponseBody> getOperationInfoList(@PathVariable("mark-id") Long markId) {
+        List<OperationInfo> operationInfoList = operationInfoService.searchOperationInfo(markId);
+        return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, operationInfoList));
+    }
+
+
+    @PatchMapping("/{oper-id}")
+    public ResponseEntity<? extends BaseResponseBody> patchOperationInfo(@PathVariable("oper-id") Long operId,
+                                                                         @RequestBody @Valid OperationInfoDto operationInfoDto) {
+
+        OperationInfo operationInfo = operationInfoService.updateOperationInfo(operId, operationInfoDto);
+
+
+        return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, operationInfo));
+    }
+
+    @DeleteMapping("/{oper-id}")
+    public ResponseEntity<? extends BaseResponseBody> deleteOperationInfo(@PathVariable("oper-id") Long operId) {
+
+        operationInfoService.removeOperationInfo(operId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, "운영정보가 삭제되었습니다."));
+    }
+
+
+
 }

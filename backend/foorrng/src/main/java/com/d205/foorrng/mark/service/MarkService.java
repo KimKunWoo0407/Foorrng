@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -58,4 +59,44 @@ public class MarkService {
 
         return response;
     }
+
+
+    @Transactional
+    public List<Mark> searchOwnerMarkList() {
+
+        Foodtrucks foodtrucks = foodtrucksRepository.findByUserUserUid(Long.parseLong(SecurityUtil.getCurrentUsername().get()))
+                .orElseThrow(() -> new Exceptions(ErrorCode.FOODTRUCK_NOT_EXIST));
+
+
+        return markRepository.findAllByFoodtrucksId(foodtrucks.getId())
+                .orElseThrow(() -> new Exceptions(ErrorCode.MARK_NOT_EXIST));
+    }
+
+
+
+
+    @Transactional
+    public Mark updateMark(Long markId, MarkDto markDto) {
+
+        Mark mark = markRepository.findById(markId)
+                .orElseThrow(() -> new Exceptions(ErrorCode.MARK_NOT_EXIST));
+
+        mark.update(markDto);
+
+
+        return markRepository.save(mark);
+    }
+
+
+    @Transactional
+    public void removeMark(Long markId) {
+
+        Mark mark = markRepository.findById(markId)
+                .orElseThrow(() -> new Exceptions(ErrorCode.MARK_NOT_EXIST));
+
+        markRepository.delete(mark);
+    }
+
+
+
 }
