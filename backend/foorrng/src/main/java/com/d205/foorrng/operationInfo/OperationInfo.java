@@ -7,6 +7,13 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
+import java.time.Instant;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.util.TimeZone;
+
 @Entity
 @Getter
 @Builder
@@ -22,9 +29,9 @@ public class OperationInfo {
 
     private String day;             // 요일
 
-    private Long startTime;        // 시작 시간
+    private String startTime;        // 시작 시간
 
-    private Long endTime;          // 종료 시간
+    private String endTime;          // 종료 시간
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="mark_seq")
@@ -34,8 +41,14 @@ public class OperationInfo {
 
     public void update(OperationInfoDto operationInfoDto) {
         this.day = operationInfoDto.getOperationInfoList().get(0).get("day").toString();
-        this.startTime = Long.parseLong(operationInfoDto.getOperationInfoList().get(0).get("startTime").toString());
-        this.endTime = Long.parseLong(operationInfoDto.getOperationInfoList().get(0).get("endTime").toString());
+        this.startTime = LocalTime.ofInstant(
+                Instant.ofEpochMilli(Long.parseLong(operationInfoDto.getOperationInfoList().get(0).get("startTime").toString())),
+                ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("HH:mm"));
+        this.endTime = LocalTime.ofInstant(
+                Instant.ofEpochMilli(Long.parseLong(operationInfoDto.getOperationInfoList().get(0).get("endTime").toString())),
+                ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("HH:mm"));
+
+
     }
 
 }

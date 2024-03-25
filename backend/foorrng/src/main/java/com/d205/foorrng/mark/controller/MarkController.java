@@ -18,9 +18,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 @Getter @Setter
 @RestController
@@ -40,7 +44,6 @@ public class MarkController {
         Map<String, Object> response = markService.createMark(foodtruckId, markReqDto.getMarkDto());
         List<OperationInfo> operationInfoList = operationInfoService.createOperationInfo(Long.parseLong(response.get("markId").toString()), markReqDto.getOperationInfoDto());
         response.put("operationInfoList", operationInfoList);
-
 
         return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseBody.of(0, response));
     }

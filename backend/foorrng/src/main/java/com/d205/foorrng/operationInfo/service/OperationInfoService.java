@@ -15,6 +15,11 @@ import lombok.Setter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -44,8 +49,12 @@ public class OperationInfoService {
                     .builder()
                     .mark(mark)
                     .day(day.get("day").toString())
-                    .startTime(Long.parseLong(day.get("startTime").toString()))
-                    .endTime(Long.parseLong(day.get("startTime").toString()))
+                    .startTime(LocalTime.ofInstant(
+                            Instant.ofEpochMilli(Long.parseLong(operationInfoDto.getOperationInfoList().get(0).get("startTime").toString())),
+                            ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("HH:mm")))
+                    .endTime(LocalTime.ofInstant(
+                            Instant.ofEpochMilli(Long.parseLong(operationInfoDto.getOperationInfoList().get(0).get("endTime").toString())),
+                            ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("HH:mm")))
                     .build();
 
             operationInfoRepository.save(operationInfo);
