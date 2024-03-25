@@ -10,10 +10,7 @@ import java.util.Optional;
 
 public interface MarkRepository extends JpaRepository<Mark, Long> {
     Optional<Mark> findById(Long id);
-
     List<Mark> findAllByLatitudeBetweenAndLongitudeBetween(double latitude1, double longitude1, double latitude2, double longitude2);
-    // list는 optional을 권장하지 않음. null로 처리가 되기 때문
-    // list가 아닌 것은 exception으로 빠져서, optional을 사용한다고 함.
-
     List<Mark> findByFoodtrucks(Foodtrucks foodtrucks);
+    Optional<List<Mark>> findAllByFoodtrucksId(Long foodtruckId);
 }
