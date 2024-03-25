@@ -38,7 +38,6 @@ public class MarkController {
                                                                @RequestBody @Valid MarkReqDto markReqDto) {
 
         Map<String, Object> response = markService.createMark(foodtruckId, markReqDto.getMarkDto());
-//        response.put("operationInfos", operationInfoService.createOperationInfo(Long.parseLong(response.get("markId").toString()), markReqDto));
         List<OperationInfo> operationInfoList = operationInfoService.createOperationInfo(Long.parseLong(response.get("markId").toString()), markReqDto.getOperationInfoDto());
         response.put("operationInfoList", operationInfoList);
 

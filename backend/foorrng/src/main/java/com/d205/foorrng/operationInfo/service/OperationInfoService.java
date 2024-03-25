@@ -32,27 +32,11 @@ public class OperationInfoService {
                 .orElseThrow(() -> new Exceptions(ErrorCode.MARK_NOT_EXIST));
 
         Set<String> allDays = operationInfoRepository.findAllDaysByFoodTruckId(mark.getFoodtrucks().getId());
-//        List<Mark> markList = markRepository.findAllByFoodtrucksId(mark.getFoodtrucks().getId()).get();
-//
-//        Set<String> operationInfoList = new HashSet<>();
-//
-//        for (Mark mk : markList) {
-//            List<OperationInfo> opList = operationInfoRepository.findAllByMarkId(mk.getId()).get();
-//            for (OperationInfo op : opList) {
-//                operationInfoList.add(op.getDay());
-//            }
-//        }
-
 
         for (Map<String, Object> day : operationInfoDto.getOperationInfoList()) {
             if (allDays.contains(day.get("day"))) {
-                System.out.println("1");
                 if (mark.getOperationInfoList() == null || mark.getOperationInfoList().isEmpty()) {
-                    System.out.println(markId);
-                    System.out.println(mark.getId());
-                    System.out.println("2");
                     markRepository.delete(mark);
-                    System.out.println("3");
                 };
                 throw new Exceptions(ErrorCode.DAY_OCCUPIED);
             }

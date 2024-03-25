@@ -33,17 +33,14 @@ MarkService {
 
     private final UserRepository userRepository;
     private final FoodtrucksRepository foodtrucksRepository;
-//    private final FoodtruckRepository foodtruckRepository;
     private final MarkRepository markRepository;
     private  final OperationInfoRepository operationInfoRepository;
 
     @Transactional
     public Map<String, Object> createMark(Long foodtruckId, MarkDto markDto) {
 
-//        User user = userRepository.findByUserUid(Long.parseLong(SecurityUtil.getCurrentUsername().get())).get();
         Foodtrucks foodtrucks = foodtrucksRepository.findById(foodtruckId)
                 .orElseThrow(() -> new Exceptions(ErrorCode.FOODTRUCK_NOT_EXIST));
-//        Foodtruck foodtruck = foodtruckRepository.findByFoodtruckId(new FoodtruckId(foodtrucks.getId())).get();
 
         List<Mark> foodtruckMarkList = markRepository.findAllByFoodtrucksId(foodtruckId).get();
 
