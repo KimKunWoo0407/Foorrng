@@ -44,13 +44,25 @@ public class MarkController {
 
 
         return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseBody.of(0, response));
-
     }
+
+
+    // 마커 상세 조회
+    @GetMapping("/{mark-id}")
+    public ResponseEntity<? extends BaseResponseBody> getMarkDetail(@PathVariable("mark-id") Long markId) {
+
+        Mark mark = markService.searchMarkDetail(markId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, mark));
+    }
+
+
 
     // 마커 수정
     @PatchMapping("/{mark-id}")
     public ResponseEntity<? extends BaseResponseBody> patchMark(@PathVariable("mark-id") Long markId,
                                                                 @RequestBody @Valid MarkDto markDto) {
+
         Mark mark = markService.updateMark(markId, markDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, mark));
@@ -68,7 +80,7 @@ public class MarkController {
 
 
     // 마커 조회 ( 점주 운영 상태 )
-    @GetMapping("/owner/list")
+    @GetMapping("/list")
     public ResponseEntity<? extends BaseResponseBody> getOwnerMarkList() {
 
         List<Mark> markList = markService.searchOwnerMarkList();
@@ -77,10 +89,14 @@ public class MarkController {
     }
 
 
-    // 마커 조회 ( 소비자 이용할 푸드트럭 마커 )
+    // 마크 운영상태
+    @GetMapping("/{mark-id}/change")
+    public ResponseEntity<? extends BaseResponseBody> changeMarkOperation(@PathVariable("mark-id") Long markId) {
 
+        Mark mark = markService.toggleMark(markId);
 
-    // 마커 상세 조회
+        return  ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0, mark));
+    }
 
 
 }

@@ -10,4 +10,5 @@ public interface MarkRepository extends JpaRepository<Mark, Long> {
     Optional<Mark> findById(Long id);
 
     Optional<List<Mark>> findAllByFoodtrucksId(Long foodtruckId);
+
 }

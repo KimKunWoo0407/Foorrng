@@ -29,6 +29,8 @@ public class Mark {
 
     private String address;         // 지번 주소
 
+    private Boolean isOpen = false;         // 영업상태
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="foodtrucks_seq")
     @JsonIgnore
@@ -43,6 +45,12 @@ public class Mark {
         this.address = markDto.getAddress();
         this.latitude = markDto.getLatitude();
         this.longitude = markDto.getLongitude();
+
+    }
+
+    public void changeIsOpen() {
+
+        this.isOpen = !this.isOpen;
 
     }
 }

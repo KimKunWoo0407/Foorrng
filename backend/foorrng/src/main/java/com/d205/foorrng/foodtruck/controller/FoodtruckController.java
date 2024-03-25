@@ -33,6 +33,7 @@ public class FoodtruckController {
     public ResponseEntity<? extends BaseResponseBody> createFoodtruck(
             @Valid @RequestPart(value = "foodtruckCreateDto") FoodtruckCreateReqDto foodtruckCreateReqDto,
             @RequestPart(value = "picture", required = false) MultipartFile picture) throws IOException {
+        System.out.println(picture);
         FoodtruckResDto foodtruckResDto = foodtruckService.createFoodtruck(foodtruckCreateReqDto, picture);
         return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseBody.of(0, foodtruckResDto));
     }
