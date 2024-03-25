@@ -15,8 +15,8 @@ public enum ErrorCode {
     FOODLIST_NOT_EXIST(HttpStatus.BAD_REQUEST, "F-001", "선호음식 리스트가 존재하지 않습니다."),
 
     // 토큰
-    UNEXPECTED_TOKEN(HttpStatus.BAD_REQUEST, "T-001", "토큰이 만료되었습니다."),
-    TOKEN_NOT_EXIST(HttpStatus.BAD_REQUEST, "T-002", "토큰이 존재하지 않습니다."),
+    UNEXPECTED_TOKEN(HttpStatus.UNAUTHORIZED, "T-001", "토큰이 만료되었습니다."),
+    TOKEN_NOT_EXIST(HttpStatus.UNAUTHORIZED, "T-002", "토큰이 존재하지 않습니다."),
 
     // Validation
     NOT_VALID_REQUEST(HttpStatus.BAD_REQUEST, "I-001", "요청변수가 유효하지 않습니다."),

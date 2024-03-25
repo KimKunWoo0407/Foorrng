@@ -38,23 +38,29 @@ public class AuthController {
 
     @PostMapping("/token/refresh")
     public ResponseEntity<?> regenerateAccessToken(HttpServletRequest request) {
-        String accessToken = resolveTokenFromHeader(request, "Access-Token");
+        String accessToken = resolveTokenFromHeader(request, "Authorization");
         String refreshToken = resolveTokenFromHeader(request, "Refresh-Token");
 
         try {
-            if (!tokenProvider.validateToken(refreshToken, "refresh")) {
+//            if (!tokenProvider.validateToken(refreshToken, "refresh")) {
+
+            if (!tokenProvider.validateRefreshToken(refreshToken)) {
                 return ResponseEntity.badRequest().body("유효하지 않거나 만료된 토큰입니다.");
+            };
+//                return ResponseEntity.badRequest().body("유효하지 않거나 만료된 토큰입니다.");
+//            }
+
+            if (!(tokenProvider.validateToken(accessToken, "access") && !tokenProvider.validateTokenWithoutExpiration(accessToken))) {
+//                return ResponseEntity.badRequest().body("유효하지 않은 토큰입니다.");
+
+                UserDetails userDetails = tokenProvider.getUserDetailsFromToken(refreshToken);
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                TokenDto newAccessToken = tokenProvider.createToken(authentication);
+
+                return ResponseEntity.ok(newAccessToken);
             }
 
-            if (!tokenProvider.validateToken(accessToken, "access") && !tokenProvider.validateTokenWithoutExpiration(accessToken)) {
-                return ResponseEntity.badRequest().body("유효하지 않은 토큰입니다.");
-            }
-
-            UserDetails userDetails = tokenProvider.getUserDetailsFromToken(refreshToken);
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-            TokenDto newAccessToken = tokenProvider.createToken(authentication);
-
-            return ResponseEntity.ok(newAccessToken);
+            return ResponseEntity.ok("토큰 유효");
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(e);
         }

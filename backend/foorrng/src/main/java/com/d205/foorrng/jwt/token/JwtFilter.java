@@ -49,11 +49,14 @@ public class JwtFilter extends GenericFilterBean {
             }
             if ("/api/user/token/refresh".equals(requestURI)) {
                 if (refreshToken != null && tokenProvider.validateToken(refreshToken, "refresh")) {
+//                if (refreshToken != null && tokenProvider.validateRefreshToken(refreshToken)) {
+//                    tokenProvider.validateRefreshToken(refreshToken);
                     filterChain.doFilter(servletRequest, servletResponse);
                 } else {
                     sendUnauthorizedResponse(httpServletResponse, "Refresh Token이 유효하지 않거나 만료되었습니다. 다시 로그인해주세요.");
                 }
             } else {
+//                tokenProvider.validateToken(accessToken, "access").getBody().getDataBody();
                 if (accessToken != null && tokenProvider.validateToken(accessToken, "access")) {
                     Authentication authentication = tokenProvider.getAuthentication(accessToken);
                     SecurityContextHolder.getContext().setAuthentication(authentication);
