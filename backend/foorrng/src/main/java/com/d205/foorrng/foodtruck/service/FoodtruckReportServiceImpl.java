@@ -68,6 +68,7 @@ public class FoodtruckReportServiceImpl implements FoodtruckReportService{
                 .carNumber(foodtruckCreateReqDto.getCarNumber())
                 .phoneNumber(foodtruckCreateReqDto.getPhoneNumber())
                 .createdDay(createdDay)
+                .foodtrucks(foodtrucks)
                 .build();
 
         String imgUrl = "";
@@ -81,7 +82,7 @@ public class FoodtruckReportServiceImpl implements FoodtruckReportService{
         foodService.saveFoodtruckFood(foodtrucks.getId(), foodtruckCreateReqDto.getCategory());
 
         foodtruckReportRepository.save(foodtruckReport);
-        return new FoodtruckRepResDto(foodtruckReport, foodtrucks.getId(), createdDay, foodtruckCreateReqDto.getCategory());
+        return new FoodtruckRepResDto(foodtruckReport, foodtrucks.getId(), foodtruckCreateReqDto.getCategory());
     };
     @Override
     @Transactional
@@ -109,14 +110,14 @@ public class FoodtruckReportServiceImpl implements FoodtruckReportService{
         }
 
         // 카테고리 수정
-        List<Food> foodlist = foodRepository.findAllByFoodtrucks(foodtrucks).get();
+        List<Food> foodlist = foodRepository.findAllByFoodtrucks(foodtrucks);
         foodRepository.deleteAll(foodlist);
         foodService.saveFoodtruckFood(foodtrucks.getId(), foodtruckUpdateReqDto.getCategory());
 
         // 수정된 푸드트럭 저장
         foodtruckReportRepository.save(foodtruckReport);
 
-        return new FoodtruckRepResDto(foodtruckReport, foodtrucks.getId(), foodtruckReport.getCreatedDay(), foodtruckUpdateReqDto.getCategory());
+        return new FoodtruckRepResDto(foodtruckReport, foodtrucks.getId(), foodtruckUpdateReqDto.getCategory());
     };
 
     @Override
@@ -130,7 +131,7 @@ public class FoodtruckReportServiceImpl implements FoodtruckReportService{
         if(requestDelete.isPresent()){
             throw new Exceptions(ErrorCode.Foodtruck_Delete_ALREADY_EXIST);
         }else{
-            List<RequestDelete> requestDeletesList = requestDeleteRepository.findAllByFoodtrucks(foodtrucks).get();
+            List<RequestDelete> requestDeletesList = requestDeleteRepository.findAllByFoodtrucks(foodtrucks);
             if(requestDeletesList.size() >=2){
                 FoodtruckReport foodtruckReport = foodtruckReportRepository.findByFoodtruckId(new FoodtruckReportId(foodtrucks.getId())).get();
                 foodtrucksRepository.delete(foodtrucks);

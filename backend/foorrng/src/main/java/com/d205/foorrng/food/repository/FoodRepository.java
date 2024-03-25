@@ -6,12 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface FoodRepository extends JpaRepository<Food, Long> {
-    // 푸드트럭에 속하는 음식 카테고리 list로 받아오기
-    Optional<List<Food>> findAllByFoodtrucks(Foodtrucks foodtrucks);
-
-
+    List<Food> findAllByFoodtrucks(Foodtrucks foodtrucks);
 }

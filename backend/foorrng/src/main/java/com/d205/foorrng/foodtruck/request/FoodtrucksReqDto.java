@@ -1,16 +1,16 @@
 package com.d205.foorrng.foodtruck.request;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 @Getter
 public class FoodtrucksReqDto {
-    @NotBlank
-    private double latitude_left;
-    @NotBlank
-    private double longitude_left;
-    @NotBlank
-    private double latitude_right;
-    @NotBlank
-    private double longitude_right;
+    @NotNull
+    private double latitudeLeft;
+    @NotNull
+    private double longitudeLeft;
+    @NotNull
+    private double latitudeRight;
+    @NotNull
+    private double longitudeRight;
 }

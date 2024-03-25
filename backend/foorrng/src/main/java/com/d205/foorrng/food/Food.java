@@ -18,7 +18,7 @@ public class Food {
     @Column(name = "food_seq")
     private Long id;
 
-    private String name;      // 음식 메뉴 이름
+    private String name;      // 음식 이름
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="foodtrucks_seq")

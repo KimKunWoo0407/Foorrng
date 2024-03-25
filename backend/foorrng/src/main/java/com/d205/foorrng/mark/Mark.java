@@ -22,14 +22,11 @@ public class Mark {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mark_seq")
     private Long id;
-
     private Double latitude;        // 위도
-
     private Double longitude;       // 경도
-
     private String address;         // 지번 주소
-
-    private Boolean isOpen = false;         // 영업상태
+//    private Boolean isOpen = false;         // 영업상태
+    private Boolean isOpen;         // 영업상태
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="foodtrucks_seq")
@@ -41,16 +38,12 @@ public class Mark {
     private List<OperationInfo> operationInfoList;
 
     public void update(MarkDto markDto) {
-
         this.address = markDto.getAddress();
         this.latitude = markDto.getLatitude();
         this.longitude = markDto.getLongitude();
-
     }
 
     public void changeIsOpen() {
-
         this.isOpen = !this.isOpen;
-
     }
 }

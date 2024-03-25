@@ -1,8 +1,6 @@
 package com.d205.foorrng.foodtruck.response;
 
 import com.d205.foorrng.foodtruck.entity.FoodtruckReport;
-import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.List;
@@ -20,10 +18,10 @@ public class FoodtruckRepResDto {
     private List<String> category;
 
 
-    public FoodtruckRepResDto(FoodtruckReport foodtruckReport, Long id, Long createdDay, List<String> category){
+    public FoodtruckRepResDto(FoodtruckReport foodtruckReport, Long id, List<String> category){
         this.foodtruckId = id;
         this.announcement = foodtruckReport.getAnnouncement();
-        this.createdDay = createdDay;
+        this.createdDay = foodtruckReport.getCreatedDay();
         this.picture = foodtruckReport.getPicture();
         this.name = foodtruckReport.getName();
         this.accountInfo = foodtruckReport.getAccountInfo();

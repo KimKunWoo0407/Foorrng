@@ -30,13 +30,11 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class FoodtruckServiceImpl implements FoodtruckService{
-
     private final FoodtruckRepository foodtruckRepository;
     private final FoodtrucksRepository foodtrucksRepository;
     private final UserRepository userRepository;
@@ -49,22 +47,17 @@ public class FoodtruckServiceImpl implements FoodtruckService{
     private final S3Image s3Image;
     private final FoodService foodService;
 
-
-
     @Override
     @Transactional
     public FoodtruckResDto createFoodtruck( FoodtruckCreateReqDto foodtruckCreateReqDto, MultipartFile picture) throws IOException {
         User user = userRepository.findByUserUid(Long.parseLong(SecurityUtil.getCurrentUsername().get())).get();
-
-        // ALL 푸드트럭 entity 생성
+        // 전체 푸드트럭 entity 생성
         Foodtrucks foodtrucks = Foodtrucks.builder()
                 .user(user)
                 .foodtruckRole(FoodtruckRole.Foodtruck).build();
         foodtrucksRepository.save(foodtrucks);
-
         // 생성날짜 long 타입
         Long createdDay = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-
         // 점주 푸드트럭 entity 생성
         Foodtruck foodtruck = Foodtruck.builder()
                 .foodtruckId(new FoodtruckId(foodtrucks.getId()))
@@ -74,36 +67,21 @@ public class FoodtruckServiceImpl implements FoodtruckService{
                 .carNumber(foodtruckCreateReqDto.getCarNumber())
                 .phoneNumber(foodtruckCreateReqDto.getPhoneNumber())
                 .createdDay(createdDay)
+                .foodtrucks(foodtrucks)
                 .build();
-
         // 이미지 s3 저장
         String imgUrl = "";
         if(picture != null) {
-
-            // 디폴트 이미지 조회
-            // 해당 푸드트럭에 디폴트 이미지 url 저장
-
-            String imgName = foodtruck.getName() + foodtrucks.getId().toString() + ".png"; // 확장명
+            String imgName = foodtruck.getName() + foodtrucks.getId().toString() + ".png";
             String dir = "/foodtruckIMG";
             imgUrl = s3Image.saveImageS3(picture, imgName, dir);
-
-            // 디폴트 이미지 저장
-            if (picture.getOriginalFilename() == "defaultIMG.webp"){
-                String defaultkey = "DefaultImage";
-                String defaultdir = "/DefaultIMG";
-                s3Image.saveImageS3(picture, defaultkey, defaultdir);
-            }
         }
         foodtruck.updatePicture(imgUrl);
-
-
         // 푸드트럭 음식카테고리
         foodService.saveFoodtruckFood(foodtrucks.getId(), foodtruckCreateReqDto.getCategory());
-
         // 푸드트럭 저장
         foodtruckRepository.save(foodtruck);
-
-        return new FoodtruckResDto(foodtruck, foodtrucks.getId(), createdDay, foodtruckCreateReqDto.getCategory());
+        return new FoodtruckResDto(foodtruck, foodtrucks.getId(), foodtruckCreateReqDto.getCategory());
     };
 
     @Override
@@ -121,23 +99,22 @@ public class FoodtruckServiceImpl implements FoodtruckService{
         foodtruck.updateCarNumber(foodtruckUpdateReqDto.getCarNumber());
         foodtruck.updatePhoneNumber(foodtruckUpdateReqDto.getPhoneNumber());
 
-        String imgUrl = foodtruck.getPicture();
+        String imgUrl = "";
         if(picture!=null){
-            // 입력 : 빈값일때 디폴트 이미지 넣기
             String imgName = foodtruck.getName() + foodtrucks.getId().toString() + ".png";
             String dir = "/foodtruckIMG";
             imgUrl = s3Image.saveImageS3(picture, imgName, dir);
             foodtruck.updatePicture(imgUrl);
         }
 
-        // 수정API 들어오면 음식카테고리는 삭제 및 생성
+        // 수정 API 들어오면 음식카테고리는 삭제 및 생성
         // 더 나은 방법이 있을까
-        List<Food> foodlist = foodRepository.findAllByFoodtrucks(foodtrucks).get();
+        List<Food> foodlist = foodRepository.findAllByFoodtrucks(foodtrucks);
         foodRepository.deleteAll(foodlist);
         foodService.saveFoodtruckFood(foodtrucks.getId(), foodtruckUpdateReqDto.getCategory());
         foodtruckRepository.save(foodtruck);
 
-        return new FoodtruckResDto(foodtruck, foodtruckUpdateReqDto.getFoodtruckId(), foodtruck.getCreatedDay(), foodtruckUpdateReqDto.getCategory());
+        return new FoodtruckResDto(foodtruck, foodtruckUpdateReqDto.getFoodtruckId(), foodtruckUpdateReqDto.getCategory());
     };
 
     @Override

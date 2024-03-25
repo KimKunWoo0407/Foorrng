@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface RequestDeleteRepository extends JpaRepository<RequestDelete, Long> {
 
     Optional<RequestDelete> findByUserAndFoodtrucks(User user, Foodtrucks foodtrucks);
-    Optional<List<RequestDelete>> findAllByFoodtrucks(Foodtrucks foodtrucks);
+    List<RequestDelete> findAllByFoodtrucks(Foodtrucks foodtrucks);
 }
