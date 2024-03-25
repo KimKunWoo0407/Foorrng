@@ -4,7 +4,6 @@ import com.d205.foorrng.foodtruck.entity.Foodtruck;
 import lombok.Getter;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 public class FoodtruckResDto {
@@ -19,10 +18,10 @@ public class FoodtruckResDto {
     private List<String> category;
 
     // 생성
-    public FoodtruckResDto(Foodtruck foodtruck, Long id, Long createdDay, List<String> category){
+    public FoodtruckResDto(Foodtruck foodtruck, Long id, List<String> category){
         this.foodtruckId = id;
         this.announcement = foodtruck.getAnnouncement();
-        this.createdDay = createdDay;
+        this.createdDay = foodtruck.getCreatedDay();
         this.picture = foodtruck.getPicture();
         this.name = foodtruck.getName();
         this.accountInfo = foodtruck.getAccountInfo();

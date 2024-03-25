@@ -1,11 +1,11 @@
 package com.d205.foorrng.foodtruck.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 
 @Entity
 @Getter
@@ -23,13 +23,11 @@ public class Foodtruck {
     private String phoneNumber;
 
     @ManyToOne
-    @JoinColumns({ // 왜 foodtruck_id 컬럼에 null이 들어갈까
-            @JoinColumn(name = "foodtruck_id", referencedColumnName = "foodtrucks_seq", insertable = false, updatable = false)
-    })
+    @JoinColumn(name = "foodtruck_id", referencedColumnName = "foodtrucks_seq")
     private Foodtrucks foodtrucks;
 
     @Builder
-    public Foodtruck(FoodtruckId foodtruckId,String announcement, Long createdDay, String picture, String name, String accountInfo, String carNumber, String phoneNumber){
+    public Foodtruck(FoodtruckId foodtruckId,String announcement, Long createdDay, String picture, String name, String accountInfo, String carNumber, String phoneNumber, Foodtrucks foodtrucks){
         this.foodtruckId = foodtruckId;
         this.announcement = announcement;
         this.createdDay = createdDay;
@@ -38,6 +36,7 @@ public class Foodtruck {
         this.accountInfo = accountInfo;
         this.carNumber = carNumber;
         this.phoneNumber = phoneNumber;
+        this.foodtrucks = foodtrucks;
     }
 
     public void updateAnnouncement(String announcement) {

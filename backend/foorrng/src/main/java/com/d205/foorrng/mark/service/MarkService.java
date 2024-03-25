@@ -3,21 +3,17 @@ package com.d205.foorrng.mark.service;
 
 import com.d205.foorrng.common.exception.ErrorCode;
 import com.d205.foorrng.common.exception.Exceptions;
-import com.d205.foorrng.foodtruck.entity.Foodtruck;
-import com.d205.foorrng.foodtruck.entity.FoodtruckId;
 import com.d205.foorrng.foodtruck.entity.Foodtrucks;
-import com.d205.foorrng.foodtruck.repository.FoodtruckRepository;
 import com.d205.foorrng.foodtruck.repository.FoodtrucksRepository;
 import com.d205.foorrng.mark.Mark;
 import com.d205.foorrng.mark.dto.MarkDto;
-import com.d205.foorrng.mark.dto.MarkReqDto;
 import com.d205.foorrng.mark.repository.MarkRepository;
-import com.d205.foorrng.operationInfo.OperationInfo;
 import com.d205.foorrng.operationInfo.repository.OperationInfoRepository;
-import com.d205.foorrng.user.entity.User;
 import com.d205.foorrng.user.repository.UserRepository;
 import com.d205.foorrng.util.SecurityUtil;
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,6 +45,7 @@ public class MarkService {
                 .longitude(markDto.getLongitude())
                 .latitude(markDto.getLatitude())
                 .address(markDto.getAddress())
+                .isOpen(false)
                 .build();
 
         markRepository.save(mark);

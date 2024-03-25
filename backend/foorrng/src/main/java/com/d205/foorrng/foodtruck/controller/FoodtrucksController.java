@@ -31,7 +31,7 @@ public class FoodtrucksController {
 
     @GetMapping("")
     @ApiResponse(responseCode = "200", description = "소비자 푸드트럭 전체 조회")
-    public ResponseEntity<? extends BaseResponseBody> findAllByFoodtrucksToCustomer(@Valid @RequestParam FoodtrucksReqDto foodtrucksReqDto) {
+    public ResponseEntity<? extends BaseResponseBody> findAllByFoodtrucksToCustomer(@Valid @RequestBody FoodtrucksReqDto foodtrucksReqDto) {
         List<FoodtrucksResDto> foodtrucksResDtos = foodtrucksService.foodtrucklist(foodtrucksReqDto);
         return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0,foodtrucksResDtos));
     }

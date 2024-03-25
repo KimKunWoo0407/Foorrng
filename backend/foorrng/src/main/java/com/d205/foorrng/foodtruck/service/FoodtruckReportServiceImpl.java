@@ -68,6 +68,7 @@ public class FoodtruckReportServiceImpl implements FoodtruckReportService{
                 .carNumber(foodtruckCreateReqDto.getCarNumber())
                 .phoneNumber(foodtruckCreateReqDto.getPhoneNumber())
                 .createdDay(createdDay)
+                .foodtrucks(foodtrucks)
                 .build();
 
         String imgUrl = "";
@@ -81,7 +82,7 @@ public class FoodtruckReportServiceImpl implements FoodtruckReportService{
         foodService.saveFoodtruckFood(foodtrucks.getId(), foodtruckCreateReqDto.getCategory());
 
         foodtruckReportRepository.save(foodtruckReport);
-        return new FoodtruckRepResDto(foodtruckReport, foodtrucks.getId(), createdDay, foodtruckCreateReqDto.getCategory());
+        return new FoodtruckRepResDto(foodtruckReport, foodtrucks.getId(), foodtruckCreateReqDto.getCategory());
     };
     @Override
     @Transactional
@@ -116,7 +117,7 @@ public class FoodtruckReportServiceImpl implements FoodtruckReportService{
         // 수정된 푸드트럭 저장
         foodtruckReportRepository.save(foodtruckReport);
 
-        return new FoodtruckRepResDto(foodtruckReport, foodtrucks.getId(), foodtruckReport.getCreatedDay(), foodtruckUpdateReqDto.getCategory());
+        return new FoodtruckRepResDto(foodtruckReport, foodtrucks.getId(), foodtruckUpdateReqDto.getCategory());
     };
 
     @Override

@@ -4,9 +4,12 @@ import com.d205.foorrng.common.exception.ErrorCode;
 import com.d205.foorrng.common.exception.Exceptions;
 import com.d205.foorrng.food.Food;
 import com.d205.foorrng.food.repository.FoodRepository;
+import com.d205.foorrng.food.service.FoodService;
 import com.d205.foorrng.foodtruck.entity.*;
 import com.d205.foorrng.foodtruck.repository.*;
 import com.d205.foorrng.foodtruck.request.FoodtrucksReqDto;
+import com.d205.foorrng.foodtruck.response.FoodtruckRepResDto;
+import com.d205.foorrng.foodtruck.response.FoodtruckResDto;
 import com.d205.foorrng.foodtruck.response.FoodtrucksResDto;
 import com.d205.foorrng.mark.Mark;
 import com.d205.foorrng.mark.repository.MarkRepository;
@@ -14,6 +17,7 @@ import com.d205.foorrng.operationInfo.OperationInfo;
 import com.d205.foorrng.operationInfo.repository.OperationInfoRepository;
 import com.d205.foorrng.review.Review;
 import com.d205.foorrng.review.ReviewRepository;
+import com.d205.foorrng.review.ReviewService;
 import com.d205.foorrng.user.entity.User;
 import com.d205.foorrng.user.repository.UserRepository;
 import com.d205.foorrng.util.SecurityUtil;
@@ -38,15 +42,30 @@ public class FoodtrucksServiceImlp implements FoodtrucksService{
     private final FoodtruckLikeRepository foodtruckLikeRepository;
     private final MenuRepository menuRepository;
     private final OperationInfoRepository operationInfoRepository;
+    private final FoodService foodService;
+    private final ReviewService reviewService;
 
     @Override
     @Transactional
     public List<FoodtrucksResDto> foodtrucklist(FoodtrucksReqDto foodtrucksReqDto){
-        List<Mark> markList = markRepository.findAllByLatitudeBetweenAndLongitudeBetween(foodtrucksReqDto.getLatitudeLeft(), foodtrucksReqDto.getLongitudeLeft(), foodtrucksReqDto.getLatitudeRight(), foodtrucksReqDto.getLongitudeRight());
+        double latitudeMin = Math.min(foodtrucksReqDto.getLatitudeLeft(), foodtrucksReqDto.getLatitudeRight());
+        double latitudeMax = Math.max(foodtrucksReqDto.getLatitudeLeft(), foodtrucksReqDto.getLatitudeRight());
+        double longitudeMin = Math.min(foodtrucksReqDto.getLongitudeLeft(), foodtrucksReqDto.getLongitudeRight());
+        double longitudeMax = Math.max(foodtrucksReqDto.getLongitudeLeft(), foodtrucksReqDto.getLongitudeRight());
+        List<Mark> markList = markRepository.findAllByLatitudeBetweenAndLongitudeBetween(latitudeMin, latitudeMax, longitudeMin, longitudeMax);
         List<FoodtrucksResDto> foodtrucksResDtos = new ArrayList<>();
+        System.out.println("+++++++++++++++++++++++++++");
+        System.out.println(markList.size());
+        System.out.println("+++++++++++++++++++++++++++");
         for(Mark mark:markList){
+            // test
+            System.out.println("mark" + mark.getId());
+            System.out.println(mark.getFoodtrucks().getId());
+            // test
+
             // 푸드트럭정보
-            Foodtrucks foodtrucks = mark.getFoodtrucks();
+            Foodtrucks foodtrucks = foodtrucksRepository.findById(mark.getFoodtrucks().getId())
+                    .orElseThrow(() -> new Exceptions(ErrorCode.FOODTRUCK_NOT_EXIST));
             Foodtruck foodtruck = foodtruckRepository.findByFoodtruckId(new FoodtruckId(foodtrucks.getId()))
                     .orElseThrow(() -> new Exceptions(ErrorCode.FOODTRUCK_NOT_EXIST));
             // 음식카테고리
@@ -55,7 +74,7 @@ public class FoodtrucksServiceImlp implements FoodtrucksService{
             for (Food food:foods) {
                 category.add(food.getName());
             }
-            // 점주푸드트럭 vs 제보푸드트럭
+            // 푸드트럭 타입
             String type;
             if (foodtrucks.getFoodtruckRole() == FoodtruckRole.Foodtruck){
                 type = "Foodtruck";
@@ -93,57 +112,28 @@ public class FoodtrucksServiceImlp implements FoodtrucksService{
             // 점주 푸드트럭
             Foodtruck foodtruck = foodtruckRepository.findByFoodtruckId(new FoodtruckId(foodtrucks.getId()))
                     .orElseThrow(()-> new Exceptions(ErrorCode.FOODTRUCK_NOT_EXIST));
+            List<String> category = foodService.getFoodtruckFood(foodtrucksId);
+            FoodtruckResDto foodtruckResDto = new FoodtruckResDto(foodtruck, foodtrucks.getId(), category);
             response.put("role", "foodtruck");
-            response.put("foodtruck", foodtruck);
+            response.put("foodtruck", foodtruckResDto);
         }
         else{
             // 제보 푸드트럭
             FoodtruckReport foodtruckReport = foodtruckReportRepository.findByFoodtruckId(new FoodtruckReportId(foodtrucks.getId()))
                     .orElseThrow(()-> new Exceptions(ErrorCode.FOODTRUCK_NOT_EXIST));
+            List<String> category = foodService.getFoodtruckFood(foodtrucksId);
+            FoodtruckRepResDto foodtruckRepResDto = new FoodtruckRepResDto(foodtruckReport, foodtrucks.getId(), category);
             response.put("role", "foodtruckReport");
-            response.put("foodtruck", foodtruckReport);
+            response.put("foodtruck", foodtruckRepResDto);
         }
-        List<Map<String,Object>> reviews = new ArrayList<>();
-
-        // 더 나은 방법 없나
-        Map<String, Object> review1 = new HashMap<>();
-        review1.put("Id", "");
-        review1.put("cnt", reviewRepository.countDeliciousReviewsByFoodtruckId(foodtrucks.getId()));
-        Map<String, Object> review2 = new HashMap<>();
-        review2.put("Id", "");
-        review2.put("cnt", reviewRepository.countSpecialReviewsByFoodtruckId(foodtrucks.getId()));
-        Map<String, Object> review3 = new HashMap<>();
-        review3.put("Id", "");
-        review3.put("cnt", reviewRepository.countChipReviewsByFoodtruckId(foodtrucks.getId()));
-        Map<String, Object> review4 = new HashMap<>();
-        review4.put("Id", "");
-        review4.put("cnt", reviewRepository.countFastReviewsByFoodtruckId(foodtrucks.getId()));
-        Map<String, Object> review5 = new HashMap<>();
-        review5.put("Id", "");
-        review5.put("cnt", reviewRepository.countCleanReviewsByFoodtruckId(foodtrucks.getId()));
-        Map<String, Object> review6 = new HashMap<>();
-        review6.put("Id", "");
-        review6.put("cnt", reviewRepository.countCoolReviewsByFoodtruckId(foodtrucks.getId()));
-        Map<String, Object> review7 = new HashMap<>();
-        review7.put("Id", "");
-        review7.put("cnt", reviewRepository.countKindReviewsByFoodtruckId(foodtrucks.getId()));
-        reviews.add(review1);
-        reviews.add(review2);
-        reviews.add(review3);
-        reviews.add(review4);
-        reviews.add(review5);
-        reviews.add(review6);
-        reviews.add(review7);
-
+        List<Map<String,Object>> reviews = reviewService.getReviewlist(foodtrucksId);
         List<Menu> menus = menuRepository.findAllByFoodtrucks_Id(foodtrucks.getId());
         Mark mark = markRepository.findById(markId).get();
         List<OperationInfo> operationInfoList = operationInfoRepository.findAllByMarkId(markId).get();
-
         response.put("review", reviews);
         response.put("menus", menus);
         response.put("mark", mark);
         response.put("operation", operationInfoList);
-
         return response;
 
     };
@@ -153,8 +143,10 @@ public class FoodtrucksServiceImlp implements FoodtrucksService{
         Map<String, Object> response = new HashMap<>();
         Foodtruck foodtruck = foodtruckRepository.findByFoodtruckId(new FoodtruckId(foodtruckId))
                 .orElseThrow(()-> new Exceptions(ErrorCode.FOODTRUCK_NOT_EXIST));
-        List<Review> reviews = reviewRepository.findByFoodtrucksId(foodtruckId);
-        response.put("foodtruck", foodtruck);
+        List<String> category = foodService.getFoodtruckFood(foodtruckId);
+        FoodtruckResDto foodtruckResDto = new FoodtruckResDto(foodtruck, foodtruckId, category);
+        List<Map<String,Object>> reviews = reviewService.getReviewlist(foodtruckId);
+        response.put("foodtruck", foodtruckResDto);
         response.put("review", reviews);
         return response;
     };
@@ -169,7 +161,6 @@ public class FoodtrucksServiceImlp implements FoodtrucksService{
             Map<String, Object> responseOne = new HashMap<>();
             List<OperationInfo> operationInfos = operationInfoRepository.findAllByMarkId(mark.getId()).get();
             responseOne.put("mark", mark);
-            responseOne.put("operation", operationInfos);
             response.add(responseOne);
         }
         return response;
