@@ -23,7 +23,7 @@ public class Foodtruck {
     private String phoneNumber;
 
     @ManyToOne
-    @JoinColumns({
+    @JoinColumns({ // 왜 foodtruck_id 컬럼에 null이 들어갈까
             @JoinColumn(name = "foodtruck_id", referencedColumnName = "foodtrucks_seq", insertable = false, updatable = false)
     })
     private Foodtrucks foodtrucks;

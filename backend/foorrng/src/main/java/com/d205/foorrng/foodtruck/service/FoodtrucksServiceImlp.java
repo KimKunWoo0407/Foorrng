@@ -41,7 +41,7 @@ public class FoodtrucksServiceImlp implements FoodtrucksService{
 
     @Override
     @Transactional
-    public List<FoodtrucksResDto> foodtrucklist(FoodtrucksReqDto foodtrucksReqDto){
+    public List<FoodtrucksResDto> foodtrucklist(FoodtrucksReqDto foodtrucksReqDto) throws IOException{
         List<Mark> markList = markRepository.findAllByLatitudeBetweenAndLongitudeBetween(foodtrucksReqDto.getLatitude_left(), foodtrucksReqDto.getLongitude_left(), foodtrucksReqDto.getLatitude_right(), foodtrucksReqDto.getLongitude_right());
         List<FoodtrucksResDto> foodtrucksResDtos = new ArrayList<>(); // 배열 초기화
         for(Mark mark:markList){
@@ -82,7 +82,7 @@ public class FoodtrucksServiceImlp implements FoodtrucksService{
     };
     @Override
     @Transactional
-    public Map<String, Object> foodtruckdetail(Long foodtrucksId, Long markId) throws IOException {
+    public Map<String, Object> foodtruckdetail(Long foodtrucksId, Long markId) throws IOException  {
         Map<String, Object> response = new HashMap<>();
 
         Foodtrucks foodtrucks = foodtrucksRepository.findById(foodtrucksId)
@@ -102,7 +102,37 @@ public class FoodtrucksServiceImlp implements FoodtrucksService{
             response.put("role", "foodtruckReport");
             response.put("foodtruck", foodtruckReport);
         }
-        List<Review> reviews = reviewRepository.findByFoodtrucksId(foodtrucks.getId());
+        List<Map<String,Object>> reviews = new ArrayList<>();
+
+        Map<String, Object> review1 = new HashMap<>();
+        review1.put("Id", "");
+        review1.put("cnt", reviewRepository.countDeliciousReviewsByFoodtruckId(foodtrucks.getId()));
+        Map<String, Object> review2 = new HashMap<>();
+        review2.put("Id", "");
+        review2.put("cnt", reviewRepository.countSpecialReviewsByFoodtruckId(foodtrucks.getId()));
+        Map<String, Object> review3 = new HashMap<>();
+        review3.put("Id", "");
+        review3.put("cnt", reviewRepository.countChipReviewsByFoodtruckId(foodtrucks.getId()));
+        Map<String, Object> review4 = new HashMap<>();
+        review4.put("Id", "");
+        review4.put("cnt", reviewRepository.countFastReviewsByFoodtruckId(foodtrucks.getId()));
+        Map<String, Object> review5 = new HashMap<>();
+        review5.put("Id", "");
+        review5.put("cnt", reviewRepository.countCleanReviewsByFoodtruckId(foodtrucks.getId()));
+        Map<String, Object> review6 = new HashMap<>();
+        review6.put("Id", "");
+        review6.put("cnt", reviewRepository.countCoolReviewsByFoodtruckId(foodtrucks.getId()));
+        Map<String, Object> review7 = new HashMap<>();
+        review7.put("Id", "");
+        review7.put("cnt", reviewRepository.countKindReviewsByFoodtruckId(foodtrucks.getId()));
+        reviews.add(review1);
+        reviews.add(review2);
+        reviews.add(review3);
+        reviews.add(review4);
+        reviews.add(review5);
+        reviews.add(review6);
+        reviews.add(review7);
+
         List<Menu> menus = menuRepository.findAllByFoodtrucks_Id(foodtrucks.getId());
         Mark mark = markRepository.findById(markId).get();
         List<OperationInfo> operationInfoList = operationInfoRepository.findAllByMarkId(markId).get();
@@ -117,7 +147,7 @@ public class FoodtrucksServiceImlp implements FoodtrucksService{
     };
     @Override
     @Transactional
-    public Map<String, Object> myfoodtruck(Long foodtruckId){
+    public Map<String, Object> myfoodtruck(Long foodtruckId) throws IOException{
         Map<String, Object> response = new HashMap<>();
         Foodtruck foodtruck = foodtruckRepository.findByFoodtruckId(new FoodtruckId(foodtruckId))
                 .orElseThrow(()-> new Exceptions(ErrorCode.FOODTRUCK_NOT_EXIST));
@@ -128,7 +158,7 @@ public class FoodtrucksServiceImlp implements FoodtrucksService{
     };
     @Override
     @Transactional
-    public List<Map<String, Object>> myfoodtruckOper(Long foodtruckId){
+    public List<Map<String, Object>> myfoodtruckOper(Long foodtruckId) throws IOException{
         List<Map<String, Object>> response = new ArrayList<>();
         Foodtrucks foodtrucks = foodtrucksRepository.findById(foodtruckId)
                 .orElseThrow(()->new Exceptions(ErrorCode.FOODTRUCK_NOT_EXIST));
