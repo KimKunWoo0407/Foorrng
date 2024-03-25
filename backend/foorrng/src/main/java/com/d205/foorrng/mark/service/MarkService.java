@@ -12,6 +12,8 @@ import com.d205.foorrng.mark.Mark;
 import com.d205.foorrng.mark.dto.MarkDto;
 import com.d205.foorrng.mark.dto.MarkReqDto;
 import com.d205.foorrng.mark.repository.MarkRepository;
+import com.d205.foorrng.operationInfo.OperationInfo;
+import com.d205.foorrng.operationInfo.repository.OperationInfoRepository;
 import com.d205.foorrng.user.entity.User;
 import com.d205.foorrng.user.repository.UserRepository;
 import com.d205.foorrng.util.SecurityUtil;
@@ -32,6 +34,7 @@ public class MarkService {
     private final FoodtrucksRepository foodtrucksRepository;
 //    private final FoodtruckRepository foodtruckRepository;
     private final MarkRepository markRepository;
+    private  final OperationInfoRepository operationInfoRepository;
 
     @Transactional
     public Map<String, Object> createMark(Long foodtruckId, MarkDto markDto) {
@@ -73,6 +76,13 @@ public class MarkService {
     }
 
 
+    @Transactional
+    public Mark searchMarkDetail(Long markId) {
+
+        return markRepository.findById(markId).orElseThrow(() -> new Exceptions(ErrorCode.MARK_NOT_EXIST));
+    }
+
+
 
 
     @Transactional
@@ -97,6 +107,18 @@ public class MarkService {
         markRepository.delete(mark);
     }
 
+
+    @Transactional
+    public Mark toggleMark(Long markId) {
+
+
+        Mark mark = markRepository.findById(markId)
+                .orElseThrow(() -> new Exceptions(ErrorCode.MARK_NOT_EXIST));
+
+        mark.changeIsOpen();
+
+        return markRepository.save(mark);
+    }
 
 
 }
