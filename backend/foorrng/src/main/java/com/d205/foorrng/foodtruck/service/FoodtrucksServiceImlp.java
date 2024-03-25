@@ -41,18 +41,21 @@ public class FoodtrucksServiceImlp implements FoodtrucksService{
 
     @Override
     @Transactional
-    public List<FoodtrucksResDto> foodtrucklist(FoodtrucksReqDto foodtrucksReqDto) throws IOException{
-        List<Mark> markList = markRepository.findAllByLatitudeBetweenAndLongitudeBetween(foodtrucksReqDto.getLatitude_left(), foodtrucksReqDto.getLongitude_left(), foodtrucksReqDto.getLatitude_right(), foodtrucksReqDto.getLongitude_right());
-        List<FoodtrucksResDto> foodtrucksResDtos = new ArrayList<>(); // 배열 초기화
+    public List<FoodtrucksResDto> foodtrucklist(FoodtrucksReqDto foodtrucksReqDto){
+        List<Mark> markList = markRepository.findAllByLatitudeBetweenAndLongitudeBetween(foodtrucksReqDto.getLatitudeLeft(), foodtrucksReqDto.getLongitudeLeft(), foodtrucksReqDto.getLatitudeRight(), foodtrucksReqDto.getLongitudeRight());
+        List<FoodtrucksResDto> foodtrucksResDtos = new ArrayList<>();
         for(Mark mark:markList){
+            // 푸드트럭정보
             Foodtrucks foodtrucks = mark.getFoodtrucks();
             Foodtruck foodtruck = foodtruckRepository.findByFoodtruckId(new FoodtruckId(foodtrucks.getId()))
                     .orElseThrow(() -> new Exceptions(ErrorCode.FOODTRUCK_NOT_EXIST));
+            // 음식카테고리
             List<Food> foods = foodRepository.findAllByFoodtrucks(foodtrucks);
             List<String> category = new ArrayList<>();
             for (Food food:foods) {
                 category.add(food.getName());
             }
+            // 점주푸드트럭 vs 제보푸드트럭
             String type;
             if (foodtrucks.getFoodtruckRole() == FoodtruckRole.Foodtruck){
                 type = "Foodtruck";
@@ -60,7 +63,9 @@ public class FoodtrucksServiceImlp implements FoodtrucksService{
             else{
                 type = "FoodtruckReport";
             }
+            // 리뷰 총 개수
             List<Review> reviews = reviewRepository.findByFoodtrucksId(foodtrucks.getId());
+            // 푸드트럭 좋아요 여부
             User user = userRepository.findByUserUid(Long.parseLong(SecurityUtil.getCurrentUsername().get())).get();
             Optional<FoodtruckLike> foodtruckLike = foodtruckLikeRepository.findByUserAndFoodtrucks(user, foodtrucks);
             Boolean like;
@@ -69,12 +74,8 @@ public class FoodtrucksServiceImlp implements FoodtrucksService{
             }else{
                 like = false;
             }
-            Boolean operate = false;
-
-            // ++++++++++++++++++++
-            // 수정 필요
-            // ++++++++++++++++++++
-
+            // 푸드트럭 운영 여부
+            Boolean operate = mark.getIsOpen();
             FoodtrucksResDto foodtrucksResDto = new FoodtrucksResDto(foodtrucks.getId(), mark.getId(), mark.getLatitude(), mark.getLongitude(), foodtruck.getName(), foodtruck.getPicture(), type, category, reviews.size(), like, operate);
             foodtrucksResDtos.add(foodtrucksResDto);
         }
@@ -104,6 +105,7 @@ public class FoodtrucksServiceImlp implements FoodtrucksService{
         }
         List<Map<String,Object>> reviews = new ArrayList<>();
 
+        // 더 나은 방법 없나
         Map<String, Object> review1 = new HashMap<>();
         review1.put("Id", "");
         review1.put("cnt", reviewRepository.countDeliciousReviewsByFoodtruckId(foodtrucks.getId()));

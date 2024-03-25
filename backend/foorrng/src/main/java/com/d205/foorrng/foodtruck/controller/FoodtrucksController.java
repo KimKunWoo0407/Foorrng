@@ -7,6 +7,7 @@ import com.d205.foorrng.foodtruck.response.LikeFoodtrucksDto;
 import com.d205.foorrng.foodtruck.service.FoodtrucksService;
 import com.d205.foorrng.foodtruck.service.LikeFoodtruckService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class FoodtrucksController {
 
     @GetMapping("")
     @ApiResponse(responseCode = "200", description = "소비자 푸드트럭 전체 조회")
-    public ResponseEntity<? extends BaseResponseBody> findAllByFoodtrucksToCustomer(@RequestBody FoodtrucksReqDto foodtrucksReqDto) throws IOException{
+    public ResponseEntity<? extends BaseResponseBody> findAllByFoodtrucksToCustomer(@Valid @RequestParam FoodtrucksReqDto foodtrucksReqDto) {
         List<FoodtrucksResDto> foodtrucksResDtos = foodtrucksService.foodtrucklist(foodtrucksReqDto);
         return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0,foodtrucksResDtos));
     }

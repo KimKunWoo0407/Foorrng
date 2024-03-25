@@ -6,11 +6,11 @@ import lombok.Getter;
 @Getter
 public class FoodtrucksReqDto {
     @NotBlank
-    private double latitude_left;
+    private double latitudeLeft;
     @NotBlank
-    private double longitude_left;
+    private double longitudeLeft;
     @NotBlank
-    private double latitude_right;
+    private double latitudeRight;
     @NotBlank
-    private double longitude_right;
+    private double longitudeRight;
 }
