@@ -5,37 +5,35 @@ import com.d205.foorrng.foodtruck.entity.Foodtrucks;
 import lombok.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class FoodtrucksResDto {
-    private Long id;
-    private FoodtruckRole foodtruckRole;
-    private Foodtrucks foodtruck; // 필드 유지
-    private List<FoodtruckResDto> foodtrucks;
-    private List<FoodtruckRepResDto> foodtruckReports;
+    private Long foodtruckId;
+    private Long markId;
+    private Double latitude;
+    private Double longitutde;
+    private String name;
+    private String img;
+    private String type;
+    private List<String> category;
+    private Integer reviewCnt;
+    private Boolean like;
+    private Boolean operation;
 
-    // 수정된 주 생성자
-//    public FoodtrucksResDto(Long id, FoodtruckRole foodtruckRole, Foodtrucks foodtruck, List<FoodtruckResDto> foodtrucks, List<FoodtruckRepResDto> foodtruckReports) {
-//        this.id = id;
-//        this.foodtruckRole = foodtruckRole;
-//        this.foodtruck = foodtruck; // 필드 초기화
-//        this.foodtrucks = foodtrucks;
-//        this.foodtruckReports = foodtruckReports;
-//    }
+    public FoodtrucksResDto(Long foodtruckId, Long markId, Double latitude, Double longitutde, String name, String img, String type, List<String> category, Integer reviewCnt, Boolean like, Boolean operation){
+        this.foodtruckId = foodtruckId;
+        this.markId = markId;
+        this.latitude = latitude;
+        this.longitutde = longitutde;
+        this.name = name;
+        this.img = img;
+        this.type = type;
+        this.category = category;
+        this.reviewCnt = reviewCnt;
+        this.like = like;
+        this.operation = operation;
 
-    // 수정된 fromEntity 정적 팩토리 메서드
-    public static FoodtrucksResDto fromEntity(Foodtrucks foodtrucks, List<FoodtruckResDto> foodtruckDtos, List<FoodtruckRepResDto> foodtruckReportDtos) {
-        return new FoodtrucksResDto(
-                foodtrucks.getId(),
-                foodtrucks.getFoodtruckRole(),
-                foodtrucks,
-                foodtruckDtos,
-                foodtruckReportDtos
-        );
     }
 }
 

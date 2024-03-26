@@ -2,11 +2,11 @@ package com.d205.foorrng.foodtruck.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 
 @Entity
 @Getter
@@ -24,9 +24,7 @@ public class Foodtruck {
     private String phoneNumber;
 
     @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "foodtruck_id", referencedColumnName = "foodtrucks_seq", insertable = false, updatable = false)
-    })
+    @JoinColumn(name = "foodtruck_id", referencedColumnName = "foodtrucks_seq")
     private Foodtrucks foodtrucks;
 
     @Builder

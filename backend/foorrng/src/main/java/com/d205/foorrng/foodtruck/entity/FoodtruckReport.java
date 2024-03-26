@@ -20,14 +20,12 @@ public class FoodtruckReport {
     private String phoneNumber;
 
     @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "foodtruck_id", referencedColumnName = "foodtrucks_seq", insertable = false, updatable = false)
-    })
+    @JoinColumn(name = "foodtruck_id", referencedColumnName = "foodtrucks_seq")
     private Foodtrucks foodtrucks;
 
 
     @Builder
-    public FoodtruckReport(FoodtruckReportId reportId, String name, String picture, String carNumber, String announcement, String accountInfo, String phoneNumber, Long createdDay){
+    public FoodtruckReport(FoodtruckReportId reportId, String name, String picture, String carNumber, String announcement, String accountInfo, String phoneNumber, Long createdDay, Foodtrucks foodtrucks){
         this.foodtruckId = reportId;
         this.name = name;
         this.picture = picture;
@@ -36,6 +34,7 @@ public class FoodtruckReport {
         this.accountInfo = accountInfo;
         this.phoneNumber = phoneNumber;
         this.createdDay = createdDay;
+        this.foodtrucks = foodtrucks;
     }
 
     public void updateName(String name){

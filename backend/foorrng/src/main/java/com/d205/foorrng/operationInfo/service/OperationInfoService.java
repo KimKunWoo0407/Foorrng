@@ -15,9 +15,12 @@ import lombok.Setter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.time.Instant;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Service
 @Getter @Setter
@@ -27,21 +30,31 @@ public class OperationInfoService {
     private final MarkRepository markRepository;
     private final OperationInfoRepository operationInfoRepository;
 
-    @Transactional
+//    @Transactional
     public List<OperationInfo> createOperationInfo(Long markId, OperationInfoDto operationInfoDto) {
 
         Mark mark = markRepository.findById(markId)
                 .orElseThrow(() -> new Exceptions(ErrorCode.MARK_NOT_EXIST));
 
+        Set<String> allDays = operationInfoRepository.findAllDaysByFoodTruckId(mark.getFoodtrucks().getId());
 
         for (Map<String, Object> day : operationInfoDto.getOperationInfoList()) {
-
+            if (allDays.contains(day.get("day"))) {
+                if (mark.getOperationInfoList() == null || mark.getOperationInfoList().isEmpty()) {
+                    markRepository.delete(mark);
+                };
+                throw new Exceptions(ErrorCode.DAY_OCCUPIED);
+            }
             OperationInfo operationInfo = OperationInfo
                     .builder()
                     .mark(mark)
                     .day(day.get("day").toString())
-                    .startTime(Long.parseLong(day.get("startTime").toString()))
-                    .endTime(Long.parseLong(day.get("startTime").toString()))
+                    .startTime(LocalTime.ofInstant(
+                            Instant.ofEpochMilli(Long.parseLong(operationInfoDto.getOperationInfoList().get(0).get("startTime").toString())),
+                            ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("HH:mm")))
+                    .endTime(LocalTime.ofInstant(
+                            Instant.ofEpochMilli(Long.parseLong(operationInfoDto.getOperationInfoList().get(0).get("endTime").toString())),
+                            ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("HH:mm")))
                     .build();
 
             operationInfoRepository.save(operationInfo);

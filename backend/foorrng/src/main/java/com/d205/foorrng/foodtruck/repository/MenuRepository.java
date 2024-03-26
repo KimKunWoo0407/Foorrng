@@ -12,7 +12,6 @@ import java.util.Optional;
 
 @Repository
 public interface MenuRepository extends JpaRepository<Menu, Long> {
-
     List<Menu> findAllByFoodtrucks_Id(Long foodtruckId);
 }
 

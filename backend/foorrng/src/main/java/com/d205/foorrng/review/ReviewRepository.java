@@ -3,14 +3,15 @@ package com.d205.foorrng.review;
 import com.d205.foorrng.foodtruck.entity.Foodtrucks;
 import com.d205.foorrng.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Optional;
 
-@Repository
-public interface ReviewRepository extends JpaRepository<Review, Long> {
+public interface ReviewRepository extends JpaRepository<Review, Long>, ReviewRepositoryCustom {
     List<Review> findByFoodtrucksId(Long foodtrucksSeq);
+<<<<<<< HEAD
 
     Optional<Review> findTopByUserAndFoodtrucksOrderByCreatedDateDesc(User user, Foodtrucks foodtrucks);
+=======
+    Optional<Review> findTopByUserOrderByCreatedDateDesc(User user);
+>>>>>>> 858941140174e122ab62f24667d48b67677a581c
 }

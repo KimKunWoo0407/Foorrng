@@ -1,27 +1,23 @@
 package com.d205.foorrng.foodtruck.controller;
 
-import com.d205.foorrng.common.exception.ErrorCode;
 import com.d205.foorrng.common.model.BaseResponseBody;
 import com.d205.foorrng.foodtruck.request.FoodtrucksReqDto;
+import com.d205.foorrng.foodtruck.response.FoodtrucksResDto;
+import com.d205.foorrng.foodtruck.response.LikeFoodtrucksDto;
 import com.d205.foorrng.foodtruck.service.FoodtrucksService;
+import com.d205.foorrng.foodtruck.service.LikeFoodtruckService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import com.d205.foorrng.foodtruck.response.LikeFoodtrucksDto;
-import com.d205.foorrng.foodtruck.service.LikeFoodtruckService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
-
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 
 @Validated
@@ -29,33 +25,38 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequiredArgsConstructor
 @RequestMapping("/api/foodtrucks")
 public class FoodtrucksController {
-//    private final FoodtrucksService foodtrucksService;
+    private final FoodtrucksService foodtrucksService;
     private final LikeFoodtruckService likeFoodtruckService;
 
-    @ApiResponse(responseCode = "200", description = "소비자 푸드트럭 전체 조회")
+
     @GetMapping("")
-    public ResponseEntity<? extends BaseResponseBody> findAllByFoodtrucksToCustomer(@Valid @RequestBody FoodtrucksReqDto foodtrucksReqDto){
-        return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0,""));
+    @ApiResponse(responseCode = "200", description = "소비자 푸드트럭 전체 조회")
+    public ResponseEntity<? extends BaseResponseBody> findAllByFoodtrucksToCustomer(@Valid @RequestBody FoodtrucksReqDto foodtrucksReqDto) {
+        List<FoodtrucksResDto> foodtrucksResDtos = foodtrucksService.foodtrucklist(foodtrucksReqDto);
+        return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0,foodtrucksResDtos));
     }
 
+    @GetMapping("/detail/{foodtrucksId}/{markId}")
     @ApiResponse(responseCode = "200", description = "소비자 푸드트럭 상세 조회")
-    @GetMapping("/detail")
-    public ResponseEntity<? extends BaseResponseBody> findByFoodtrucksToCustomer(){
-        return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0,""));
+    public ResponseEntity<? extends BaseResponseBody> findByFoodtrucksToCustomer(@PathVariable("foodtrucksId") Long foodtrucksId, @PathVariable("markId") Long markId) throws IOException {
+        Map<String, Object> response = foodtrucksService.foodtruckdetail(foodtrucksId, markId);
+        return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0,response));
     }
 
 
     @ApiResponse(responseCode = "200", description = "점주 푸드트럭 조회")
-    @GetMapping("/owner")
-    public ResponseEntity<? extends BaseResponseBody> findByFoodtrucksToOwner(){
-        return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0,""));
+    @GetMapping("/owner/{foodtruckId}")
+    public ResponseEntity<? extends BaseResponseBody> findByFoodtrucksToOwner(@PathVariable("foodtruckId") Long foodtruckId) throws IOException{
+        Map<String, Object> response = foodtrucksService.myfoodtruck(foodtruckId);
+        return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0,response));
     }
 
 
     @ApiResponse(responseCode = "200", description = "점주 푸드트럭 운영관리")
-    @GetMapping("/ownerz/operinfo")
-    public ResponseEntity<? extends BaseResponseBody> findOperByFoodtrucksToOwner(){
-        return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0,""));
+    @GetMapping("/owner/operinfo/{foodtruckId}")
+    public ResponseEntity<? extends BaseResponseBody> findOperByFoodtrucksToOwner(@PathVariable("foodtruckId") Long foodtruckId) throws IOException{
+        List<Map<String, Object>> response = foodtrucksService.myfoodtruckOper(foodtruckId);
+        return ResponseEntity.status(HttpStatus.OK).body(BaseResponseBody.of(0,response));
     }
 
     

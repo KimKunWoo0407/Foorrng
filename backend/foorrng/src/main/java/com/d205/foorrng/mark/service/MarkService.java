@@ -3,21 +3,17 @@ package com.d205.foorrng.mark.service;
 
 import com.d205.foorrng.common.exception.ErrorCode;
 import com.d205.foorrng.common.exception.Exceptions;
-import com.d205.foorrng.foodtruck.entity.Foodtruck;
-import com.d205.foorrng.foodtruck.entity.FoodtruckId;
 import com.d205.foorrng.foodtruck.entity.Foodtrucks;
-import com.d205.foorrng.foodtruck.repository.FoodtruckRepository;
 import com.d205.foorrng.foodtruck.repository.FoodtrucksRepository;
 import com.d205.foorrng.mark.Mark;
 import com.d205.foorrng.mark.dto.MarkDto;
-import com.d205.foorrng.mark.dto.MarkReqDto;
 import com.d205.foorrng.mark.repository.MarkRepository;
-import com.d205.foorrng.operationInfo.OperationInfo;
 import com.d205.foorrng.operationInfo.repository.OperationInfoRepository;
-import com.d205.foorrng.user.entity.User;
 import com.d205.foorrng.user.repository.UserRepository;
 import com.d205.foorrng.util.SecurityUtil;
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,27 +24,32 @@ import java.util.Map;
 @Service
 @Getter @Setter
 @RequiredArgsConstructor
-public class MarkService {
+public class
+MarkService {
 
     private final UserRepository userRepository;
     private final FoodtrucksRepository foodtrucksRepository;
-//    private final FoodtruckRepository foodtruckRepository;
     private final MarkRepository markRepository;
     private  final OperationInfoRepository operationInfoRepository;
 
     @Transactional
     public Map<String, Object> createMark(Long foodtruckId, MarkDto markDto) {
 
-//        User user = userRepository.findByUserUid(Long.parseLong(SecurityUtil.getCurrentUsername().get())).get();
         Foodtrucks foodtrucks = foodtrucksRepository.findById(foodtruckId)
                 .orElseThrow(() -> new Exceptions(ErrorCode.FOODTRUCK_NOT_EXIST));
-//        Foodtruck foodtruck = foodtruckRepository.findByFoodtruckId(new FoodtruckId(foodtrucks.getId())).get();
+
+        List<Mark> foodtruckMarkList = markRepository.findAllByFoodtrucksId(foodtruckId).get();
+
+        if (foodtruckMarkList.size() >= 7) {
+            throw new Exceptions(ErrorCode.MARK_OCCUPIED);
+        }
 
         Mark mark = Mark.builder()
                 .foodtrucks(foodtrucks)
                 .longitude(markDto.getLongitude())
                 .latitude(markDto.getLatitude())
                 .address(markDto.getAddress())
+                .isOpen(false)
                 .build();
 
         markRepository.save(mark);
@@ -119,6 +120,7 @@ public class MarkService {
 
         return markRepository.save(mark);
     }
+
 
 
 }
