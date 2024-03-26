@@ -30,4 +30,7 @@ public class FoodtruckLike {
         this.user = user;
         this.foodtrucks = foodtrucks;
     }
+    public Foodtrucks getFoodtrucks() {
+        return this.foodtrucks;
+    }
 }

@@ -1,11 +1,14 @@
 package com.d205.foorrng.foodtruck.response;
 
 import com.d205.foorrng.foodtruck.entity.Foodtruck;
+import com.d205.foorrng.foodtruck.entity.Foodtrucks;
 import lombok.Getter;
+
+import java.util.List;
 
 @Getter
 public class FoodtruckResDto {
-    private final Long footruckId;                // 푸드트럭 식별 ID
+    private Long footruckId;                // 푸드트럭 식별 ID
     private String announcement;            // 공지사항
 
     private Long createdDay;               // 등록일
@@ -20,6 +23,8 @@ public class FoodtruckResDto {
 
     private String phoneNumber;            // 연락처
 
+    private List<FoodtrucksResDto> foodtrucksResDtoList; // 추가 하는부분..
+
     // 생성
     public FoodtruckResDto(Foodtruck foodtruck, Long foodtruckId, Long createdDay){
         this.footruckId = foodtruckId;
@@ -32,17 +37,26 @@ public class FoodtruckResDto {
         this.phoneNumber = foodtruck.getPhoneNumber();
     }
 
-    public FoodtruckResDto(Foodtruck foodtruck) {
-        this.announcement = foodtruck.getAnnouncement();
-        this.picture = foodtruck.getPicture();
-        this.name = foodtruck.getName();
-        this.accountInfo = foodtruck.getAccountInfo();
-        this.carNumber = foodtruck.getCarNumber();
-        this.phoneNumber = foodtruck.getPhoneNumber();
-        footruckId = null;
+    public FoodtruckResDto(Long foodtruckId, String announcement, String accountInfo, String carNumber, String phoneNumber, String name, String picture) {
+        this.footruckId = foodtruckId;
+        this.announcement = announcement;
+        this.picture = picture;
+        this.name = name;
+        this.accountInfo = accountInfo;
+        this.carNumber = carNumber;
+        this.phoneNumber = phoneNumber;
     }
 
     public static FoodtruckResDto fromEntity(Foodtruck foodtruck) {
-        return new FoodtruckResDto(foodtruck);
+        return new FoodtruckResDto(
+                foodtruck.getFoodtrucks().getId(),
+                foodtruck.getAnnouncement(),
+                foodtruck.getAccountInfo(),
+                foodtruck.getPhoneNumber(),
+                foodtruck.getCarNumber(),
+                foodtruck.getName(),
+                foodtruck.getPicture()
+        );
     }
+
 }

@@ -1,13 +1,13 @@
 package com.d205.foorrng.foodtruck.response;
 
-import com.d205.foorrng.foodtruck.entity.Foodtruck;
-import jakarta.validation.constraints.NotEmpty;
+import com.d205.foorrng.foodtruck.entity.FoodtruckReport;
 import lombok.Getter;
 
 import java.util.List;
 
 @Getter
 public class FoodtruckRepResDto {
+    private Long foodtruckId;
     private String name;
     private String picture;
     private String carNumber;
@@ -16,7 +16,7 @@ public class FoodtruckRepResDto {
     private String phoneNumber;
     private List<String> category;
 
-    public FoodtruckRepResDto(Foodtruck foodtruck) {
+    public FoodtruckRepResDto(FoodtruckReport foodtruck) {
         this.announcement = foodtruck.getAnnouncement();
         this.picture = foodtruck.getPicture();
         this.name = foodtruck.getName();
@@ -25,7 +25,7 @@ public class FoodtruckRepResDto {
         this.phoneNumber = foodtruck.getPhoneNumber();
     }
 
-    public static FoodtruckRepResDto fromEntity(Foodtruck foodtruck) {
+    public static FoodtruckRepResDto fromEntity(FoodtruckReport foodtruck) {
         return new FoodtruckRepResDto(foodtruck);
     }
 }

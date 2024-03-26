@@ -2,6 +2,7 @@ package com.d205.foorrng.user.service;
 
 import com.d205.foorrng.common.exception.ErrorCode;
 import com.d205.foorrng.common.exception.Exceptions;
+import com.d205.foorrng.foodtruck.entity.Foodtruck;
 import com.d205.foorrng.foodtruck.entity.FoodtruckLike;
 import com.d205.foorrng.foodtruck.entity.FoodtruckRole;
 import com.d205.foorrng.foodtruck.entity.Foodtrucks;
@@ -27,27 +28,33 @@ public class MyPageServiceImpl implements MyPageService {
     private final UserRepository userRepository;
     private final FoodtruckLikeRepository foodtruckLikeRepository;
 
-    @Override
-    public List<FoodtrucksResDto> getLikeFoodtrucks(Long user_seq) {
-        User user = userRepository.findByUserUid(Long.parseLong(SecurityUtil.getCurrentUsername().get()))
-                .orElseThrow(() -> new Exceptions(ErrorCode.USER_NOT_EXIST));
+@Override
+public List<FoodtrucksResDto> getLikeFoodtrucks(Long user_seq) {
+    User user = userRepository.findByUserUid(Long.parseLong(SecurityUtil.getCurrentUsername().get()))
+            .orElseThrow(() -> new Exceptions(ErrorCode.USER_NOT_EXIST));
 
-        List<FoodtruckLike> likes = foodtruckLikeRepository.findAllByUser(user)
-                .orElseThrow(() -> new Exceptions(ErrorCode.LIKES_NOT_FOUND));
+    List<FoodtruckLike> likes = foodtruckLikeRepository.findAllByUser(user)
+            .orElseThrow(() -> new Exceptions(ErrorCode.LIKES_NOT_FOUND));
 
-        return likes.stream()
-                .map(like -> {
-                    Foodtrucks foodtrucks = like.getFoodtrucks();
-                    List<FoodtruckResDto> foodtruckDtos = null;
-                    List<FoodtruckRepResDto> foodtruckRepResDtos = null;
-                    if (foodtrucks.getFoodtruckRole().equals(FoodtruckRole.Foodtruck)) {
-                        foodtruckDtos = List.of(FoodtruckResDto.fromEntity(foodtrucks.getFoodtruck()));
-                        return new FoodtrucksResDto(foodtrucks.getId(), foodtrucks.getFoodtruckRole(), foodtruckDtos, null);
-                    } else {
-                        foodtruckRepResDtos = List.of(FoodtruckRepResDto.fromEntity(foodtrucks.getFoodtruck()));
-                        return new FoodtrucksResDto(foodtrucks.getId(), foodtrucks.getFoodtruckRole(), null, foodtruckRepResDtos);
-                    }
-                })
-                .collect(Collectors.toList());
-    }
+    return likes.stream()
+            .map(like -> {
+                Foodtrucks foodtrucks = like.getFoodtrucks();
+                if (foodtrucks.getFoodtruckRole().equals(FoodtruckRole.Foodtruck)) {
+                    System.out.println(foodtrucks);
+                    System.out.println(foodtrucks.getFoodtruck());
+                    System.out.println(foodtrucks.getId());
+                    List<FoodtruckResDto> foodtruckDtos = foodtrucks.getFoodtruck().stream()
+                            .map(ft -> FoodtruckResDto.fromEntity(ft))
+                            .collect(Collectors.toList());
+                    return new FoodtrucksResDto(foodtrucks.getId(), FoodtruckRole.Foodtruck, foodtrucks,foodtruckDtos, null);
+                } else {
+                    List<FoodtruckRepResDto> foodtruckRepResDtos = foodtrucks.getFoodtruckReport().stream()
+                            .map(ftr -> FoodtruckRepResDto.fromEntity(ftr))
+                            .collect(Collectors.toList());
+                    return new FoodtrucksResDto(foodtrucks.getId(), FoodtruckRole.FoodtruckReport, foodtrucks, null, foodtruckRepResDtos);
+                }
+            })
+            .collect(Collectors.toList());
+}
+
 }
