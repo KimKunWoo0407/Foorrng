@@ -5,6 +5,10 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public enum ErrorCode {
+
+    //아티클
+    ARTICLE_NOT_EXIST(HttpStatus.BAD_REQUEST, "A-001", "존재하지 않은 게시글입니다. "),
+
     // 회원
     USER_NOT_EXIST(HttpStatus.BAD_REQUEST, "U-001", "존재하지 않는 회원입니다."),
     EMAIL_EXIST(HttpStatus.BAD_REQUEST, "U-002", "이미 가입된 회원입니다."),
@@ -31,6 +35,7 @@ public enum ErrorCode {
     OPERATION_NOT_EXIST(HttpStatus.BAD_REQUEST, "O-001", "운영정보가 없습니다."),
     DAY_OCCUPIED(HttpStatus.BAD_REQUEST, "O-002", "해당 요일은 이미 운영중입니다."),
 
+
     // Validation
     NOT_VALID_REQUEST(HttpStatus.BAD_REQUEST, "I-001", "요청변수가 유효하지 않습니다."),
 
@@ -52,5 +57,4 @@ public enum ErrorCode {
         this.errorCode = errorCode;
         this.message = message;
     }
-
 }

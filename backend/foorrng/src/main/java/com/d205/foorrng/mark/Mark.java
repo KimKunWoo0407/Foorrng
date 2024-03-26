@@ -5,7 +5,9 @@ import com.d205.foorrng.mark.dto.MarkDto;
 import com.d205.foorrng.operationInfo.OperationInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
@@ -26,6 +28,7 @@ public class Mark {
     private Double longitude;       // 경도
     private String address;         // 지번 주소
 //    private Boolean isOpen = false;         // 영업상태
+    @Column(columnDefinition="BOOLEAN DEFAULT false")
     private Boolean isOpen;         // 영업상태
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -84,6 +84,14 @@ public class OperationInfoService {
         OperationInfo operationInfo = operationInfoRepository.findById(operId)
                 .orElseThrow(() -> new Exceptions(ErrorCode.OPERATION_NOT_EXIST));
 
+        Mark mark = markRepository.findById(operationInfo.getMark().getId())
+                .orElseThrow(() -> new Exceptions(ErrorCode.MARK_NOT_EXIST));
+
+        Set<String> allDays = operationInfoRepository.findAllDaysByFoodTruckId(mark.getFoodtrucks().getId());
+        if (allDays.contains(operationInfoDto.getOperationInfoList().get(0).get("day").toString())) {
+            throw new Exceptions(ErrorCode.DAY_OCCUPIED);
+        }
+
         operationInfo.update(operationInfoDto);
 
         operationInfoRepository.save(operationInfo);
