@@ -1,5 +1,6 @@
 package com.d205.foorrng.foodtruck.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -58,4 +59,7 @@ public class Foodtruck {
         this.phoneNumber = phoneNumber;
     }
 
+    public FoodtruckId getId() {
+        return foodtruckId;
+    }
 }

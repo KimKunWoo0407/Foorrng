@@ -23,6 +23,7 @@ public class FoodtruckReport {
     @JoinColumn(name = "foodtruck_id", referencedColumnName = "foodtrucks_seq")
     private Foodtrucks foodtrucks;
 
+
     @Builder
     public FoodtruckReport(FoodtruckReportId reportId, String name, String picture, String carNumber, String announcement, String accountInfo, String phoneNumber, Long createdDay, Foodtrucks foodtrucks){
         this.foodtruckId = reportId;

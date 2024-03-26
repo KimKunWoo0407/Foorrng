@@ -2,7 +2,6 @@ package com.d205.foorrng.foodtruck.response;
 
 import com.d205.foorrng.foodtruck.entity.Foodtruck;
 import lombok.Getter;
-
 import java.util.List;
 
 @Getter
@@ -17,6 +16,8 @@ public class FoodtruckResDto {
     private String phoneNumber;
     private List<String> category;
 
+//    private List<FoodtrucksResDto> foodtrucksResDtoList; // 추가 하는부분..
+
     // 생성
     public FoodtruckResDto(Foodtruck foodtruck, Long id, List<String> category){
         this.foodtruckId = id;
@@ -30,5 +31,27 @@ public class FoodtruckResDto {
         this.category = category;
     }
 
+
+//    public FoodtruckResDto(Long foodtruckId, String announcement, String accountInfo, String carNumber, String phoneNumber, String name, String picture) {
+//        this.footruckId = foodtruckId;
+//        this.announcement = announcement;
+//        this.picture = picture;
+//        this.name = name;
+//        this.accountInfo = accountInfo;
+//        this.carNumber = carNumber;
+//        this.phoneNumber = phoneNumber;
+//    }
+//
+//    public static FoodtruckResDto fromEntity(Foodtruck foodtruck) {
+//        return new FoodtruckResDto(
+//                foodtruck.getFoodtrucks().getId(),
+//                foodtruck.getAnnouncement(),
+//                foodtruck.getAccountInfo(),
+//                foodtruck.getPhoneNumber(),
+//                foodtruck.getCarNumber(),
+//                foodtruck.getName(),
+//                foodtruck.getPicture()
+//        );
+//    }
 
 }

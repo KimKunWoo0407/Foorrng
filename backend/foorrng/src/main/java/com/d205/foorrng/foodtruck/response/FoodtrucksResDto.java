@@ -1,8 +1,11 @@
 package com.d205.foorrng.foodtruck.response;
 
-import lombok.Getter;
+import com.d205.foorrng.foodtruck.entity.FoodtruckRole;
+import com.d205.foorrng.foodtruck.entity.Foodtrucks;
+import lombok.*;
 
 import java.util.List;
+
 
 @Getter
 public class FoodtrucksResDto {
@@ -32,5 +35,5 @@ public class FoodtrucksResDto {
         this.operation = operation;
 
     }
-
 }
+

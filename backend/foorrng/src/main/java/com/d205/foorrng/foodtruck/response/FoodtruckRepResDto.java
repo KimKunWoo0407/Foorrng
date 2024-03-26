@@ -2,7 +2,6 @@ package com.d205.foorrng.foodtruck.response;
 
 import com.d205.foorrng.foodtruck.entity.FoodtruckReport;
 import lombok.Getter;
-
 import java.util.List;
 
 @Getter
@@ -28,5 +27,18 @@ public class FoodtruckRepResDto {
         this.carNumber = foodtruckReport.getCarNumber();
         this.phoneNumber = foodtruckReport.getPhoneNumber();
         this.category = category;
+    }
+
+    public FoodtruckRepResDto(FoodtruckReport foodtruck) {
+        this.announcement = foodtruck.getAnnouncement();
+        this.picture = foodtruck.getPicture();
+        this.name = foodtruck.getName();
+        this.accountInfo = foodtruck.getAccountInfo();
+        this.carNumber = foodtruck.getCarNumber();
+        this.phoneNumber = foodtruck.getPhoneNumber();
+    }
+
+    public static FoodtruckRepResDto fromEntity(FoodtruckReport foodtruck) {
+        return new FoodtruckRepResDto(foodtruck);
     }
 }

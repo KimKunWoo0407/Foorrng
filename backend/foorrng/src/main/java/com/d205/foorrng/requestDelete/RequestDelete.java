@@ -31,4 +31,5 @@ public class RequestDelete {
         this.foodtrucks = foodtrucks;
         this.user = user;
     }
+
 }
