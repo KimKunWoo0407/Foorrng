@@ -1,9 +1,6 @@
 package com.d205.foorrng.foodtruck.response;
 
-import com.d205.foorrng.foodtruck.entity.FoodtruckRole;
-import com.d205.foorrng.foodtruck.entity.Foodtrucks;
 import lombok.*;
-
 import java.util.List;
 
 

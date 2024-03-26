@@ -2,14 +2,15 @@ package com.d205.foorrng.user.service;
 
 import com.d205.foorrng.common.exception.ErrorCode;
 import com.d205.foorrng.common.exception.Exceptions;
-import com.d205.foorrng.foodtruck.entity.Foodtruck;
-import com.d205.foorrng.foodtruck.entity.FoodtruckLike;
-import com.d205.foorrng.foodtruck.entity.FoodtruckRole;
-import com.d205.foorrng.foodtruck.entity.Foodtrucks;
+import com.d205.foorrng.food.Food;
+import com.d205.foorrng.food.repository.FoodRepository;
+import com.d205.foorrng.foodtruck.entity.*;
 import com.d205.foorrng.foodtruck.repository.FoodtruckLikeRepository;
-import com.d205.foorrng.foodtruck.response.FoodtruckRepResDto;
-import com.d205.foorrng.foodtruck.response.FoodtruckResDto;
-import com.d205.foorrng.foodtruck.response.FoodtrucksResDto;
+import com.d205.foorrng.foodtruck.repository.FoodtruckReportRepository;
+import com.d205.foorrng.foodtruck.repository.FoodtruckRepository;
+import com.d205.foorrng.foodtruck.response.FoodtrucksUserResDto;
+import com.d205.foorrng.review.Review;
+import com.d205.foorrng.review.ReviewRepository;
 import com.d205.foorrng.user.entity.User;
 import com.d205.foorrng.user.repository.UserRepository;
 import com.d205.foorrng.util.SecurityUtil;
@@ -17,8 +18,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -26,35 +27,49 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MyPageServiceImpl implements MyPageService {
     private final UserRepository userRepository;
+    private final FoodRepository foodRepository;
+    private final ReviewRepository reviewRepository;
+    private final FoodtruckRepository foodtruckRepository;
     private final FoodtruckLikeRepository foodtruckLikeRepository;
+    private final FoodtruckReportRepository foodtruckReportRepository;
 
-//@Override
-//public List<FoodtrucksResDto> getLikeFoodtrucks(Long user_seq) {
-//    User user = userRepository.findByUserUid(Long.parseLong(SecurityUtil.getCurrentUsername().get()))
-//            .orElseThrow(() -> new Exceptions(ErrorCode.USER_NOT_EXIST));
-//
-//    List<FoodtruckLike> likes = foodtruckLikeRepository.findAllByUser(user)
-//            .orElseThrow(() -> new Exceptions(ErrorCode.LIKES_NOT_FOUND));
-//
-//    return likes.stream()
-//            .map(like -> {
-//                Foodtrucks foodtrucks = like.getFoodtrucks();
-//                if (foodtrucks.getFoodtruckRole().equals(FoodtruckRole.Foodtruck)) {
-//                    System.out.println(foodtrucks);
-//                    System.out.println(foodtrucks.getFoodtruck());
-//                    System.out.println(foodtrucks.getId());
-//                    List<FoodtruckResDto> foodtruckDtos = foodtrucks.getFoodtruck().stream()
-//                            .map(ft -> FoodtruckResDto.fromEntity(ft))
-//                            .collect(Collectors.toList());
-//                    return new FoodtrucksResDto(foodtrucks.getId(), FoodtruckRole.Foodtruck, foodtrucks,foodtruckDtos, null);
-//                } else {
-//                    List<FoodtruckRepResDto> foodtruckRepResDtos = foodtrucks.getFoodtruckReport().stream()
-//                            .map(ftr -> FoodtruckRepResDto.fromEntity(ftr))
-//                            .collect(Collectors.toList());
-//                    return new FoodtrucksResDto(foodtrucks.getId(), FoodtruckRole.FoodtruckReport, foodtrucks, null, foodtruckRepResDtos);
-//                }
-//            })
-//            .collect(Collectors.toList());
-//}
+    @Override
+    public List<FoodtrucksUserResDto> getLikeFoodtrucks() {
+        User user = userRepository.findByUserUid(Long.parseLong(SecurityUtil.getCurrentUsername().get())).get();
 
+        List<FoodtruckLike> likes = foodtruckLikeRepository.findAllByUser(user).get();
+        List<FoodtrucksUserResDto> foodtrucksResDtoList = new ArrayList<>();
+
+        for (FoodtruckLike foodtruckLike : likes) {
+            Foodtrucks foodtrucks = foodtruckLike.getFoodtrucks();
+
+            String foodtruckName;
+            String foodtruckPicture;
+            if (foodtrucks.getFoodtruckRole().equals(FoodtruckRole.Foodtruck)) {
+                Foodtruck foodtruck = foodtruckRepository.findByFoodtruckId(new FoodtruckId(foodtrucks.getId()))
+                        .orElseThrow(() -> new Exceptions(ErrorCode.FOODTRUCK_NOT_EXIST));
+                foodtruckName = foodtruck.getName();
+                foodtruckPicture = foodtruck.getPicture();
+            } else {
+                FoodtruckReport foodtruckReport = foodtruckReportRepository.findByFoodtruckId(new FoodtruckReportId(foodtrucks.getId()))
+                        .orElseThrow(() -> new Exceptions(ErrorCode.FOODTRUCK_NOT_EXIST));
+                foodtruckName = foodtruckReport.getName();
+                foodtruckPicture = foodtruckReport.getPicture();
+            }
+
+            // 음식카테고리
+            List<Food> foods = foodRepository.findAllByFoodtrucks(foodtrucks);
+            List<String> category = new ArrayList<>();
+            for (Food food:foods) {
+                category.add(food.getName());
+            }
+
+            // 리뷰 총 개수
+            List<Review> reviews = reviewRepository.findByFoodtrucksId(foodtrucks.getId());
+
+            FoodtrucksUserResDto foodtrucksResDto = new FoodtrucksUserResDto(foodtrucks.getId(), foodtruckName, foodtruckPicture, category, reviews.size());
+            foodtrucksResDtoList.add(foodtrucksResDto);
+        }
+            return foodtrucksResDtoList;
+    }
 }
