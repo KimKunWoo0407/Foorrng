@@ -1,5 +1,6 @@
 package com.d205.foorrng.foodtruck.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.validation.annotation.Validated;
@@ -29,7 +30,7 @@ public class Foodtruck {
     private Foodtrucks foodtrucks;
 
     @Builder
-    public Foodtruck(FoodtruckId foodtruckId,String announcement, Long createdDay, String picture, String name, String accountInfo, String carNumber, String phoneNumber){
+    public Foodtruck(FoodtruckId foodtruckId,String announcement, Long createdDay, String picture, String name, String accountInfo, String carNumber, String phoneNumber, Foodtrucks foodtrucks){
         this.foodtruckId = foodtruckId;
         this.announcement = announcement;
         this.createdDay = createdDay;
@@ -38,6 +39,7 @@ public class Foodtruck {
         this.accountInfo = accountInfo;
         this.carNumber = carNumber;
         this.phoneNumber = phoneNumber;
+        this.foodtrucks = foodtrucks;
     }
 
     public void updateAnnouncement(String announcement) {
@@ -59,4 +61,7 @@ public class Foodtruck {
         this.phoneNumber = phoneNumber;
     }
 
+    public FoodtruckId getId() {
+        return foodtruckId;
+    }
 }

@@ -4,11 +4,12 @@ import com.d205.foorrng.foodtruck.entity.Foodtruck;
 import lombok.Getter;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Getter
 public class FoodtruckResDto {
     private final Long foodtruckId;                // 푸드트럭 식별 ID
+
     private String announcement;            // 공지사항
 
     private Long createdDay;               // 등록일
@@ -24,6 +25,8 @@ public class FoodtruckResDto {
     private String phoneNumber;            // 연락처
     private List<String> category;
 
+//    private List<FoodtrucksResDto> foodtrucksResDtoList; // 추가 하는부분..
+
     // 생성
     public FoodtruckResDto(Foodtruck foodtruck, Long id, Long createdDay, List<String> category){
         this.foodtruckId = id;
@@ -37,5 +40,27 @@ public class FoodtruckResDto {
         this.category = category;
     }
 
+
+//    public FoodtruckResDto(Long foodtruckId, String announcement, String accountInfo, String carNumber, String phoneNumber, String name, String picture) {
+//        this.footruckId = foodtruckId;
+//        this.announcement = announcement;
+//        this.picture = picture;
+//        this.name = name;
+//        this.accountInfo = accountInfo;
+//        this.carNumber = carNumber;
+//        this.phoneNumber = phoneNumber;
+//    }
+//
+//    public static FoodtruckResDto fromEntity(Foodtruck foodtruck) {
+//        return new FoodtruckResDto(
+//                foodtruck.getFoodtrucks().getId(),
+//                foodtruck.getAnnouncement(),
+//                foodtruck.getAccountInfo(),
+//                foodtruck.getPhoneNumber(),
+//                foodtruck.getCarNumber(),
+//                foodtruck.getName(),
+//                foodtruck.getPicture()
+//        );
+//    }
 
 }

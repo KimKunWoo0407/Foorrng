@@ -34,8 +34,12 @@ public class ReviewServiceImpl implements ReviewService {
         // 현재 로그인한 사용자 정보를 가져옴
         User user = userRepository.findByUserUid(Long.parseLong(SecurityUtil.getCurrentUsername().get())).get();
 
+        // 푸드트럭 정보 가져옴
+        Foodtrucks foodtrucks = foodtrucksRepository.findById(foodtrucks_seq)
+                .orElseThrow(() -> new Exceptions(ErrorCode.FOODTRUCK_NOT_EXIST));
+
         // 사용자의 초신 리뷰 조회
-        Optional<Review> lastReview = reviewRepository.findTopByUserOrderByCreatedDateDesc(user);
+        Optional<Review> lastReview = reviewRepository.findTopByUserAndFoodtrucksOrderByCreatedDateDesc(user, foodtrucks);
 
         if(lastReview.isPresent()){
             // 마지막 리뷰를 작성한 날짜와 오늘 날짜를 비교
@@ -48,9 +52,6 @@ public class ReviewServiceImpl implements ReviewService {
             }
         }
 
-        // 푸드트럭 정보 가져옴
-        Foodtrucks foodtrucks = foodtrucksRepository.findById(foodtrucks_seq)
-                .orElseThrow(() -> new Exceptions(ErrorCode.FOODTRUCK_NOT_EXIST));
 
         // 생성 시간
         Long createdDate = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
