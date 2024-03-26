@@ -3,13 +3,16 @@ package com.d205.foorrng.foodtruck.entity;
 import com.d205.foorrng.food.Food;
 import com.d205.foorrng.foodtruck.response.FoodtruckResDto;
 import com.d205.foorrng.mark.Mark;
-import com.d205.foorrng.menu.Menu;
 import com.d205.foorrng.requestDelete.RequestDelete;
 import com.d205.foorrng.user.entity.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+
+import static com.d205.foorrng.user.repository.UserRole.OWNER;
 
 @Entity
 @Getter
@@ -28,6 +31,13 @@ public class Foodtrucks {
     @JoinColumn(name = "user_seq")
     private User user;
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "foodtrucks", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Foodtruck> foodtruck;
+
+    @OneToMany(mappedBy = "foodtrucks", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<FoodtruckReport> foodtruckReport;
+
     @OneToMany(mappedBy = "foodtrucks", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Food> foods;
 
@@ -42,6 +52,12 @@ public class Foodtrucks {
 
     @OneToMany(mappedBy = "foodtrucks", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Mark> markList;
+
+    @OneToMany(mappedBy = "foodtrucks", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Foodtruck> foodtruckList;
+
+    @OneToMany(mappedBy = "foodtrucks", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<FoodtruckReport> foodtruckReportList;
 
     @Builder
     public Foodtrucks(FoodtruckRole foodtruckRole, User user){

@@ -13,11 +13,11 @@ public interface FoodtruckService {
     FoodtruckResDto createFoodtruck(FoodtruckCreateReqDto foodtruckCreateReqDto, MultipartFile picture) throws IOException;
 
     // 이미지 S3에 저장
-    String saveImageS3(MultipartFile pictrue, String imgName, String dir) throws IOException;
+    //String saveImageS3(MultipartFile pictrue, String imgName, String dir) throws IOException;
 
     // 푸드트럭 수정
     FoodtruckResDto updateFoodtruck(FoodtruckUpdateReqDto foodtruckUpdateReqDto, MultipartFile picture) throws IOException;
 
     // 푸드트럭 삭제
-     void deleteFoodtruck(Long foodtruckId);
+    void deleteFoodtruck(Long foodtruckId);
 }

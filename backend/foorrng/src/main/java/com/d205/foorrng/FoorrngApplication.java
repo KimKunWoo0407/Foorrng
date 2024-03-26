@@ -10,7 +10,5 @@ public class FoorrngApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(FoorrngApplication.class, args);
-
 	}
-
 }

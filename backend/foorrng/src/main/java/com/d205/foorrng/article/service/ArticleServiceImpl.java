@@ -11,7 +11,7 @@ import com.d205.foorrng.common.model.BaseResponseBody;
 import com.d205.foorrng.common.service.S3Service;
 import com.d205.foorrng.user.entity.User;
 import com.d205.foorrng.user.repository.UserRepository;
-import com.d205.foorrng.util.ImageSave;
+import com.d205.foorrng.util.S3Image;
 import com.d205.foorrng.util.SecurityUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +41,8 @@ import static com.d205.foorrng.common.exception.ErrorCode.ARTICLE_NOT_EXIST;
 @RequiredArgsConstructor
 @Slf4j
 public class ArticleServiceImpl implements ArticleService{
-    private final ImageSave imageSave; //S3 서비스 저장
+
+    private final S3Image imageSave; //S3 서비스 저장
     private final ArticlePostRepository articlePostRepository;
     private final UserRepository userRepository;
 

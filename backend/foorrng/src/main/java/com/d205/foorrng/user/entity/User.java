@@ -2,6 +2,7 @@ package com.d205.foorrng.user.entity;
 
 import com.d205.foorrng.article.entity.Article;
 import com.d205.foorrng.foodtruck.entity.FoodtruckLike;
+import com.d205.foorrng.foodtruck.entity.Foodtrucks;
 import com.d205.foorrng.requestDelete.RequestDelete;
 import com.d205.foorrng.user.repository.UserRole;
 import jakarta.annotation.Nullable;
@@ -24,6 +25,7 @@ public class User {
     @Column(name = "user_seq")
     private Long id;
 
+    @Column(name = "user_uid")
     private Long userUid;
 
     private String name;
@@ -61,10 +63,14 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Article> articles;
 
+
+    @Nullable
+    @OneToMany(mappedBy = "user")
+    private List<Foodtrucks> foodtrucks;
+
     public void addBusinessNumber(String businessNumber) {
         this.businessNumber = businessNumber;
     }
-
 
 //    // UserDetails
 //

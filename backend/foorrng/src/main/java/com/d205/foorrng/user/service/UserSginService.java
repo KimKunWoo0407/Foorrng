@@ -89,7 +89,7 @@ public class UserSginService {
     }
 
     @Transactional
-    public TokenDto signIn(UserDto userDto) {
+    public Map<String, Object> signIn(UserDto userDto) {
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDto.getUserUid(), "");
 
@@ -98,8 +98,15 @@ public class UserSginService {
 
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
+
         TokenDto tokenDto = tokenProvider.createToken(authentication);
 
-        return tokenDto;
+        Map<String, Object> response = new HashMap<>();
+
+        response.put("accessToken", tokenDto.getAccessToken());
+        response.put("refreshToken", tokenDto.getRefreshToken());
+        response.put("businessNumber", user.getBusinessNumber() ==null ?false:true);
+
+        return response;
     }
 }

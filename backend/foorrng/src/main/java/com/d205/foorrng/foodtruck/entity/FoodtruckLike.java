@@ -1,19 +1,15 @@
 package com.d205.foorrng.foodtruck.entity;
 
 import com.d205.foorrng.user.entity.User;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
 @Entity
 @Getter
 @Setter
 @Validated
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class FoodtruckLike {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,4 +23,14 @@ public class FoodtruckLike {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_seq")
     private User user;
+
+
+    @Builder
+    public  FoodtruckLike(User user, Foodtrucks foodtrucks){
+        this.user = user;
+        this.foodtrucks = foodtrucks;
+    }
+    public Foodtrucks getFoodtrucks() {
+        return this.foodtrucks;
+    }
 }

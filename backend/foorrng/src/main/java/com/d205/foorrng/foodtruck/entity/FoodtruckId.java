@@ -12,7 +12,6 @@ import java.io.Serializable;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FoodtruckId implements Serializable {
     private Long foodtrucksId;
-
     @Builder
     public FoodtruckId(Long foodtrucksId){
         this.foodtrucksId = foodtrucksId;

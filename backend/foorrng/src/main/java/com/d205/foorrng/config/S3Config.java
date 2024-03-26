@@ -2,7 +2,6 @@ package com.d205.foorrng.config;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.regions.Region;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,9 +10,9 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class S3Config {
-    @Value("${cloud.aws.credentials.access-key:#{systemEnvironment['AWS_ACCESS_KEY_ID']}}")
+    @Value("${cloud.aws.credentials.access-key}") // "${cloud.aws.credentials.access-key}"
     private String accessKey;
-    @Value("${cloud.aws.credentials.secret-key:#{systemEnvironment['AWS_ACCESS_ACCESS_KEY']}}")
+    @Value("${cloud.aws.credentials.secret-key}") // "${cloud.aws.credentials.secret-key}"
     private String secretKey;
     @Value("${cloud.aws.region}")
     private String region;

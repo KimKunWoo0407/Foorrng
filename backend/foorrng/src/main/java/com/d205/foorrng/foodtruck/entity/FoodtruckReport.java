@@ -6,20 +6,26 @@ import org.springframework.validation.annotation.Validated;
 
 @Entity
 @Getter
+@Validated
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FoodtruckReport {
     @EmbeddedId
-    private FoodtruckReportId foodtruckId; // 푸드트럭s Id 식별관계
-    private String name;            // 가게 이름
-    private Long createdDay;       // 제보 등록일
-    private String picture;         // 푸드트럭 사진
-    private String carNumber;      // 차량 번호
-    private String announcement;    // 가게 소개
-    private String accountInfo;    // 계좌 번호
-    private String phoneNumber;    // 연락처
+    private FoodtruckReportId foodtruckId;
+    private String name;
+    private Long createdDay;
+    private String picture;
+    private String carNumber;
+    private String announcement;
+    private String accountInfo;
+    private String phoneNumber;
+
+    @ManyToOne
+    @JoinColumn(name = "foodtruck_id", referencedColumnName = "foodtrucks_seq")
+    private Foodtrucks foodtrucks;
+
 
     @Builder
-    public FoodtruckReport(FoodtruckReportId reportId, String name, String picture, String carNumber, String announcement, String accountInfo, String phoneNumber){
+    public FoodtruckReport(FoodtruckReportId reportId, String name, String picture, String carNumber, String announcement, String accountInfo, String phoneNumber, Long createdDay, Foodtrucks foodtrucks){
         this.foodtruckId = reportId;
         this.name = name;
         this.picture = picture;
@@ -27,6 +33,8 @@ public class FoodtruckReport {
         this.announcement = announcement;
         this.accountInfo = accountInfo;
         this.phoneNumber = phoneNumber;
+        this.createdDay = createdDay;
+        this.foodtrucks = foodtrucks;
     }
 
     public void updateName(String name){
