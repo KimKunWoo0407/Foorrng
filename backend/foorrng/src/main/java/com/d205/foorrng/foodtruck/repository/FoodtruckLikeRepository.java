@@ -12,10 +12,5 @@ import java.util.*;
 public interface FoodtruckLikeRepository extends JpaRepository<FoodtruckLike, Long> {
 
     Optional<List<FoodtruckLike>> findAllByUser(User user);
-<<<<<<< HEAD
-//    List <FoodtruckLike> findAllByUser(User user);
-    Optional <FoodtruckLike> findByUserAndFoodtrucks(User user, Foodtrucks foodtrucks);
-=======
     Optional<FoodtruckLike> findByUserAndFoodtrucks(User user, Foodtrucks foodtrucks);
->>>>>>> 858941140174e122ab62f24667d48b67677a581c
 }

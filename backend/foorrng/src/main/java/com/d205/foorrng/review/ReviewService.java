@@ -1,11 +1,8 @@
 package com.d205.foorrng.review;
 
-<<<<<<< HEAD
-=======
 import java.util.List;
 import java.util.Map;
 
->>>>>>> 858941140174e122ab62f24667d48b67677a581c
 public interface ReviewService {
     // 리뷰 생성
     ReviewResDto createReview(Long foodtrucks_seq, ReviewReqDto reviewReqDto);
