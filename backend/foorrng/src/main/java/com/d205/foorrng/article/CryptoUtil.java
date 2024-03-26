@@ -30,7 +30,6 @@ public class CryptoUtil {
         IvParameterSpec ivParams = new IvParameterSpec(iv); //동일 텍스트에 대해 동일한 암호문으로 암호화되지 않는다.
         cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivParams); // 이 부분에서 ivParam과 xor 연산을 실행한다. 이때 secretKey로 암호화를 한 번 더 진행한다.
 
-
         byte[] encryptedByteValue = cipher.doFinal(value.getBytes("utf-8")); //여기서 ivParam에 대한 값을 Value 바이트 배열에 저장한다.
         byte[] encryptedValueWithIv = new byte[iv.length + encryptedByteValue.length]; //복호화를 위한 WithIV값을 DB 테이블 저장 맨 앞에다가 둔다.
         System.arraycopy(iv, 0, encryptedValueWithIv, 0, iv.length);//앞쪽엔 IV를
@@ -41,13 +40,16 @@ public class CryptoUtil {
 
     public static String decrypt(String value) throws Exception {
 
-        byte[] decodedValue = Base64.getDecoder().decode(value);//인코딩된 문지열을 바이트 배열로 디코딩한다.
+        byte[] decodedValue = Base64.getDecoder().decode(value);
+        //인코딩된 문지열을 바이트 배열로 디코딩한다.
 
-        SecretKey secretKey = new SecretKeySpec(KEY, ALGORITHM); //시크릿키와 알고리즘을 통해 시크릿키 객체를 생성한다.
+        SecretKey secretKey = new SecretKeySpec(KEY, ALGORITHM);
+        //시크릿키와 알고리즘을 통해 시크릿키 객체를 생성한다.
 
         Cipher cipher = Cipher.getInstance(TRANSFORMATION); //CBC 모드를 사용하고 PKCS#5 패딩을 적용하여 cipher를 초기화한다.
 
-        byte[] iv = new byte[cipher.getBlockSize()]; //TRANSFORMATION에 대한 CIPHER 블록 사이즈를 빼온다.
+        byte[] iv = new byte[cipher.getBlockSize()];
+        //TRANSFORMATION에 대한 CIPHER 블록 사이즈를 빼온다.
 
         System.arraycopy(decodedValue, 0, iv, 0, iv.length);//iv 배열로 16바이트 만큼 새 바이트 배열을 생성한다.
         //정확히는 iv.length만큼
